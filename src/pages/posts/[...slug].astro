@@ -8,6 +8,7 @@ import Markdown from "@components/misc/Markdown.astro";
 import { getPostUrlBySlug } from "@utils/url-utils";
 import { licenseConfig } from "src/config";
 import License from "@components/misc/License.astro";
+export const prerender = false;
 
 const { slug } = Astro.params;
 const blog = await getPostBySlug(slug!);

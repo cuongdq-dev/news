@@ -18,11 +18,13 @@ import { GithubCardComponent } from "./src/plugins/rehype-component-github-card.
 import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
 import { remarkExcerpt } from "./src/plugins/remark-excerpt.js";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
+import node from "@astrojs/node";
 
 export default defineConfig({
   site: "https://news.ck-tech.asia/",
   base: "/",
-  output: "server",
+  output: "static",
+  adapter: node({ mode: "middleware" }),
   integrations: [
     tailwind({
       nesting: true,
