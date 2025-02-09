@@ -12,32 +12,25 @@ const interval = 50;
   class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] py-1 md:py-0 md:bg-transparent md:gap-4 mb-4"
 >
   {
-    page.data.map(
+    page?.data?.map(
       (entry: {
-        data: {
-          draft: boolean;
-          title: string;
-          tags: string[];
-          category: string;
-          published: Date;
-          image: string;
-          description: string;
-          updated: Date;
-        };
+        id: number;
+        title: string;
+        meta_description: string;
+        created_at: Date;
+        thumbnail: any;
         slug: string;
+        status: string;
       }) => {
         return (
           <PostCard
             entry={entry}
-            title={entry.data.title}
-            tags={entry.data.tags}
-            category={entry.data.category}
-            published={entry.data.published}
-            updated={entry.data.updated}
+            title={entry.title}
             url={getPostUrlBySlug(entry.slug)}
-            image={entry.data.image}
-            description={entry.data.description}
-            draft={entry.data.draft}
+            published={entry.created_at}
+            image={entry.thumbnail?.data?.url ?? ""}
+            description={entry.meta_description}
+            draft={entry.status !== "published"}
             class:list="onload-animation"
             style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
           />

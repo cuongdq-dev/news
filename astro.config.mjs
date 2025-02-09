@@ -23,7 +23,7 @@ import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
 export default defineConfig({
   site: "https://news.ck-tech.asia/",
   base: "/",
-  trailingSlash: "always",
+  output: "server",
   integrations: [
     tailwind({
       nesting: true,

@@ -1,0 +1,23 @@
+---
+import PostPage from "@components/PostPage.astro";
+import { getPosts } from "@utils/content-utils";
+import Pagination from "../components/control/Pagination.astro";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+
+const { slug } = Astro.params;
+const pageNumber = slug ? parseInt(slug.replace("trang-", "")) : 1;
+const page = await getPosts(pageNumber);
+---
+
+<MainGridLayout>
+  {page?.data && <PostPage page={page} />}
+  {
+    page?.url && (
+      <Pagination
+        class="mx-auto onload-animation"
+        page={page}
+        style={`animation-delay: calc(var(--content-delay) + ${10 * 50}ms)`}
+      />
+    )
+  }
+</MainGridLayout>
