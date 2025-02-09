@@ -1,8 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-import path from "path";
-import { getDir } from "../utils/url-utils";
-import ImageWrapper from "./misc/ImageWrapper.astro";
+import PostMetadata from "./PostMeta.astro";
 
 interface Props {
   class?: string;
@@ -10,15 +8,29 @@ interface Props {
   title: string;
   url: string;
   published: Date;
-  image: string;
+  thumbnail?: { data?: string; url?: string; storage_type?: StorageType };
   description: string;
-  draft: boolean;
+  category?: { name: string; slug: string };
+
   style: string;
 }
-const { title, url, published, image, description, draft, style } = Astro.props;
+
+enum StorageType {
+  LOCAL = "LOCAL",
+  S3 = "S3",
+  BASE64 = "BASE64",
+}
+const { title, url, published, description, thumbnail, category, style } =
+  Astro.props;
 const className = Astro.props.class;
 
+const image =
+  thumbnail?.storage_type == StorageType.BASE64
+    ? `data:image/png;base64, ${thumbnail.data}`
+    : thumbnail?.url;
 const hasCover = image !== "";
+
+const coverWidth = "28%";
 ---
 
 <div
@@ -28,12 +40,22 @@ const hasCover = image !== "";
   ]}
   style={style}
 >
-  <div class="pl-6 md:pl-9 pr-6 md:pr-2 pt-6 md:pt-7 pb-6 relative w-full">
+  <div
+    class:list={[
+      "pl-6 md:pl-9 pr-6 md:pr-2 pt-6 md:pt-7 pb-6 relative",
+      {
+        "w-full md:w-[calc(100%_-_52px_-_12px)]": !hasCover,
+        "w-full md:w-[calc(100%_-_var(--coverWidth)_-_12px)]": hasCover,
+      },
+    ]}
+  >
     <a
       href={url}
-      class="transition group w-full block font-bold mb-3 text-3xl text-90
+      class="truncate-2-lines transition group w-full block font-bold mb-3 text-2xl text-90
         hover:text-[var(--primary)] dark:hover:text-[var(--primary)]
-        active:text-[var(--title-active)] dark:active:text-[var(--title-active)]"
+        active:text-[var(--title-active)] dark:active:text-[var(--title-active)]
+        before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)]
+        before:absolute before:top-[35px] before:left-[18px] before:hidden md:before:block"
     >
       {title}
       <Icon
@@ -46,15 +68,26 @@ const hasCover = image !== "";
       />
     </a>
 
-    <!-- description -->
-    <div class="transition text-75 mb-3.5 pr-4">
-      {description}
-    </div>
+    <!-- metadata -->
+    <PostMetadata
+      published={published}
+      updated={published}
+      tags={[]}
+      category={category}
+      hideTagsForMobile={true}
+      hideUpdateDate={true}
+      class="mb-4"
+    />
 
-    <div class="text-sm text-black/30 dark:text-white/30 flex gap-4 transition">
-      <div>
-        {new Date(published).toLocaleDateString()}
-      </div>
+    <!-- description -->
+    <div
+      class:list={[
+        "truncate-2-lines",
+        "transition text-75 mb-3.5 pr-4",
+        { "line-clamp-2 md:line-clamp-1": !description },
+      ]}
+    >
+      {description}
     </div>
   </div>
 
@@ -73,10 +106,32 @@ const hasCover = image !== "";
             class="transition opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 text-white text-5xl"
           />
         </div>
-        <ImageWrapper
-          src={image}
-          alt={`Thumbnail of ${title}`}
-          class="w-full h-full"
+
+        <div class:list={[className, "overflow-hidden relative w-full h-full"]}>
+          <div class="transition absolute inset-0 dark:bg-black/10 bg-opacity-50 pointer-events-none" />
+          <img
+            src={image}
+            alt={`Thumbnail of ${title}`}
+            class="w-full h-full object-cover"
+            style={{ "object-position": "center" }}
+          />
+        </div>
+      </a>
+    )
+  }
+  {
+    !hasCover && (
+      <a
+        href={url}
+        aria-label={title}
+        class="!hidden md:!flex btn-regular w-[3.25rem]
+         absolute right-3 top-3 bottom-3 rounded-xl bg-[var(--enter-btn-bg)]
+         hover:bg-[var(--enter-btn-bg-hover)] active:bg-[var(--enter-btn-bg-active)] active:scale-95
+        "
+      >
+        <Icon
+          name="material-symbols:chevron-right-rounded"
+          class="transition text-[var(--primary)] text-4xl mx-auto"
         />
       </a>
     )
@@ -86,3 +141,5 @@ const hasCover = image !== "";
   class="transition border-t-[1px] border-dashed mx-6 border-black/10 dark:border-white/[0.15] last:border-t-0 md:hidden"
 >
 </div>
+
+<style define:vars={{ coverWidth }}></style>

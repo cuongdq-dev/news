@@ -1,8 +1,8 @@
-import { getCollection } from "astro:content";
 import type { BlogPostData } from "@/types/config";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import type { Page } from "astro";
+import { getCollection } from "astro:content";
 
 const API_URL = import.meta.env.PUBLIC_API_URL + "/news/posts";
 const AUTH_TOKEN = import.meta.env.PUBLIC_AUTH_TOKEN;
@@ -80,6 +80,25 @@ export async function getPosts(page: number): Promise<Page> {
     return paginationData;
   } catch (error) {
     return {} as Page;
+  }
+}
+
+export async function getPostBySlug(
+  slug: string
+): Promise<Record<string, any>> {
+  try {
+    const response = await fetch(`${API_URL}/${slug}`, {
+      headers: {
+        Authorization: `Bearer ${AUTH_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+    const { message, data } = await response.json();
+    return data;
+  } catch (error) {
+    return {};
   }
 }
 

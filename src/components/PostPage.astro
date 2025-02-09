@@ -21,16 +21,17 @@ const interval = 50;
         thumbnail: any;
         slug: string;
         status: string;
+        categories?: any;
       }) => {
         return (
           <PostCard
             entry={entry}
             title={entry.title}
             url={getPostUrlBySlug(entry.slug)}
-            published={entry.created_at}
-            image={entry.thumbnail?.data?.url ?? ""}
+            published={new Date(entry.created_at)}
+            category={entry.categories[0]}
+            thumbnail={entry.thumbnail}
             description={entry.meta_description}
-            draft={entry.status !== "published"}
             class:list="onload-animation"
             style={`animation-delay: calc(var(--content-delay) + ${delay++ * interval}ms);`}
           />

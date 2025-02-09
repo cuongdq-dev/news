@@ -10,7 +10,7 @@ interface Props {
   published: Date
   updated?: Date
   tags: string[]
-  category: string
+  category?: {name: string, slug: string}
   hideTagsForMobile?: boolean
   hideUpdateDate?: boolean
 }
@@ -47,22 +47,25 @@ const className = Astro.props.class
     )}
 
     <!-- categories -->
-    <div class="flex items-center">
+    {
+        category && <div class="flex items-center">
         <div class="meta-icon"
         >
             <Icon name="material-symbols:book-2-outline-rounded" class="text-xl"></Icon>
         </div>
         <div class="flex flex-row flex-nowrap items-center">
-            <a href={url(`/archive/category/${category || 'uncategorized'}/`)} aria-label=`View all posts in the ${category} category`
+            <a href={url(`/archive/category/${category?.slug || 'uncategorized'}/`)} aria-label=`View all posts in the ${category?.name} category`
                class="link-lg transition text-50 text-sm font-medium
                             hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap">
-                {category || i18n(I18nKey.uncategorized)}
+                {category?.name || i18n(I18nKey.uncategorized)}
             </a>
         </div>
     </div>
+    }
 
     <!-- tags -->
-    <div class:list={["items-center", {"flex": !hideTagsForMobile, "hidden md:flex": hideTagsForMobile}]}>
+    {
+       tags && tags.length > 0 && <div class:list={["items-center", {"flex": !hideTagsForMobile, "hidden md:flex": hideTagsForMobile}]}>
         <div class="meta-icon"
         >
             <Icon name="material-symbols:tag-rounded" class="text-xl"></Icon>
@@ -70,7 +73,7 @@ const className = Astro.props.class
         <div class="flex flex-row flex-nowrap items-center">
             {(tags && tags.length > 0) && tags.map((tag, i) => (
                 <div class:list={[{"hidden": i == 0}, "mx-1.5 text-[var(--meta-divider)] text-sm"]}>/</div>
-                <a href={url(`/archive/tag/${tag}/`)} aria-label=`View all posts with the ${tag} tag`
+                <a href={url(`/archive/tag/${tag}/`)} aria-label={`View all posts with the ${tag} tag`}
                    class="link-lg transition text-50 text-sm font-medium
                                 hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap">
                     {tag}
@@ -79,4 +82,5 @@ const className = Astro.props.class
             {!(tags && tags.length > 0) && <div class="transition text-50 text-sm font-medium">{i18n(I18nKey.noTags)}</div>}
         </div>
     </div>
+    }
 </div>
