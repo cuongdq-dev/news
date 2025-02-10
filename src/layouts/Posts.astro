@@ -23,7 +23,7 @@ const { page } = Astro.props;
   <Main pageTitle="Posts" pageDesc="All the articles I've posted.">
     <ul>
       {
-        page.data.map((post) => (
+        Array.isArray(page?.data) && page.data.map((post) => (
           <Card href={`/posts/${post.slug}/`} frontmatter={post} />
         ))
       }
