@@ -1,65 +1,155 @@
-import { defaultFavicons } from "@constants/icon";
-import type {
-  LicenseConfig,
-  NavBarConfig,
-  ProfileConfig,
-  SiteConfig,
-} from "./types/config";
-import { LinkPreset } from "./types/config";
+import type { Site, SocialObjects } from "./types";
 
-export const siteConfig: SiteConfig = {
-  title: "NEWS",
-  subtitle: "CK Tech",
-  lang: "en", // 'en', 'zh_CN', 'zh_TW', 'ja', 'ko', 'es', 'th'
-  themeColor: {
-    hue: 250, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
-    fixed: false, // Hide the theme color picker for visitors
+export const SITE: Site = {
+  website: import.meta.env.SITE_WEBSITE,
+  author: import.meta.env.SITE_AUTHOR,
+  profile: import.meta.env.SITE_PROFILE,
+  desc: import.meta.env.SITE_DESC,
+  title: import.meta.env.SITE_TITLE,
+  ogImage: "default-og.jpg",
+  lightAndDarkMode: true,
+  postPerIndex: 4,
+  postPerPage: 3,
+  scheduledPostMargin: 15 * 60 * 1000, // 15 minutes
+  showArchives: true,
+  editPost: {
+    url: "https://github.com/satnaing/astro-paper/edit/main/src/content/blog",
+    text: "Suggest Changes",
+    appendFilePath: true,
   },
-  banner: {
-    enable: true,
-    src: "assets/images/demo-banner.webp", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
-    position: "center", // Equivalent to object-position, only supports 'top', 'center', 'bottom'. 'center' by default
-    credit: {
-      enable: false, // Display the credit text of the banner image
-      text: "", // Credit text to be displayed
-      url: "", // (Optional) URL link to the original artwork or artist's page
-    },
+};
+
+export const LOCALE = {
+  lang: "en", // html lang code. Set this empty and default will be "en"
+  langTag: ["en-EN"], // BCP 47 Language Tags. Set this empty [] to use the environment default
+} as const;
+
+export const LOGO_IMAGE = {
+  enable: false,
+  svg: true,
+  width: 216,
+  height: 46,
+};
+
+export const SOCIALS: SocialObjects = [
+  {
+    name: "Github",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: ` ${SITE.title} on Github`,
+    active: false,
   },
-  toc: {
-    enable: true, // Display the table of contents on the right side of the post
-    depth: 2, // Maximum heading depth to show in the table, from 1 to 3
+  {
+    name: "Facebook",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on Facebook`,
+    active: false,
   },
-  favicon: defaultFavicons,
-};
-
-export const navBarConfig: NavBarConfig = {
-  links: [
-    // LinkPreset.Home,
-    // LinkPreset.Archive,
-    // LinkPreset.About,
-  ],
-};
-
-export const profileConfig: ProfileConfig = {
-  avatar: "assets/images/avatar.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
-  name: "CK Tech",
-  bio: "Cập nhật tin tức mới trong ngày",
-  links: [
-    {
-      name: "Facebook",
-      icon: "fa6-brands:facebook",
-      url: "https://facebook.com",
-    },
-    {
-      name: "Tiktok",
-      icon: "fa6-brands:tiktok",
-      url: "https://tiktok.com",
-    },
-  ],
-};
-
-export const licenseConfig: LicenseConfig = {
-  enable: true,
-  name: "CC BY-NC-SA 4.0",
-  url: "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-};
+  {
+    name: "Instagram",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on Instagram`,
+    active: false,
+  },
+  {
+    name: "LinkedIn",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on LinkedIn`,
+    active: false,
+  },
+  {
+    name: "Mail",
+    href: "mailto:yourmail@gmail.com",
+    linkTitle: `Send an email to ${SITE.title}`,
+    active: false,
+  },
+  {
+    name: "X",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on X`,
+    active: false,
+  },
+  {
+    name: "Twitch",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on Twitch`,
+    active: false,
+  },
+  {
+    name: "YouTube",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on YouTube`,
+    active: false,
+  },
+  {
+    name: "WhatsApp",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on WhatsApp`,
+    active: false,
+  },
+  {
+    name: "Snapchat",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on Snapchat`,
+    active: false,
+  },
+  {
+    name: "Pinterest",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on Pinterest`,
+    active: false,
+  },
+  {
+    name: "TikTok",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on TikTok`,
+    active: false,
+  },
+  {
+    name: "CodePen",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on CodePen`,
+    active: false,
+  },
+  {
+    name: "Discord",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on Discord`,
+    active: false,
+  },
+  {
+    name: "GitLab",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on GitLab`,
+    active: false,
+  },
+  {
+    name: "Reddit",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on Reddit`,
+    active: false,
+  },
+  {
+    name: "Skype",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on Skype`,
+    active: false,
+  },
+  {
+    name: "Steam",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on Steam`,
+    active: false,
+  },
+  {
+    name: "Telegram",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on Telegram`,
+    active: false,
+  },
+  {
+    name: "Mastodon",
+    href: "https://github.com/satnaing/astro-paper",
+    linkTitle: `${SITE.title} on Mastodon`,
+    active: false,
+  },
+];

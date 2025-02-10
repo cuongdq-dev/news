@@ -1,0 +1,9 @@
+---
+import Posts from "@layouts/Posts.astro";
+import { getPosts } from "@utils/api/getPosts";
+const { slug } = Astro.params;
+const pageNumber = slug ? parseInt(slug.replace("trang-", "")) : 1;
+const page = await getPosts(pageNumber);
+---
+
+<Posts page={page} />
