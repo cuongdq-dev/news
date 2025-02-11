@@ -30,7 +30,7 @@ COPY --from=builder /app/package.json /app/yarn.lock ./
 ENV NODE_ENV=production
 
 # Chạy server ở chế độ production
-CMD ["node", "dist/server/entry.mjs"]
+CMD ["node", "dist/server/entry.mjs", "--port", "5000"]
 
 # Expose cổng mặc định của Astro SSR
 EXPOSE 5000
