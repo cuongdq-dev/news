@@ -14,6 +14,7 @@ export default defineConfig({
   site: SITE.website || process.env.SITE_WEBSITE,
   output: "server",
   adapter: node({ mode: "standalone" }),
+
   integrations: [
     tailwind({
       applyBaseStyles: false,
