@@ -1,30 +1,28 @@
-# Stage 1: Build the application
-FROM node:20-bullseye-slim AS builder
+# Stage 1: Build ứng dụng
+FROM node:20-alpine AS builder  
 
 WORKDIR /app
 
-# Copy package.json and yarn.lock to use Docker cache
+# Copy file package.json và yarn.lock để tối ưu cache layer
 COPY package.json yarn.lock ./
-
-# Install dependencies
 RUN yarn install --frozen-lockfile --network-timeout 1000000
 
-# Copy the rest of the code
+# Copy toàn bộ code
 COPY . ./
 
-# Build Astro static site
-RUN yarn build
+# Build ứng dụng
+RUN yarn build && yarn cache clean  
 
-# Stage 2: Serve with Nginx
-FROM nginx:1.27.2-alpine-slim
+# Stage 2: Chạy ứng dụng
+FROM node:20-alpine  
 
-# Copy Nginx config
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+WORKDIR /app
 
-# Copy static build files to Nginx
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Copy build từ stage trước
+COPY --from=builder /app ./
 
-# Expose port 80 for web server
+# Expose cổng ứng dụng (đổi nếu cần)
 EXPOSE 5000
 
+# Chạy ứng dụng
 CMD ["node", "dist/server/entry.mjs"]
