@@ -6,14 +6,12 @@
     "paths": {
       "@assets/*": ["assets/*"],
       "@config": ["config.ts"],
-      "@constants/*": ["constants/*"],
       "@components/*": ["components/*"],
       "@content/*": ["content/*"],
       "@layouts/*": ["layouts/*"],
       "@pages/*": ["pages/*"],
       "@styles/*": ["styles/*"],
-      "@utils/*": ["utils/*"],
-      "@/*": ["src/*"]
+      "@utils/*": ["utils/*"]
     }
   }
 }

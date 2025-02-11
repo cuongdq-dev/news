@@ -5,19 +5,10 @@ import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
 import { SITE } from "./src/config";
-import dotenv from "dotenv";
-import node from "@astrojs/node";
 
-dotenv.config();
-
+// https://astro.build/config
 export default defineConfig({
-  output: "server",
-  adapter: node({ mode: "standalone" }),
-  server: {
-    port: 5000,
-    host: true,
-  },
-  site: SITE.website || process.env.SITE_WEBSITE,
+  site: SITE.website,
   integrations: [
     tailwind({
       applyBaseStyles: false,

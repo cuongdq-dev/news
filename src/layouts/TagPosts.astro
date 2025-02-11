@@ -10,7 +10,7 @@ import type { Page } from "astro";
 import type { CollectionEntry } from "astro:content";
 
 export interface Props {
-  page: Page;
+  page: Page<CollectionEntry<"blog">>;
   tag: string;
   tagName: string;
 }
@@ -28,7 +28,7 @@ const { page, tag, tagName } = Astro.props;
     <h1 slot="title" transition:name={tag}>{`Tag:${tag}`}</h1>
     <ul>
       {
-        page?.data?.map(({ data, slug }) => (
+        page.data.map(({ data, slug }) => (
           <Card href={`/posts/${slug}/`} frontmatter={data} />
         ))
       }

@@ -1,15 +1,20 @@
 ---
-import Card from "@components/Card";
-import Footer from "@components/Footer.astro";
-import Header from "@components/Header.astro";
-import Hr from "@components/Hr.astro";
-import LinkButton from "@components/LinkButton.astro";
-import Socials from "@components/Socials.astro";
-import { SITE, SOCIALS } from "@config";
+import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
-import { getHome } from "@utils/api/getHome";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import LinkButton from "@components/LinkButton.astro";
+import Hr from "@components/Hr.astro";
+import Card from "@components/Card";
+import Socials from "@components/Socials.astro";
+import getSortedPosts from "@utils/getSortedPosts";
+import { SITE, SOCIALS } from "@config";
 
-const home = await getHome();
+const posts = await getCollection("blog");
+
+const sortedPosts = getSortedPosts(posts);
+const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
+const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 
 const socialCount = SOCIALS.filter(social => social.active).length;
 ---
@@ -18,7 +23,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   <Header />
   <main id="main-content">
     <section id="hero">
-      <h1>News</h1>
+      <h1>Mingalaba</h1>
       <a
         target="_blank"
         href="/rss.xml"
@@ -52,6 +57,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         </LinkButton> for more info.
       </p>
       {
+        // only display if at least one social link is enabled
         socialCount > 0 && (
           <div class="social-wrapper">
             <div class="social-links">Social Links:</div>
@@ -64,37 +70,40 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     <Hr />
 
     {
-      Number(home?.recentPost?.length) > 0 && (
+      featuredPosts.length > 0 && (
         <>
           <section id="featured">
-            <h2>Recent Posts</h2>
+            <h2>Featured</h2>
             <ul>
-              {home?.recentPost.map(post => (
+              {featuredPosts.map(({ data, slug }) => (
                 <Card
-                  href={`/posts/${post.slug}/`}
-                  frontmatter={post}
+                  href={`/posts/${slug}/`}
+                  frontmatter={data}
                   secHeading={false}
                 />
               ))}
             </ul>
           </section>
-          {Number(home?.recentPost?.length) > 0 && <Hr />}
+          {recentPosts.length > 0 && <Hr />}
         </>
       )
     }
 
     {
-      Number(home?.featurePost.length) > 0 && (
+      recentPosts.length > 0 && (
         <section id="recent-posts">
-          <h2>Featured</h2>
+          <h2>Recent Posts</h2>
           <ul>
-            {home?.featurePost.map((data, index) => (
-              <Card
-                href={`/posts/${data.slug}/`}
-                frontmatter={data}
-                secHeading={false}
-              />
-            ))}
+            {recentPosts.map(
+              ({ data, slug }, index) =>
+                index < SITE.postPerIndex && (
+                  <Card
+                    href={`/posts/${slug}/`}
+                    frontmatter={data}
+                    secHeading={false}
+                  />
+                )
+            )}
           </ul>
         </section>
       )

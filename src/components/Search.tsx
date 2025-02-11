@@ -2,12 +2,11 @@ import Fuse from "fuse.js";
 import { useEffect, useRef, useState, useMemo, type FormEvent } from "react";
 import Card from "@components/Card";
 import type { CollectionEntry } from "astro:content";
-import type { PostItem } from "types";
 
 export type SearchItem = {
   title: string;
   description: string;
-  data: PostItem;
+  data: CollectionEntry<"blog">["data"];
   slug: string;
 };
 

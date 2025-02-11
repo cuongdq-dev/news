@@ -8,11 +8,9 @@ import Card from "@components/Card";
 import { SITE } from "@config";
 import type { Page } from "astro";
 import type { CollectionEntry } from "astro:content";
-import type { ListResponse } from "@utils/api/getPosts";
-import type { PostItem } from "types";
 
 export interface Props {
-  page: Page;
+  page: Page<CollectionEntry<"blog">>;
 }
 
 const { page } = Astro.props;
@@ -23,10 +21,9 @@ const { page } = Astro.props;
   <Main pageTitle="Posts" pageDesc="All the articles I've posted.">
     <ul>
       {
-        Array.isArray(page?.data) &&
-          page.data.map(post => (
-            <Card href={`/posts/${post.slug}/`} frontmatter={post} />
-          ))
+        page.data.map(({ data, slug }) => (
+          <Card href={`/posts/${slug}/`} frontmatter={data} />
+        ))
       }
     </ul>
   </Main>

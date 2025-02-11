@@ -17,13 +17,6 @@ export type Site = {
     text?: string;
     appendFilePath?: boolean;
   };
-  favicon: Favicon[];
-};
-
-export type Favicon = {
-  src: string;
-  theme?: "light" | "dark";
-  sizes?: string;
 };
 
 export type SocialObjects = {
@@ -32,29 +25,3 @@ export type SocialObjects = {
   active: boolean;
   linkTitle: string;
 }[];
-
-export type ThumbnailItem = {
-  url?: string;
-  data?: string;
-};
-export type CategoryItem = {
-  id: string;
-  name: string;
-  slug: string;
-  postCount?: number;
-};
-export type PostItem = {
-  id: string;
-  title: string;
-  meta_description: string;
-  created_at: string;
-  slug: string;
-  status: string;
-  thumbnail: ThumbnailItem;
-  categories?: CategoryItem[];
-};
-export type HomeResponse = {
-  categories: CategoryItem[];
-  recentPost: PostItem[];
-  featurePost: PostItem[];
-};

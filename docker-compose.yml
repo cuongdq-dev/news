@@ -1,13 +1,9 @@
 version: '3.8'
 services:
   app:
-    image: news
-    build:
-      context: .
-      dockerfile: Dockerfile
-    restart: always
-    env_file:
-      - .env
+    build: .
     ports:
-      - "80:80"
-      - "443:443"
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+    restart: always
