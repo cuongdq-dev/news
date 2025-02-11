@@ -5,7 +5,6 @@ const AUTH_TOKEN = import.meta.env.SITE_AUTH_TOKEN;
 
 export async function getHome(): Promise<HomeResponse | undefined> {
   try {
-    console.log(API_URL);
     const response = await fetch(`${API_URL}`, {
       headers: {
         Authorization: `Bearer ${AUTH_TOKEN}`,

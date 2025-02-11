@@ -52,7 +52,6 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         </LinkButton> for more info.
       </p>
       {
-        // only display if at least one social link is enabled
         socialCount > 0 && (
           <div class="social-wrapper">
             <div class="social-links">Social Links:</div>
@@ -89,16 +88,13 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         <section id="recent-posts">
           <h2>Featured</h2>
           <ul>
-            {home?.featurePost.map(
-              (data, index) =>
-                index < SITE.postPerIndex && (
-                  <Card
-                    href={`/posts/${data.slug}/`}
-                    frontmatter={data}
-                    secHeading={false}
-                  />
-                )
-            )}
+            {home?.featurePost.map((data, index) => (
+              <Card
+                href={`/posts/${data.slug}/`}
+                frontmatter={data}
+                secHeading={false}
+              />
+            ))}
           </ul>
         </section>
       )

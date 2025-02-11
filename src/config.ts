@@ -17,6 +17,7 @@ export const SITE: Site = {
     text: "Suggest Changes",
     appendFilePath: true,
   },
+  favicon: [],
 };
 
 export const LOCALE = {

@@ -17,6 +17,13 @@ export type Site = {
     text?: string;
     appendFilePath?: boolean;
   };
+  favicon: Favicon[];
+};
+
+export type Favicon = {
+  src: string;
+  theme?: "light" | "dark";
+  sizes?: string;
 };
 
 export type SocialObjects = {
