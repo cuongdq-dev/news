@@ -27,4 +27,4 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Expose port 80 for web server
 EXPOSE 5000
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "dist/server/entry.mjs"]
