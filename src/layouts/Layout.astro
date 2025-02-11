@@ -23,22 +23,22 @@ const {
   profile = SITE.profile,
   description = SITE.desc,
   ogImage = SITE.ogImage,
-  // canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
   pubDatetime,
   modDatetime,
   scrollSmooth = false,
 } = Astro.props;
 
-// const socialImageURL = new URL(
-//   ogImage ?? SITE.ogImage ?? "og.png",
-//   Astro.url.origin
-// ).href;
+const socialImageURL = new URL(
+  ogImage ?? SITE.ogImage ?? "og.png",
+  Astro.url.origin
+).href;
 
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   headline: `${title}`,
-  // image: `${socialImageURL}`,
+  image: `${socialImageURL}`,
   datePublished: `${pubDatetime?.toISOString()}`,
   ...(modDatetime && { dateModified: modDatetime.toISOString() }),
   author: [
@@ -60,7 +60,7 @@ const structuredData = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <!-- <link rel="canonical" href={canonicalURL} /> -->
+    <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
 
     <!-- General Meta Tags -->
@@ -73,8 +73,8 @@ const structuredData = {
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <!-- <meta property="og:url" content={canonicalURL} /> -->
-    <!-- <meta property="og:image" content={socialImageURL} /> -->
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={socialImageURL} />
 
     <!-- Article Published/Modified time -->
     {
@@ -96,10 +96,10 @@ const structuredData = {
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <!-- <meta property="twitter:url" content={canonicalURL} /> -->
+    <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <!-- <meta property="twitter:image" content={socialImageURL} /> -->
+    <meta property="twitter:image" content={socialImageURL} />
 
     <!-- Google JSON-LD Structured data -->
     <script

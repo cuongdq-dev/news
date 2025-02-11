@@ -30,12 +30,12 @@ const {
 
 const { Content } = await post.render();
 
-// TODO
-// const ogImageUrl = typeof ogImage === "string" ? ogImage : ogImage?.src;
-// const ogUrl = new URL(
-//   ogImageUrl ?? `/posts/${slugifyStr(title)}.png`,
-//   Astro.url.origin
-// ).href;
+
+const ogImageUrl = typeof ogImage === "string" ? ogImage : ogImage?.src;
+const ogUrl = new URL(
+  ogImageUrl ?? `/posts/${slugifyStr(title)}.png`,
+  Astro.url.origin
+).href;
 
 const layoutProps = {
   title: `${title} | ${SITE.title}`,
@@ -44,7 +44,7 @@ const layoutProps = {
   pubDatetime,
   modDatetime,
   canonicalURL,
-  // ogImage: ogUrl,
+  ogImage: ogUrl,
   scrollSmooth: true,
 };
 
