@@ -25,6 +25,6 @@ COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Expose port 80 for web server
-EXPOSE 80
+EXPOSE 5000
 
 CMD ["nginx", "-g", "daemon off;"]
