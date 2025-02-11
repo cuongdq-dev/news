@@ -1,16 +1,13 @@
-version: '3'
-
+version: '3.8'
 services:
   app:
     image: news
     build:
       context: .
       dockerfile: Dockerfile
+    restart: always
     env_file:
       - .env
     ports:
-      - "5000:80"
-    working_dir: /app
-    command: npm run dev -- --host 0.0.0.0
-    volumes:
-      - ./:/app
+      - "80:80"
+      - "443:443"

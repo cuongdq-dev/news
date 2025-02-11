@@ -11,13 +11,13 @@ import node from "@astrojs/node";
 dotenv.config();
 
 export default defineConfig({
-  site: SITE.website || process.env.SITE_WEBSITE,
   output: "server",
   adapter: node({ mode: "standalone" }),
   server: {
     port: 5000,
+    host: true,
   },
-
+  site: SITE.website || process.env.SITE_WEBSITE,
   integrations: [
     tailwind({
       applyBaseStyles: false,

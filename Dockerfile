@@ -1,36 +1,19 @@
-# --- Stage 1: Build Application ---
+# Stage 1: Build Astro
 FROM node:20-alpine AS builder
-
-# Đặt thư mục làm việc
 WORKDIR /app
 
-# Copy package.json và yarn.lock
-COPY package.json yarn.lock ./
+# Copy package.json & lockfile
+COPY package.json package-lock.json ./
+RUN npm install
 
-# Cài dependencies, giữ lại devDependencies để build
-RUN yarn install --frozen-lockfile
+# Copy source code & build
+COPY . .
+RUN npm run build
 
-# Copy toàn bộ mã nguồn vào container
-COPY . ./
-
-# Build Astro SSR
-RUN yarn build
-
-# --- Stage 2: Run Server ---
+# Stage 2: Run Astro SSR
 FROM node:20-alpine
-
 WORKDIR /app
+COPY --from=builder /app /app
 
-# Copy production build từ stage 1
-COPY --from=builder /app/dist /app/dist
-COPY --from=builder /app/node_modules /app/node_modules
-COPY --from=builder /app/package.json /app/yarn.lock ./
-
-# Thiết lập môi trường production
-ENV NODE_ENV=production
-
-# Chạy server ở chế độ production
-CMD ["node", "dist/server/entry.mjs", "--port", "5000"]
-
-# Expose cổng mặc định của Astro SSR
 EXPOSE 5000
+CMD ["node", "dist/server/entry.mjs"]
