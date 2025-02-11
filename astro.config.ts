@@ -14,6 +14,9 @@ export default defineConfig({
   site: SITE.website || process.env.SITE_WEBSITE,
   output: "server",
   adapter: node({ mode: "standalone" }),
+  server: {
+    port: 5000,
+  },
 
   integrations: [
     tailwind({
