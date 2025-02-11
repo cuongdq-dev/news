@@ -9,7 +9,7 @@ import { SITE, SOCIALS } from "@config";
 import Layout from "@layouts/Layout.astro";
 import { getHome } from "@utils/api/getHome";
 
-const home = await getHome()
+const home = await getHome();
 
 const socialCount = SOCIALS.filter(social => social.active).length;
 ---
@@ -68,9 +68,9 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       Number(home?.recentPost?.length) > 0 && (
         <>
           <section id="featured">
-          <h2>Recent Posts</h2>
+            <h2>Recent Posts</h2>
             <ul>
-              {home?.recentPost.map((post) => (
+              {home?.recentPost.map(post => (
                 <Card
                   href={`/posts/${post.slug}/`}
                   frontmatter={post}
@@ -102,7 +102,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
           </ul>
         </section>
       )
-    } 
+    }
 
     <div class="all-posts-btn-wrapper">
       <LinkButton href="/posts/">
