@@ -6,10 +6,14 @@ import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
 import { SITE } from "./src/config";
 import dotenv from "dotenv";
+import node from "@astrojs/node";
+
 dotenv.config();
 
 export default defineConfig({
   site: SITE.website || process.env.SITE_WEBSITE,
+  output: "server",
+  adapter: node({ mode: "standalone" }),
   integrations: [
     tailwind({
       applyBaseStyles: false,
