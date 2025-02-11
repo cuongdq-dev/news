@@ -1,11 +1,11 @@
 import type { Site, SocialObjects } from "./types";
 
 export const SITE: Site = {
-  website: import.meta.env.SITE_WEBSITE,
-  author: import.meta.env.SITE_AUTHOR,
-  profile: import.meta.env.SITE_PROFILE,
-  desc: import.meta.env.SITE_DESC,
-  title: import.meta.env.SITE_TITLE,
+  website: import.meta.env.SITE_WEBSITE || process.env.SITE_WEBSITE,
+  author: import.meta.env.SITE_AUTHOR || process.env.SITE_AUTHOR,
+  profile: import.meta.env.SITE_PROFILE || process.env.SITE_PROFILE,
+  desc: import.meta.env.SITE_DESC || process.env.SITE_DESC,
+  title: import.meta.env.SITE_TITLE || process.env.SITE_TITLE,
   ogImage: "default-og.jpg",
   lightAndDarkMode: true,
   postPerIndex: 4,
