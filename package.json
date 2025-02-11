@@ -4,7 +4,7 @@
   "private": false,
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
+    "start": "astro dev --port 5000",
     "build": "astro build",
     "preview": "astro preview",
     "sync": "astro sync",
