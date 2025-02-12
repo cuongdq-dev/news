@@ -16,7 +16,7 @@ export default defineConfig({
   output: "server",
   adapter: node({ mode: "standalone" }),
   server: {
-    port: 5050,
+    port: 5000,
     host: true,
   },
   integrations: [
