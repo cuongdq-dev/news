@@ -1,15 +1,15 @@
 import { slugifyStr } from "@utils/slugify";
+import type { PostItem } from "types";
 import Datetime from "./Datetime";
-import type { CollectionEntry } from "astro:content";
 
 export interface Props {
   href?: string;
-  frontmatter: CollectionEntry<"blog">["data"];
+  frontmatter: PostItem;
   secHeading?: boolean;
 }
 
 export default function Card({ href, frontmatter, secHeading = true }: Props) {
-  const { title, pubDatetime, modDatetime, description } = frontmatter;
+  const { title, meta_description, created_at } = frontmatter;
 
   const headerProps = {
     style: { viewTransitionName: slugifyStr(title) },
@@ -28,8 +28,11 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
           <h3 {...headerProps}>{title}</h3>
         )}
       </a>
-      <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} />
-      <p>{description}</p>
+      <Datetime
+        pubDatetime={new Date(created_at)}
+        modDatetime={new Date(created_at)}
+      />
+      <p>{meta_description}</p>
     </li>
   );
 }
