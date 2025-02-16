@@ -1,6 +1,7 @@
 # Stage 1: Build Astro
 FROM node:20-alpine AS builder
 WORKDIR /app
+RUN git pull || echo "⚠️ Git pull failed, but continuing..."
 
 # Copy package.json & lockfile
 COPY package.json package-lock.json ./
