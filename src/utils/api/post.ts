@@ -21,6 +21,25 @@ export type ListResponse = {
   };
 };
 
+export async function getRss(): Promise<PostItem[]> {
+  try {
+    const response = await fetch(
+      `${import.meta.env.SITE_API_URL + "/news/rss"}`,
+      {
+        headers: {
+          Authorization: `Bearer ${AUTH_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+    return (await response.json()) as PostItem[];
+  } catch (error) {
+    return [] as PostItem[];
+  }
+}
+
 export async function getPosts(page: number): Promise<Page> {
   try {
     const response = await fetch(`${API_URL}?page=${page}`, {
