@@ -36,6 +36,7 @@ export async function getRss(): Promise<PostItem[]> {
     if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
     return (await response.json()) as PostItem[];
   } catch (error) {
+    console.log(error);
     return [] as PostItem[];
   }
 }
@@ -69,6 +70,7 @@ export async function getPosts(page: number): Promise<Page> {
     } as Page;
     return paginationData;
   } catch (error) {
+    console.log(error);
     return {} as Page;
   }
 }
@@ -88,6 +90,7 @@ export async function getPostBySlug(slug: string): Promise<DetailResponse> {
     const result = (await response.json()) as DetailResponse;
     return result;
   } catch (error) {
+    console.log(error);
     return {} as DetailResponse;
   }
 }

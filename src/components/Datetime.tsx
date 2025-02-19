@@ -19,7 +19,6 @@ export default function Datetime({
   modDatetime,
   size = "sm",
   className = "",
-  postId,
 }: Props) {
   return (
     <div

@@ -5,7 +5,7 @@ import Header from "@components/Header.astro";
 import Hr from "@components/Hr.astro";
 import LinkButton from "@components/LinkButton.astro";
 import Socials from "@components/Socials.astro";
-import { SITE, SOCIALS } from "@config";
+import { SOCIALS } from "@config";
 import Layout from "@layouts/Layout.astro";
 import { getHome } from "@utils/api/home";
 
@@ -88,7 +88,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         <section id="recent-posts">
           <h2>Tin nổi bật</h2>
           <ul>
-            {home?.featurePost.map((data, index) => (
+            {home?.featurePost.map((data) => (
               <Card
                 href={`/posts/${data.slug}/`}
                 frontmatter={data}

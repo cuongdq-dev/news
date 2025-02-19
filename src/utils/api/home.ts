@@ -15,6 +15,7 @@ export async function getHome(): Promise<HomeResponse | undefined> {
     if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
     return (await response.json()) as HomeResponse;
   } catch (error) {
+    console.log(error);
     return undefined;
   }
 }
