@@ -5,7 +5,7 @@ RUN apk add --no-cache git && git pull || true
 
 
 # Copy package.json & lockfile
-COPY package.json package-lock.json ./
+COPY package.json ./
 RUN npm install
 
 # Copy source code & build
