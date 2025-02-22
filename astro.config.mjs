@@ -17,7 +17,7 @@ export default defineConfig({
   output: "server",
   adapter: node({ mode: "standalone" }),
   server: {
-    port: 5001,
+    port: 5000,
     host: true,
   },
   markdown: {
