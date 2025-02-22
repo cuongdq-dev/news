@@ -1,4 +1,4 @@
-import type socialIcons from "@assets/socialIcons";
+import type socialIcons from "~/assets/socialIcons";
 
 export type Site = {
   website: string;
@@ -36,6 +36,7 @@ export type SocialObjects = {
 export type ThumbnailItem = {
   url?: string;
   data?: string;
+  slug?: string;
 };
 export type CategoryItem = {
   id: string;
@@ -43,7 +44,7 @@ export type CategoryItem = {
   slug: string;
   postCount?: number;
 };
-export type PostItem = {
+export type ArticleItem = {
   id: string;
   title: string;
   meta_description: string;
@@ -58,6 +59,7 @@ export type PostItem = {
 };
 export type HomeResponse = {
   categories: CategoryItem[];
-  recentPost: PostItem[];
-  featurePost: PostItem[];
+  recentNews: ArticleItem[];
+  featureNews: ArticleItem[];
+  otherNews: ArticleItem[];
 };

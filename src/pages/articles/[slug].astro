@@ -1,0 +1,46 @@
+---
+import * as cheerio from "cheerio";
+import BaseLayout from "~/layouts/base.astro";
+import ContentLayout from "~/layouts/content.astro";
+import { getPostBySlug } from "~/lib/api/post";
+import ArticleHeader from "./_components/article-header.astro";
+
+const { slug } = Astro.params;
+const detail = await getPostBySlug(slug!);
+
+const processContent = () => {
+  if (!detail?.data?.content) return "";
+  const content = detail?.data?.content;
+  const title = detail?.data?.title;
+
+  const $ = cheerio.load(content);
+  const allH1s = $("h1");
+
+  if (allH1s.length === 0) return $.html();
+
+  const firstH1 = allH1s.first();
+
+  if (firstH1.text().trim() === title.trim()) {
+    allH1s.remove();
+  } else {
+    firstH1.replaceWith(`<h2>${firstH1.html()}</h2>`);
+    allH1s.not(firstH1).remove();
+  }
+
+  $("a").each((_, el) => {
+    const text = $(el).text(); // Lấy nội dung trong thẻ <a>
+    $(el).replaceWith(text); // Thay thế <a> bằng nội dung của nó
+  });
+
+  return $.html();
+};
+
+const content = processContent();
+---
+
+<BaseLayout>
+  <ArticleHeader article={detail.data} />
+  <ContentLayout>
+    <slot set:html={content} />
+  </ContentLayout>
+</BaseLayout>

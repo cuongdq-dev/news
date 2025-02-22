@@ -1,0 +1,18 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "~/layouts/base.astro";
+import ContentLayout from "~/layouts/content.astro";
+
+const entry = await getEntry("views", "about");
+
+if (!entry) {
+  return Astro.redirect("/404");
+}
+---
+
+<BaseLayout entry={entry}>
+  <ContentLayout>
+    <!-- TODO UPDATE -->
+    <!-- <Content /> -->
+  </ContentLayout>
+</BaseLayout>

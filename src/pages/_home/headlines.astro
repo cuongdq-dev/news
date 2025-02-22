@@ -1,0 +1,36 @@
+---
+import MainHeadline from "~/components/cards/mainHeadline.astro";
+import SubHeadlineCard from "~/components/cards/subHeadlineCard.astro";
+import type { ArticleItem } from "~/types";
+
+type Props = {
+  articles: ArticleItem[];
+};
+
+const { articles } = Astro.props;
+const bigHeadline = articles[
+  Math.floor(Math.random() * articles.length)
+] as ArticleItem;
+
+const smallHeadlines = articles.filter((art) => art.id != bigHeadline.id);
+---
+
+<section
+  class="grid grid-cols-1 gap-6 md:grid-cols-10 container pt-4 md:pt-8"
+  data-pagefind-ignore="all"
+>
+  <div class="col-span-1 md:col-span-6">
+    <MainHeadline article={bigHeadline} />
+  </div>
+  <div class="col-span-1 md:col-span-4">
+    {
+      smallHeadlines.map((article, index) => (
+        <SubHeadlineCard
+          article={article}
+          isFirst={index === 0}
+          isLast={index === smallHeadlines.length - 1}
+        />
+      ))
+    }
+  </div>
+</section>

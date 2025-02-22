@@ -1,0 +1,20 @@
+---
+import { getCategory } from "~/lib/api/home";
+import NavbarItem from "../bases/navbar-item.astro";
+
+const category = await getCategory();
+---
+
+<nav class="navbar-center hidden lg:flex container">
+  <ul class="menu menu-sm menu-horizontal px-1 mx-auto">
+    <NavbarItem item={{ href: "/", name: "Trang Chủ" }} />
+    <NavbarItem
+      item={{ href: "/articles", name: "Bài Viết", slug: "articles" }}
+    />
+    {
+      category?.map((item) => (
+        <NavbarItem item={{ ...item, href: `/categories/${item.slug}` }} />
+      ))
+    }
+  </ul>
+</nav>

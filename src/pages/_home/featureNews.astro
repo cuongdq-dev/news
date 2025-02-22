@@ -1,0 +1,26 @@
+---
+import NewsCard from "~/components/cards/newsCard.astro";
+import type { ArticleItem } from "~/types";
+import HeaderSection from "./headerSection.astro";
+
+type Props = {
+  articles: ArticleItem[];
+};
+
+const { articles } = Astro.props;
+---
+
+<section class="container pt-12 pb-0 space-y-4" data-pagefind-ignore="all">
+  <HeaderSection
+    title="Bài viết nổi bật"
+    link_title="Xem thêm"
+    link_url="/articles"
+  />
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 gap-y-6 md:grid-rows-2">
+    {
+      articles.map((article, index) => (
+        <NewsCard article={article} index={index} />
+      ))
+    }
+  </div>
+</section>

@@ -1,9 +1,0 @@
----
-import PostDetails from "@layouts/PostDetails.astro";
-import { getPostBySlug } from "@utils/api/post";
-
-const { slug } = Astro.params;
-const detail = await getPostBySlug(slug!);
----
-
-<PostDetails post={detail.data} posts={detail.relatedPosts} />

@@ -1,0 +1,49 @@
+---
+import ListLayout from "~/layouts/list.astro";
+
+import { getEntry } from "astro:content";
+import WideCard from "~/components/cards/wideCard.astro";
+import { getPostsByCategory } from "~/lib/api/post";
+import PaginationOne from "~/components/shared/pagination-one.astro";
+
+const params = Astro.params;
+const pathname = new URL(Astro.request.url).pathname.split("/");
+const firstPath = pathname[1];
+
+const response = await getPostsByCategory(
+  Number(params.page),
+  params.category!
+);
+const { data: articles, category, ...page } = response;
+
+const entry = await getEntry("views", "categories");
+
+if (!entry) {
+  return Astro.redirect("/404");
+}
+---
+
+<ListLayout header={category?.name!} entry={entry}>
+  <ul class="flex flex-col gap-2 flex-1">
+    {
+      articles?.map((article: any) => (
+        <li>
+          <WideCard
+            article={article}
+            isLast={articles?.lastIndexOf(article) === articles?.length - 1}
+          />
+        </li>
+      ))
+    }
+  </ul>
+
+  <PaginationOne
+    length={page?.lastPage}
+    currentUrl={page?.url?.current}
+    currentPage={page?.currentPage}
+    firstUrl={`/${firstPath}`}
+    prevUrl={page?.url?.prev}
+    nextUrl={page?.url?.next}
+    lastUrl={`/${firstPath}/page/${page?.lastPage}`}
+  />
+</ListLayout>

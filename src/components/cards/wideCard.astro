@@ -1,0 +1,63 @@
+---
+import { getDateDistance } from "~/lib/utils/date";
+import type { ArticleItem } from "~/types";
+import Divider from "../bases/divider.astro";
+
+type Props = {
+  article: ArticleItem;
+  isLast: boolean;
+};
+
+const { article, isLast } = Astro.props;
+---
+
+<li class="group w-full  mx-auto lg:max-w-full">
+  <a href={`/articles/${article.slug}`} class="flex flex-col lg:flex-row gap-4">
+    <div
+      class="flex-shrink-0 aspect-square w-32 text-sm text-base-content/60 text-pretty capitalize hidden lg:flex pt-1"
+    >
+      {getDateDistance("2024-11-11T00:00:00.000Z")}
+    </div>
+    <div
+      class:list={[
+        "flex-1 flex flex-col gap-4 lg:flex-row-reverse pb-2 lg:pb-4",
+        isLast ? "border-b-0" : "border-b",
+      ]}
+    >
+      <div class="w-full lg:w-60 aspect-video">
+        <img
+          alt={article?.thumbnail?.slug}
+          src={`${article?.thumbnail?.data}`}
+          loading={"eager"}
+          class="aspect-video rounded w-full h-full object-cover"
+        />
+      </div>
+      <div class="flex-1 space-y-2">
+        <h3 class="text-xl font-semibold lg:group-hover:underline">
+          {article.title}
+        </h3>
+        <p class="text-base-content/80 max-w-xl text-pretty">
+          {article.meta_description}
+        </p>
+      </div>
+      <div class="text-sm lg:hidden flex item-center text-base-content/70 pt-2">
+        <time
+          class="flex items-center gap-1"
+          datetime={String(article.created_at)}
+        >
+          <span>
+            {getDateDistance("2024-11-11T00:00:00.000Z")}
+          </span>
+        </time>
+        {
+          Number(article?.categories?.length)> 0 && <Divider />
+            <small class="flex items-center gap-1">
+              <span class="capitalize text-sm">
+                {article?.categories?.map((cate) => cate.name).join(", ")}
+              </span>
+            </small>
+        }
+      </div>
+    </div>
+  </a>
+</li>

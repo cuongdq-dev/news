@@ -1,3 +1,14 @@
+---
+title: "About"
+description: "Learn about the author, his background, and his interests."
+blocks:
+  - name: "ABOUT"
+    title: "About us"
+---
+import screenshot from '../../assets/images/screenshot-astronews.png';
+import { Image } from 'astro:assets';
+
+
 # Astro News 📰
 
 A news website built with Astro, designed to provide a modern and responsive news reading experience.
@@ -5,7 +16,7 @@ A news website built with Astro, designed to provide a modern and responsive new
 > **ℹ️ Info**  
 > Astro news is my first open-source project, so there may be some bugs or issues. I’ll address them as quickly as possible.
 
-![Astro News](./src/assets/images/screenshot-astronews.png "Astro News")
+<Image src={screenshot} alt="Astro News" layout="responsive" class="rounded-lg shadow-xl" />
 
 ## 🌐 Demo
 
@@ -50,7 +61,7 @@ bun dev
 ### Upcoming Features
 
 - Sharing Options
-- Keystatic Integration
+- Keystatic CMS
 - Open Graph (OG) Image Generation
 
 ## 💻 Technologies

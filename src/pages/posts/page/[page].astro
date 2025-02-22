@@ -1,8 +1,0 @@
----
-import Posts from "@layouts/Posts.astro";
-import { getPosts } from "@utils/api/post";
-const { page: pageNumber } = Astro.params;
-const page = await getPosts(Number(pageNumber));
----
-
-<Posts page={page} />
