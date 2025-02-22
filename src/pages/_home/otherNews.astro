@@ -16,7 +16,7 @@ const { articles } = Astro.props;
     {
       articles.map((article) => (
         <li class="col-span-1 group mx-auto max-w-xs">
-          <a href={`/articles/${article.slug}`} class="flex flex-col gap-2">
+          <a href={`/articles/${article?.slug}`} class="flex flex-col gap-2">
             <div class="aspect-square w-full rounded-md overflow-hidden">
               <img
                 class="w-full h-full object-cover filter grayscale group-hover:grayscale-0"
