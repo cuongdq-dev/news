@@ -5,8 +5,9 @@ import PaginationOne from "~/components/shared/pagination-one.astro";
 import ListLayout from "~/layouts/list.astro";
 import { getPosts } from "~/lib/api/post";
 
-const { page: pageNumber } = Astro.params;
+const { slug } = Astro.params;
 
+const pageNumber = Number(slug?.split("-")[1]);
 const response = await getPosts(Number(pageNumber));
 const { data: articles, ...page } = response;
 
@@ -43,6 +44,6 @@ const [HEADER] = entry.data.blocks;
     firstUrl={`/${firstPath}`}
     prevUrl={page?.url?.prev}
     nextUrl={page?.url?.next}
-    lastUrl={`/${firstPath}/page/${page?.lastPage}`}
+    lastUrl={`/${firstPath}/trang-${page?.lastPage}`}
   />
 </ListLayout>

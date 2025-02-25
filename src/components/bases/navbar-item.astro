@@ -11,7 +11,7 @@ const currentPath = Astro.url.pathname;
 const { item } = Astro.props;
 
 function isActive(item: Item, currentPath: string) {
-  const segment = currentPath.split("/")[3];
+  const segment = currentPath.split("/")[2]?.split("-")[1];
 
   return (
     (item.name === "Trang Chủ" && currentPath === "/") ||
@@ -25,16 +25,16 @@ function isActive(item: Item, currentPath: string) {
 }
 
 function formatHref(href: string) {
-  return href === "/" ? "/" : `${href}/page/1`;
+  return href === "/" ? "/" : `${href}/trang-1`;
 }
 ---
 
 <li
   class:list={[
-    "relative after:absolute after:-bottom-2 after:left-0 after:h-[2px] after:w-full after:transition-all after:duration-300",
+    "relative after:absolute after:-bottom-2 after:left-0 after:h-[2px] after:w-full after:transition-all after:duration-300 ",
     isActive(item, currentPath)
-      ? "after:bg-base-content pointer-events-none"
-      : "after:bg-transparent",
+      ? "after:bg-base-content pointer-events-none font-bold"
+      : "after:bg-transparent opacity-50 ",
   ]}
 >
   <a href={formatHref(item.href!)} aria-label={item.name}>{item.name}</a>

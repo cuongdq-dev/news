@@ -2,43 +2,40 @@ import type { Favicon } from "~/types";
 
 export const defaultFavicons: Favicon[] = [
   {
-    src: "/favicon/circular_favicon-light-32.png",
-    theme: "light",
+    src: "/favicon/news_logo_32.png",
     sizes: "32x32",
   },
   {
-    src: "/favicon/circular_favicon-light-128.png",
-    theme: "light",
+    src: "/favicon/news_logo_48.png",
+    sizes: "48x48",
+  },
+  {
+    src: "/favicon/news_logo_64.png",
+    sizes: "64x64",
+  },
+
+  {
+    src: "/favicon/news_logo_96.png",
+    sizes: "96x96",
+  },
+  {
+    src: "/favicon/news_logo_128.png",
     sizes: "128x128",
   },
   {
-    src: "/favicon/circular_favicon-light-180.png",
-    theme: "light",
+    src: "/favicon/news_logo_180.png",
     sizes: "180x180",
   },
   {
-    src: "/favicon/circular_favicon-light-192.png",
-    theme: "light",
+    src: "/favicon/news_logo_192.png",
     sizes: "192x192",
   },
   {
-    src: "/favicon/circular_favicon-dark-32.png",
-    theme: "dark",
-    sizes: "32x32",
+    src: "/favicon/news_logo_256.png",
+    sizes: "256x256",
   },
   {
-    src: "/favicon/circular_favicon-dark-128.png",
-    theme: "dark",
-    sizes: "128x128",
-  },
-  {
-    src: "/favicon/circular_favicon-dark-180.png",
-    theme: "dark",
-    sizes: "180x180",
-  },
-  {
-    src: "/favicon/circular_favicon-dark-192.png",
-    theme: "dark",
-    sizes: "192x192",
+    src: "/favicon/news_logo_512.png",
+    sizes: "512x512",
   },
 ];

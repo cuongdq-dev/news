@@ -1,14 +1,14 @@
 ---
 import BaseLayout from "~/layouts/base.astro";
 import { getHome } from "~/lib/api/home";
-import Headlines from "./_home/headlines.astro";
 import FeatureNews from "./_home/featureNews.astro";
+import Headlines from "./_home/headlines.astro";
 import OtherNews from "./_home/otherNews.astro";
 const home = await getHome();
 ---
 
 <BaseLayout>
-  <Headlines articles={home?.recentNews!} />
-  <FeatureNews articles={home?.featureNews!} />
-  <OtherNews articles={home?.otherNews!} />
+  {home?.recentNews && <Headlines articles={home?.recentNews} />}
+  {home?.featureNews && <FeatureNews articles={home?.featureNews} />}
+  {home?.otherNews && <OtherNews articles={home?.otherNews} />}
 </BaseLayout>

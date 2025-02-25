@@ -37,13 +37,13 @@ const paginationList = Array.from(
 <section class="flex items-center mx-auto mt-8">
   <nav class="join">
     {
-      `${firstUrl}/page/1` == `${currentUrl}` ? (
+      `${firstUrl}/trang-1` == `${currentUrl}` ? (
         <span class="join-item btn btn-sm btn-disabled" aria-label="First page">
           <ArrowLeftDouble />
         </span>
       ) : (
         <a
-          href={`${firstUrl}/page/1`}
+          href={`${firstUrl}/trang-1`}
           class="join-item btn btn-sm"
           aria-label="First page"
         >
@@ -67,7 +67,7 @@ const paginationList = Array.from(
     {
       paginationList.map((num) => (
         <a
-          href={`${firstUrl}${num == 1 ? "" : "/page/" + num}`}
+          href={`${firstUrl}/trang-${num}`}
           class={`join-item btn btn-sm ${currentPage == num ? "btn-active pointer-events-none" : ""}`}
         >
           {num}

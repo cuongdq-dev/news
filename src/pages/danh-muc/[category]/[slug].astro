@@ -6,18 +6,17 @@ import WideCard from "~/components/cards/wideCard.astro";
 import { getPostsByCategory } from "~/lib/api/post";
 import PaginationOne from "~/components/shared/pagination-one.astro";
 
-const params = Astro.params;
+const { category: categorySlug, slug: pageString } = Astro.params;
+
+const pageNumber = Number(pageString?.split("-")[1]);
+
 const pathname = new URL(Astro.request.url).pathname.split("/");
 const firstPath = pathname[1];
 
-const response = await getPostsByCategory(
-  Number(params.page),
-  params.category!
-);
+const response = await getPostsByCategory(Number(pageNumber), categorySlug!);
 const { data: articles, category, ...page } = response;
 
 const entry = await getEntry("views", "categories");
-
 if (!entry) {
   return Astro.redirect("/404");
 }
@@ -41,9 +40,9 @@ if (!entry) {
     length={page?.lastPage}
     currentUrl={page?.url?.current}
     currentPage={page?.currentPage}
-    firstUrl={`/${firstPath}`}
+    firstUrl={`/${firstPath}/${category?.slug}`}
     prevUrl={page?.url?.prev}
     nextUrl={page?.url?.next}
-    lastUrl={`/${firstPath}/page/${page?.lastPage}`}
+    lastUrl={`/${firstPath}/${category?.slug}/trang-${page?.lastPage}`}
   />
 </ListLayout>

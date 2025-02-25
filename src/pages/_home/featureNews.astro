@@ -14,11 +14,11 @@ const { articles } = Astro.props;
   <HeaderSection
     title="Bài viết nổi bật"
     link_title="Xem thêm"
-    link_url="/articles"
+    link_url="/bai-viet"
   />
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 gap-y-6 md:grid-rows-2">
     {
-      articles.map((article, index) => (
+      articles?.map((article, index) => (
         <NewsCard article={article} index={index} />
       ))
     }

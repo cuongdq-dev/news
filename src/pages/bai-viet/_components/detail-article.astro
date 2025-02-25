@@ -3,7 +3,7 @@ import * as cheerio from "cheerio";
 import BaseLayout from "~/layouts/base.astro";
 import ContentLayout from "~/layouts/content.astro";
 import { getPostBySlug } from "~/lib/api/post";
-import ArticleHeader from "./_components/article-header.astro";
+import ArticleHeader from "./article-header.astro";
 
 const { slug } = Astro.params;
 const detail = await getPostBySlug(slug!);

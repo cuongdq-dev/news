@@ -18,27 +18,27 @@ export const SITE = {
 
 export const NAVIGATION_LINKS: Link[] = [
   {
-    href: "/categories/technology",
+    href: "/danh-muc/technology",
     text: "Technology",
   },
   {
-    href: "/categories/programming",
+    href: "/danh-muc/programming",
     text: "Programming",
   },
   {
-    href: "/categories/lifestyle",
+    href: "/danh-muc/lifestyle",
     text: "Lifestyle",
   },
   {
-    href: "/categories/productivity",
+    href: "/danh-muc/productivity",
     text: "Productivity",
   },
   {
-    href: "/categories/health",
+    href: "/danh-muc/health",
     text: "Health",
   },
   {
-    href: "/categories/finance",
+    href: "/danh-muc/finance",
     text: "Finance",
   },
 ];
@@ -69,11 +69,11 @@ export const OTHER_LINKS: Link[] = [
     text: "Cookie Policy",
   },
   {
-    href: `https://${SITE.url}/rss.xml`,
+    href: `${SITE.url}/rss.xml`,
     text: "RSS",
   },
   {
-    href: `https://${SITE.url}/sitemap-index.xml`,
+    href: `${SITE.url}/sitemap-index.xml`,
     text: "Sitemap",
   },
 ];

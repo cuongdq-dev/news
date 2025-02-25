@@ -8,11 +8,11 @@ type Props = {
 };
 
 const { articles } = Astro.props;
-const bigHeadline = articles[
-  Math.floor(Math.random() * articles.length)
-] as ArticleItem;
+const bigHeadline =
+  articles &&
+  (articles[Math.floor(Math.random() * articles?.length)] as ArticleItem);
 
-const smallHeadlines = articles.filter((art) => art.id != bigHeadline.id);
+const smallHeadlines = articles?.filter((art) => art.id != bigHeadline.id);
 ---
 
 <section
@@ -24,7 +24,7 @@ const smallHeadlines = articles.filter((art) => art.id != bigHeadline.id);
   </div>
   <div class="col-span-1 md:col-span-4">
     {
-      smallHeadlines.map((article, index) => (
+      smallHeadlines?.map((article, index) => (
         <SubHeadlineCard
           article={article}
           isFirst={index === 0}

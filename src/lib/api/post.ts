@@ -64,13 +64,14 @@ export async function getPosts(page: number): Promise<Page> {
       currentPage: meta.currentPage,
       lastPage: meta.totalPages,
       url: {
+        current: `/bai-viet/trang-${Number(meta.currentPage)}`,
         prev:
           Number(meta?.currentPage) > 1
-            ? `/articles/page/${Number(meta.currentPage) - 1}`
+            ? `/bai-viet/trang-${Number(meta.currentPage) - 1}`
             : undefined,
         next:
           Number(meta.currentPage) < Number(meta.totalPages)
-            ? `/articles/page/${Number(meta.currentPage) + 1}`
+            ? `/bai-viet/trang-${Number(meta.currentPage) + 1}`
             : undefined,
       },
     } as Page;
@@ -104,13 +105,20 @@ export async function getPostsByCategory(
       currentPage: meta.currentPage,
       lastPage: meta.totalPages,
       url: {
+        current: `/danh-muc/${category?.slug}/trang-${Number(
+          meta.currentPage
+        )}`,
         prev:
           Number(meta?.currentPage) > 1
-            ? `/articles/page/${Number(meta.currentPage) - 1}`
+            ? `/danh-muc/${category?.slug}/trang-${
+                Number(meta.currentPage) - 1
+              }`
             : undefined,
         next:
           Number(meta.currentPage) < Number(meta.totalPages)
-            ? `/articles/page/${Number(meta.currentPage) + 1}`
+            ? `/danh-muc/${category?.slug}/trang-${
+                Number(meta.currentPage) + 1
+              }`
             : undefined,
       },
     } as Page;

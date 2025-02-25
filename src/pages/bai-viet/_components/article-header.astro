@@ -20,14 +20,14 @@ const { article } = Astro.props;
     {
       article?.categories?.map((cate) => {
         return (
-          <a href={`/categories/${cate.slug}`} class="a-01 font-semibold">
+          <a href={`/danh-muc/${cate.slug}`} class="a-01 font-semibold">
             {cate?.name}
           </a>
         );
       })
     }
   </div>
-  <div class="container max-w-5xl">
+  <div class="container">
     <h1 class="text-2xl lg:text-4xl font-bold text-left text-pretty">
       {article?.title}
     </h1>
@@ -38,7 +38,7 @@ const { article } = Astro.props;
           {
             article?.categories?.map((cate) => {
               return (
-                <a href={`/categories/${cate.slug}`} class="a-01 font-semibold">
+                <a href={`/danh-muc/${cate.slug}`} class="a-01 font-semibold">
                   {cate?.name}
                 </a>
               );

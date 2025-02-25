@@ -10,8 +10,6 @@ import { defaultFavicons } from "~/lib/constants/icon";
 import { url } from "~/lib/utils/url-utils";
 import type { Favicon } from "~/types";
 
-// const googleSiteVerification = import.meta.env.SITE_GOOGLE_SITE_VERIFICATION;
-
 export interface Props {
   title?: string;
   author?: string;
@@ -62,11 +60,7 @@ const favicons: Favicon[] =
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width" />
-  <link
-    rel="icon"
-    type="image/svg+xml"
-    href="/favicon/circular_favicon-dark-32.png"
-  />
+
   <link rel="canonical" href={canonicalURL} />
   <meta name="generator" content={Astro.generator} />
   {
