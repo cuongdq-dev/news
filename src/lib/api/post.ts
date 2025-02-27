@@ -1,7 +1,7 @@
 import type { Page } from "astro";
 import type { ArticleItem } from "~/types";
 
-const API_URL = import.meta.env.SITE_API_URL + "/news/posts";
+const API_URL = import.meta.env.SITE_API_URL + "/news";
 const AUTH_TOKEN = import.meta.env.SITE_AUTH_TOKEN;
 
 type Category = {
@@ -29,15 +29,12 @@ export type ListResponse = {
 
 export async function getRss(): Promise<ArticleItem[]> {
   try {
-    const response = await fetch(
-      `${import.meta.env.SITE_API_URL + "/news/rss"}`,
-      {
-        headers: {
-          Authorization: `Bearer ${AUTH_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(`${API_URL + "/rss"}`, {
+      headers: {
+        Authorization: `Bearer ${AUTH_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+    });
 
     if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
     return (await response.json()) as ArticleItem[];
@@ -49,7 +46,7 @@ export async function getRss(): Promise<ArticleItem[]> {
 
 export async function getPosts(page: number): Promise<Page> {
   try {
-    const response = await fetch(`${API_URL}?page=${page}`, {
+    const response = await fetch(`${API_URL}/posts?page=${page}`, {
       headers: {
         Authorization: `Bearer ${AUTH_TOKEN}`,
         "Content-Type": "application/json",
@@ -88,7 +85,7 @@ export async function getPostsByCategory(
 ): Promise<Page & { category?: Category }> {
   try {
     const response = await fetch(
-      `${API_URL}/category/${categorySlug}?page=${page}`,
+      `${API_URL}/posts/category/${categorySlug}?page=${page}`,
       {
         headers: {
           Authorization: `Bearer ${AUTH_TOKEN}`,
@@ -129,6 +126,43 @@ export async function getPostsByCategory(
   }
 }
 
+export async function getPostRelates(slug: string): Promise<ArticleItem[]> {
+  try {
+    const response = await fetch(`${API_URL}/relate?post_slug=${slug}`, {
+      headers: {
+        Authorization: `Bearer ${AUTH_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+    const data = (await response.json()) as ArticleItem[];
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+export async function getPostRecents(): Promise<ArticleItem[]> {
+  try {
+    const response = await fetch(`${API_URL}/recent`, {
+      headers: {
+        Authorization: `Bearer ${AUTH_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+    const data = (await response.json()) as ArticleItem[];
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
 export type DetailResponse = {
   data: ArticleItem;
   relatedPosts: ArticleItem[];
@@ -136,7 +170,7 @@ export type DetailResponse = {
 
 export async function getPostBySlug(slug: string): Promise<DetailResponse> {
   try {
-    const response = await fetch(`${API_URL}/${slug}`, {
+    const response = await fetch(`${API_URL}/posts/${slug}`, {
       headers: {
         Authorization: `Bearer ${AUTH_TOKEN}`,
         "Content-Type": "application/json",

@@ -1,9 +1,12 @@
 ---
 import * as cheerio from "cheerio";
+import NewsCard from "~/components/cards/newsCard.astro";
 import BaseLayout from "~/layouts/base.astro";
 import ContentLayout from "~/layouts/content.astro";
-import { getPostBySlug } from "~/lib/api/post";
+import { getPostBySlug, getPostRecents, getPostRelates } from "~/lib/api/post";
 import ArticleHeader from "./article-header.astro";
+import Divider from "~/components/bases/divider.astro";
+import { fRelativeTime } from "~/lib/utils/format-time";
 
 const { slug } = Astro.params;
 const detail = await getPostBySlug(slug!);
@@ -36,11 +39,105 @@ const processContent = () => {
 };
 
 const content = processContent();
+
+const postRelates = await getPostRelates(slug!);
+const postRecents = await getPostRecents();
 ---
 
 <BaseLayout>
-  <ArticleHeader article={detail.data} />
-  <ContentLayout>
-    <slot set:html={content} />
-  </ContentLayout>
+  <div class="container grid grid-cols-12 gap-6">
+    <!-- Left Column: Article Content -->
+    <div class="col-span-12 md:col-span-8">
+      <ArticleHeader article={detail.data} />
+      <ContentLayout>
+        <slot set:html={content} />
+      </ContentLayout>
+    </div>
+
+    <!-- Right Column: Related Posts -->
+    <div class="col-span-12 p-4 rounded-lg md:col-span-4 pt-6">
+      <h4 class="text-md font-semibold mb-2">Bài viết liên quan</h4>
+      <div>
+        {
+          postRelates?.map((article, index) => (
+            <article class="flex">
+              <a
+                href={`/bai-viet/${article?.slug}`}
+                class="flex flex-col gap-2 h-full"
+              >
+                <div class="aspect-video overflow-hidden rounded-md">
+                  <img
+                    alt={article?.thumbnail?.slug}
+                    src={`${article?.thumbnail?.data}`}
+                    class="w-full h-full object-cover"
+                    loading={index < 3 ? "eager" : "lazy"}
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="flex flex-col flex-1">
+                  <span class="text-xl font-serif font-semibold lg:group-hover:underline line-clamp-2 text-pretty">
+                    {article.title}
+                  </span>
+                  <div class="flex items-center text-xs text-base-content/80 mt-2">
+                    <span class="text-xs text-primary/80">
+                      {article?.categories?.map((cate) => cate.name).join(",")}
+                    </span>
+                    {Number(article?.categories?.length) > 0 && <Divider />}
+                    <span class="text-xs text-base-content/80">
+                      {fRelativeTime(article?.created_at)}
+                    </span>
+                  </div>
+                  <p class="text-sm text-base-content/80 line-clamp-3 text-pretty lg:mb-auto m-0 mt-0">
+                    {article.meta_description}
+                  </p>
+                </div>
+              </a>
+            </article>
+          ))
+        }
+      </div>
+      <div class="divider"></div>
+
+      <h4 class="text-md font-semibold mb-2">Bài viết mới nhất</h4>
+      <div>
+        {
+          postRecents?.map((article, index) => (
+            <article class="flex">
+              <a
+                href={`/bai-viet/${article?.slug}`}
+                class="flex flex-col gap-2 h-full"
+              >
+                <div class="aspect-video overflow-hidden rounded-md">
+                  <img
+                    alt={article?.thumbnail?.slug}
+                    src={`${article?.thumbnail?.data}`}
+                    class="w-full h-full object-cover"
+                    loading={index < 3 ? "eager" : "lazy"}
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="flex flex-col flex-1">
+                  <span class="text-xl font-serif font-semibold lg:group-hover:underline line-clamp-2 text-pretty">
+                    {article.title}
+                  </span>
+                  <div class="flex items-center text-xs text-base-content/80 mt-2">
+                    <span class="text-xs text-primary/80">
+                      {article?.categories?.map((cate) => cate.name).join(",")}
+                    </span>
+                    {Number(article?.categories?.length) > 0 && <Divider />}
+                    <span class="text-xs text-base-content/80">
+                      {fRelativeTime(article?.created_at)}
+                    </span>
+                  </div>
+                  <p class="text-sm text-base-content/80 line-clamp-3 text-pretty lg:mb-auto m-0 mt-0">
+                    {article.meta_description}
+                  </p>
+                </div>
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
 </BaseLayout>

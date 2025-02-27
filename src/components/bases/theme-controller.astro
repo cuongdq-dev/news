@@ -4,13 +4,7 @@ import Sun from "~/assets/svgs/sun.astro";
 ---
 
 <label class="btn btn-ghost btn-circle swap swap-rotate" for="theme-controller">
-  <input
-    type="checkbox"
-    class="theme-controller"
-    value="dark"
-    name="theme-controller"
-    id="theme-controller"
-  />
+  <input type="checkbox" class="theme-controller" id="theme-controller" />
 
   <Sun />
   <Moon />
@@ -19,33 +13,41 @@ import Sun from "~/assets/svgs/sun.astro";
 </label>
 
 <script is:inline>
-  // Function to apply the initial theme and set the checkbox state
+  // Function to apply the initial theme
   function applyTheme() {
     const theme = localStorage.getItem("astro-theme") || "light"; // Default to light theme
-    const themeController = document.querySelector(".theme-controller");
+    const themeController = document.getElementById("theme-controller");
 
-    // Update the checkbox state and apply the theme
     if (theme === "dark") {
       themeController.checked = true;
       document.documentElement.setAttribute("data-theme", "dark");
+      document.documentElement.classList.add("dark");
     } else {
       themeController.checked = false;
       document.documentElement.setAttribute("data-theme", "light");
+      document.documentElement.classList.remove("dark");
     }
   }
 
-  // Add event listener to toggle theme when the checkbox is clicked
+  // Function to handle theme toggle
   function handleThemeToggle(event) {
     const isDark = event.target.checked;
     const newTheme = isDark ? "dark" : "light";
+
+    // Save to localStorage
     localStorage.setItem("astro-theme", newTheme);
+
+    // Apply theme to HTML
     document.documentElement.setAttribute("data-theme", newTheme);
+    document.documentElement.classList.toggle("dark", isDark);
   }
 
+  // Ensure theme is set on page load
   document.addEventListener("astro:page-load", () => {
     applyTheme();
-    const themeController = document.querySelector(".theme-controller");
-    themeController.addEventListener("change", handleThemeToggle);
+    document
+      .getElementById("theme-controller")
+      .addEventListener("change", handleThemeToggle);
   });
 
   // Apply theme immediately on script execution
