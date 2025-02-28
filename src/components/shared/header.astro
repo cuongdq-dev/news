@@ -25,12 +25,6 @@ import Navbar from "../elements/navbar.astro";
           clip-rule="evenodd"></path>
       </svg>
     </button>
-    <div
-      id="collapseMenu"
-      class="max-lg:hidden lg:!block max-lg:w-full max-lg:fixed max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50"
-    >
-      <Navbar />
-    </div>
 
     <div class="flex gap-4 ml-auto">
       <div
@@ -56,6 +50,7 @@ import Navbar from "../elements/navbar.astro";
       <ThemeController />
     </div>
   </div>
+
   <script is:inline>
     document.addEventListener("DOMContentLoaded", function () {
       const header = document.getElementById("header-component");
@@ -74,7 +69,7 @@ import Navbar from "../elements/navbar.astro";
           "duration-500",
           "ease-out"
         );
-      }, 300); // Delay hiệu ứng khi trang load
+      }, 300);
     });
 
     window.addEventListener("scroll", function () {
@@ -141,3 +136,10 @@ import Navbar from "../elements/navbar.astro";
     });
   </script>
 </header>
+
+<div
+  id="collapseMenu"
+  class="max-lg:hidden lg:!block max-lg:w-full max-lg:fixed max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50"
+>
+  <Navbar />
+</div>
