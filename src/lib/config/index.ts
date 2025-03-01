@@ -73,7 +73,7 @@ export const OTHER_LINKS: Link[] = [
     text: "RSS",
   },
   {
-    href: `${SITE.url}/sitemap-index.xml`,
+    href: `${SITE.url}/sitemap.xml`,
     text: "Sitemap",
   },
 ];
