@@ -1,3 +1,4 @@
 User-agent: *
-Allow: /
+Disallow:
+
 Sitemap: https://hottrending.asia/sitemap.xml
