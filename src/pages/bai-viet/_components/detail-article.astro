@@ -1,15 +1,27 @@
 ---
 import * as cheerio from "cheerio";
-import NewsCard from "~/components/cards/newsCard.astro";
+import Divider from "~/components/bases/divider.astro";
 import BaseLayout from "~/layouts/base.astro";
 import ContentLayout from "~/layouts/content.astro";
 import { getPostBySlug, getPostRecents, getPostRelates } from "~/lib/api/post";
-import ArticleHeader from "./article-header.astro";
-import Divider from "~/components/bases/divider.astro";
 import { fRelativeTime } from "~/lib/utils/format-time";
+import ArticleHeader from "./article-header.astro";
+import AdsenseSquare from "~/components/shared/adsense-square.astro";
 
 const { slug } = Astro.params;
 const detail = await getPostBySlug(slug!);
+const adsense = detail.data.sites && detail.data.sites[0];
+
+const slots =
+  adsense?.adsense_slots?.filter((slot) => slot.slot_type === "horizontal") ||
+  [];
+let slotIndex = 0;
+
+const getNextSlot = () => {
+  const slot = slots[slotIndex % slots.length];
+  slotIndex++;
+  return slot;
+};
 
 const processContent = () => {
   if (!detail?.data?.content) return "";
@@ -17,29 +29,56 @@ const processContent = () => {
   const title = detail?.data?.title;
 
   const $ = cheerio.load(content);
-  const allH1s = $("h1");
+  const allHeadings = $("h2");
+  const allParagraphs = $("p");
 
-  if (allH1s.length === 0) return $.html();
-
-  const firstH1 = allH1s.first();
-
-  if (firstH1.text().trim() === title.trim()) {
-    allH1s.remove();
-  } else {
-    firstH1.replaceWith(`<h2>${firstH1.html()}</h2>`);
-    allH1s.not(firstH1).remove();
-  }
+  $("h1").each((_, el) => {
+    if ($(el).text().trim() === title.trim()) {
+      $(el).remove();
+    } else {
+      $(el).replaceWith(`<h2>${$(el).html()}</h2>`);
+    }
+  });
 
   $("a").each((_, el) => {
-    const text = $(el).text(); // Lấy nội dung trong thẻ <a>
-    $(el).replaceWith(text); // Thay thế <a> bằng nội dung của nó
+    const text = $(el).text();
+    $(el).replaceWith(text);
   });
+
+  const insertAdAfter = (el: any) => {
+    const slot = getNextSlot();
+    const adsenseHtml = `
+      <div class="ad-container my-4 ${slot && adsense?.adsense_client ? "" : "hidden"}">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-${adsense?.adsense_client}"
+             data-ad-slot="${slot}"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+    `;
+    $(el).after(adsenseHtml);
+  };
+
+  allHeadings.each((_, el) => {
+    insertAdAfter(el);
+  });
+
+  if (allParagraphs.length > 0) {
+    insertAdAfter(allParagraphs.first());
+  }
+
+  if (allParagraphs.length > 1) {
+    insertAdAfter(allParagraphs.last());
+  }
 
   return $.html();
 };
 
 const content = processContent();
-
 const postRelates = await getPostRelates(slug!);
 const postRecents = await getPostRecents(slug!);
 ---
@@ -51,93 +90,172 @@ const postRecents = await getPostRecents(slug!);
       <ArticleHeader article={detail.data} />
       <ContentLayout>
         <slot set:html={content} />
+        <div class="w-full flex">
+          Nguồn: <a
+            href={detail.data?.article?.url}
+            target="_blank"
+            class="ml-2 text-blue-600 underline hover:text-blue-800 transition duration-200"
+            style={{ cursor: "pointer" }}
+          >
+            {detail?.data?.article?.source}</a
+          >
+        </div>
       </ContentLayout>
     </div>
 
     <!-- Right Column: Related Posts -->
     <div class="col-span-12 p-4 rounded-lg md:col-span-4 pt-6">
-      <h4 class="text-md font-semibold mb-2">Bài viết liên quan</h4>
-      <div>
-        {
-          postRelates?.map((article, index) => (
-            <article class="flex">
-              <a
-                href={`/bai-viet/${article?.slug}`}
-                class="flex flex-col gap-2 h-full"
-              >
-                <div class="aspect-video overflow-hidden rounded-md">
-                  <img
-                    alt={article?.thumbnail?.slug}
-                    src={`${article?.thumbnail?.data}`}
-                    class="w-full h-full object-cover"
-                    loading={index < 3 ? "eager" : "lazy"}
-                    class="w-full h-full object-cover"
-                  />
-                </div>
-                <div class="flex flex-col flex-1">
-                  <span class="text-xl font-serif font-semibold lg:group-hover:underline line-clamp-2 text-pretty">
-                    {article.title}
-                  </span>
-                  <div class="flex items-center text-xs text-base-content/80 mt-2">
-                    <span class="text-xs text-primary/80">
-                      {article?.categories?.map((cate) => cate.name).join(",")}
-                    </span>
-                    {Number(article?.categories?.length) > 0 && <Divider />}
-                    <span class="text-xs text-base-content/80">
-                      {fRelativeTime(article?.created_at)}
-                    </span>
-                  </div>
-                  <p class="text-sm text-base-content/80 line-clamp-3 text-pretty lg:mb-auto m-0 mt-0">
-                    {article.meta_description}
-                  </p>
-                </div>
-              </a>
-            </article>
-          ))
-        }
-      </div>
-      <div class="divider"></div>
+      {
+        postRelates.length > 0 && (
+          <>
+            <h4 class="text-md font-semibold mb-2">Bài viết liên quan</h4>
+            <div>
+              {postRelates?.map((article, index) => {
+                const pub =
+                  (article.sites && article.sites[0].adsense_client) || "";
+                const slots =
+                  (article.sites &&
+                    article.sites[0].adsense_slots?.filter(
+                      (slot) => slot.slot_type === "horizontal"
+                    )) ||
+                  [];
+                const slotIndex = Math.floor(index / 2) % slots.length;
+                const slot = slots[slotIndex];
 
-      <h4 class="text-md font-semibold mb-2">Bài viết mới nhất</h4>
-      <div>
-        {
-          postRecents?.map((article, index) => (
-            <article class="flex">
-              <a
-                href={`/bai-viet/${article?.slug}`}
-                class="flex flex-col gap-2 h-full"
-              >
-                <div class="aspect-video overflow-hidden rounded-md">
-                  <img
-                    alt={article?.thumbnail?.slug}
-                    src={`${article?.thumbnail?.data}`}
-                    class="w-full h-full object-cover"
-                    loading={index < 3 ? "eager" : "lazy"}
-                    class="w-full h-full object-cover"
-                  />
-                </div>
-                <div class="flex flex-col flex-1">
-                  <span class="text-xl font-serif font-semibold lg:group-hover:underline line-clamp-2 text-pretty">
-                    {article.title}
-                  </span>
-                  <div class="flex items-center text-xs text-base-content/80 mt-2">
-                    <span class="text-xs text-primary/80">
-                      {article?.categories?.map((cate) => cate.name).join(",")}
-                    </span>
-                    {Number(article?.categories?.length) > 0 && <Divider />}
-                    <span class="text-xs text-base-content/80">
-                      {fRelativeTime(article?.created_at)}
-                    </span>
-                  </div>
-                  <p class="text-sm text-base-content/80 line-clamp-3 text-pretty lg:mb-auto m-0 mt-0">
-                    {article.meta_description}
-                  </p>
-                </div>
-              </a>
-            </article>
-          ))
-        }
-      </div>
+                return (
+                  <>
+                    <article class="flex mt-10">
+                      <a
+                        href={`/bai-viet/${article?.slug}`}
+                        class="flex flex-col gap-2 h-full"
+                      >
+                        <div class="aspect-video overflow-hidden rounded-md">
+                          <img
+                            alt={article?.thumbnail?.slug}
+                            src={`${article?.thumbnail?.data}`}
+                            class="w-full h-full object-cover"
+                            loading={index < 3 ? "eager" : "lazy"}
+                            class="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div class="flex flex-col flex-1">
+                          <span class="text-xl font-serif font-semibold lg:group-hover:underline line-clamp-2 text-pretty">
+                            {article.title}
+                          </span>
+                          <div class="flex items-center text-xs text-base-content/80 mt-2">
+                            <span class="text-xs text-primary/80">
+                              {article?.categories
+                                ?.map((cate) => cate.name)
+                                .join(",")}
+                            </span>
+                            {Number(article?.categories?.length) > 0 && (
+                              <Divider />
+                            )}
+                            <span class="text-xs text-base-content/80">
+                              {fRelativeTime(article?.created_at)}
+                            </span>
+                          </div>
+                          <p class="text-sm text-base-content/80 line-clamp-3 text-pretty lg:mb-auto m-0 mt-0">
+                            {article.meta_description}
+                          </p>
+                        </div>
+                      </a>
+                    </article>
+                    {(index + 1) % 2 === 0 &&
+                      index + 1 < postRelates.length && (
+                        <article class="mt-10">
+                          <AdsenseSquare
+                            pub={pub}
+                            slot_adsense={{
+                              id: slot?.slot_id,
+                              name: slot?.slot_name,
+                            }}
+                          />
+                        </article>
+                      )}
+                  </>
+                );
+              })}
+            </div>
+            <div class="divider" />
+          </>
+        )
+      }
+
+      {
+        postRecents.length > 0 && (
+          <>
+            <h4 class="text-md font-semibold mb-2">Bài viết mới nhất</h4>
+            <div>
+              {postRecents?.map((article, index) => {
+                const pub =
+                  (article.sites && article.sites[0].adsense_client) || "";
+                const slots =
+                  (article.sites &&
+                    article.sites[0].adsense_slots?.filter(
+                      (slot) => slot.slot_type === "horizontal"
+                    )) ||
+                  [];
+                const slotIndex = Math.floor(index / 2) % slots.length;
+                const slot = slots[slotIndex];
+                return (
+                  <>
+                    <article class="flex mt-10">
+                      <a
+                        href={`/bai-viet/${article?.slug}`}
+                        class="flex flex-col gap-2 h-full"
+                      >
+                        <div class="aspect-video overflow-hidden rounded-md">
+                          <img
+                            alt={article?.thumbnail?.slug}
+                            src={`${article?.thumbnail?.data}`}
+                            class="w-full h-full object-cover"
+                            loading={index < 3 ? "eager" : "lazy"}
+                            class="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div class="flex flex-col flex-1">
+                          <span class="text-xl font-serif font-semibold lg:group-hover:underline line-clamp-2 text-pretty">
+                            {article.title}
+                          </span>
+                          <div class="flex items-center text-xs text-base-content/80 mt-2">
+                            <span class="text-xs text-primary/80">
+                              {article?.categories
+                                ?.map((cate) => cate.name)
+                                .join(",")}
+                            </span>
+                            {Number(article?.categories?.length) > 0 && (
+                              <Divider />
+                            )}
+                            <span class="text-xs text-base-content/80">
+                              {fRelativeTime(article?.created_at)}
+                            </span>
+                          </div>
+                          <p class="text-sm text-base-content/80 line-clamp-3 text-pretty lg:mb-auto m-0 mt-0">
+                            {article.meta_description}
+                          </p>
+                        </div>
+                      </a>
+                    </article>
+                    {(index + 1) % 2 === 0 &&
+                      index + 1 < postRecents.length && (
+                        <article class="mt-10">
+                          <AdsenseSquare
+                            pub={pub}
+                            slot_adsense={{
+                              id: slot?.slot_id,
+                              name: slot?.slot_name,
+                            }}
+                          />
+                        </article>
+                      )}
+                  </>
+                );
+              })}
+            </div>
+          </>
+        )
+      }
     </div>
   </div>
 </BaseLayout>

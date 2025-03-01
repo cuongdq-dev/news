@@ -1,9 +1,11 @@
 ---
 import { getEntry } from "astro:content";
 import WideCard from "~/components/cards/wideCard.astro";
+import AdsenseHorizontal from "~/components/shared/adsense-horizontal.astro";
 import PaginationOne from "~/components/shared/pagination-one.astro";
 import ListLayout from "~/layouts/list.astro";
 import { getPosts } from "~/lib/api/post";
+import type { ArticleItem } from "~/types";
 
 const { slug } = Astro.params;
 
@@ -27,12 +29,31 @@ const [HEADER] = entry.data.blocks;
   <section class="flex-1">
     <ul class="flex flex-col gap-4">
       {
-        articles?.map((article: any) => (
-          <WideCard
-            article={article}
-            isLast={articles.lastIndexOf(article) === articles.length - 1}
-          />
-        ))
+        articles?.map((article: ArticleItem, index: number) => {
+          const pub = (article.sites && article.sites[0].adsense_client) || "";
+          const slots =
+            (article.sites &&
+              article.sites[0].adsense_slots?.filter(
+                (slot) => slot.slot_type === "horizontal"
+              )) ||
+            [];
+          const slotIndex = Math.floor(index / 2) % slots.length;
+          const slot = slots[slotIndex];
+          return (
+            <>
+              <WideCard
+                article={article}
+                isLast={articles.lastIndexOf(article) === articles.length - 1}
+              />
+              {(index + 1) % 2 === 0 && index + 1 < articles.length && (
+                <AdsenseHorizontal
+                  pub={pub}
+                  slot_adsense={{ id: slot.slot_id, name: slot.slot_name }}
+                />
+              )}
+            </>
+          );
+        })
       }
     </ul>
   </section>

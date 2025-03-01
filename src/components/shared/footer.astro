@@ -1,18 +1,12 @@
 ---
 import Hashtag from "~/assets/svgs/hashtag.astro";
-import {
-  SITE,
-  NAVIGATION_LINKS,
-  SOCIAL_LINKS,
-  OTHER_LINKS,
-} from "~/lib/config";
-import Icon from "../bases/icon.astro";
+import { OTHER_LINKS, SITE } from "~/lib/config";
 import type { CategoryItem } from "~/types";
 
 const { categories } = Astro.props as { categories: CategoryItem[] };
 ---
 
-<footer class="footer border-t border-base-content py-6">
+<footer class="footer border-t border-base-content py-6 mt-5">
   <div class="container">
     <div class="flex flex-col gap-4">
       <aside class="flex items-center gap-2">

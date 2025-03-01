@@ -2,14 +2,15 @@
 import Head from "~/components/bases/head.astro";
 import Footer from "~/components/shared/footer.astro";
 import Header from "~/components/shared/header.astro";
-import { getCategory } from "~/lib/api/home";
+import { getCategory, getAdsense } from "~/lib/api/home";
 import { SITE } from "~/lib/config";
 const categories = await getCategory();
+const adsense = await getAdsense();
 ---
 
 <!doctype html>
 <html lang={SITE.locale}>
-  <Head />
+  <Head adsense={adsense} />
   <body class="flex flex-col">
     <Header categories={categories} />
     <main class="flex-1">

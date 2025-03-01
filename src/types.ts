@@ -56,9 +56,19 @@ export type ArticleItem = {
   content?: string;
   canonicalURL?: string;
   article?: { source?: string; url?: string };
+  sites?: AdsenseResponse[];
 };
 export type HomeResponse = {
   recentNews: ArticleItem[];
   featureNews: ArticleItem[];
   otherNews: ArticleItem[];
+};
+
+export type AdsenseResponse = {
+  adsense_client?: string;
+  adsense_slots?: {
+    slot_name: string;
+    slot_id: string;
+    slot_type: "horizontal" | "vertical" | "square";
+  }[];
 };
