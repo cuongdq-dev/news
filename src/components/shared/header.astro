@@ -111,7 +111,6 @@ const { categories } = Astro.props as { categories: CategoryItem[] };
 <script is:inline>
   document.addEventListener("DOMContentLoaded", function () {
     const header = document.getElementById("header-component");
-
     header.classList.add("opacity-0", "-translate-y-full");
 
     if (window.scrollY > 50) {
@@ -177,7 +176,12 @@ const { categories } = Astro.props as { categories: CategoryItem[] };
     const toggleOpen = document.getElementById("toggleOpen");
     const toggleClose = document.getElementById("toggleClose");
     const collapseMenu = document.getElementById("collapseMenu");
+    const menuLinks = collapseMenu?.querySelectorAll("a") || [];
 
+    menuLinks.forEach((link) => {
+      link.removeEventListener("click", toggleMenu);
+      link.addEventListener("click", toggleMenu);
+    });
     function toggleMenu() {
       if (collapseMenu) {
         collapseMenu.classList.toggle("hidden");
