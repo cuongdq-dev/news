@@ -182,8 +182,8 @@ const { categories } = Astro.props as { categories: CategoryItem[] };
 
     function toggleMenu() {
       if (collapseMenu) {
-        collapseMenu.classList.toggle("hidden"); // Ẩn/hiện menu
-        document.body.classList.toggle("overflow-hidden"); // Ngăn/bật lại cuộn
+        collapseMenu.classList.toggle("hidden");
+        document.body.classList.toggle("overflow-hidden");
       }
     }
 
@@ -195,7 +195,6 @@ const { categories } = Astro.props as { categories: CategoryItem[] };
       toggleClose.addEventListener("click", toggleMenu);
     }
 
-    // Đóng menu khi click bên ngoài
     document.addEventListener("click", function (event) {
       if (
         collapseMenu &&
@@ -209,9 +208,7 @@ const { categories } = Astro.props as { categories: CategoryItem[] };
     });
   }
 
-  // Chạy lại script khi trang load lần đầu
   document.addEventListener("DOMContentLoaded", setupMenuToggle);
 
-  // Chạy lại script sau khi Astro load trang mới
   document.addEventListener("astro:after-swap", setupMenuToggle);
 </script>

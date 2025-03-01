@@ -58,7 +58,6 @@ export type ArticleItem = {
   article?: { source?: string; url?: string };
 };
 export type HomeResponse = {
-  categories: CategoryItem[];
   recentNews: ArticleItem[];
   featureNews: ArticleItem[];
   otherNews: ArticleItem[];

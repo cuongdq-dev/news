@@ -144,9 +144,9 @@ export async function getPostRelates(slug: string): Promise<ArticleItem[]> {
     return [];
   }
 }
-export async function getPostRecents(): Promise<ArticleItem[]> {
+export async function getPostRecents(slug: string): Promise<ArticleItem[]> {
   try {
-    const response = await fetch(`${API_URL}/recent`, {
+    const response = await fetch(`${API_URL}/recent?post_slug=${slug}`, {
       headers: {
         Authorization: `Bearer ${AUTH_TOKEN}`,
         "Content-Type": "application/json",

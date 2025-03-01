@@ -41,7 +41,7 @@ const processContent = () => {
 const content = processContent();
 
 const postRelates = await getPostRelates(slug!);
-const postRecents = await getPostRecents();
+const postRecents = await getPostRecents(slug!);
 ---
 
 <BaseLayout>
