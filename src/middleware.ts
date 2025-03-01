@@ -31,6 +31,14 @@ async function getCachedData(
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = context.url.pathname;
 
+  if (
+    url.endsWith("sitemap.xml") ||
+    url.endsWith("rss.xml") ||
+    url.endsWith("robots.txt") ||
+    url.endsWith("ads.txt")
+  ) {
+    return next(); // Không cache, gọi API trực tiếp
+  }
   // **1️⃣ Check cache response trước**
   if (cache.has(url)) {
     const { data, expires } = cache.get(url);
