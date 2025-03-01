@@ -9,6 +9,7 @@
 
     cursor: default;
   }
+
   html {
     @apply h-full text-[16px];
   }
@@ -36,6 +37,7 @@
   .prose {
     pre {
       code {
+
         span,
         p {
           word-break: break-all;
@@ -49,4 +51,11 @@
   .a-01 {
     @apply hover:underline decoration-primary;
   }
+}
+
+
+/* styles.css */
+::view-transition-new(root),
+::view-transition-old(root) {
+  animation-duration: 0.5s;
 }

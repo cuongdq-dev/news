@@ -13,10 +13,13 @@ const pageNumber = Number(pageString?.split("-")[1]);
 const pathname = new URL(Astro.request.url).pathname.split("/");
 const firstPath = pathname[1];
 
-const response = await getPostsByCategory(Number(pageNumber), categorySlug!);
+const [response, entry] = await Promise.all([
+  getPostsByCategory(Number(pageNumber), categorySlug!),
+  getEntry("views", "categories"),
+]);
+
 const { data: articles, category, ...page } = response;
 
-const entry = await getEntry("views", "categories");
 if (!entry) {
   return Astro.redirect("/404");
 }

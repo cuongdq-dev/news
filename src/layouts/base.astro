@@ -2,10 +2,9 @@
 import Head from "~/components/bases/head.astro";
 import Footer from "~/components/shared/footer.astro";
 import Header from "~/components/shared/header.astro";
-import { getCategory, getAdsense } from "~/lib/api/home";
 import { SITE } from "~/lib/config";
-const categories = await getCategory();
-const adsense = await getAdsense();
+
+const { categories, adsense } = Astro.locals;
 ---
 
 <!doctype html>
@@ -13,9 +12,14 @@ const adsense = await getAdsense();
   <Head adsense={adsense} />
   <body class="flex flex-col">
     <Header categories={categories} />
+
     <main class="flex-1">
       <slot />
     </main>
+
     <Footer categories={categories} />
+    <script>
+      document.startViewTransition = document.startViewTransition || (() => {});
+    </script>
   </body>
 </html>

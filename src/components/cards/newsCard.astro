@@ -1,6 +1,5 @@
 ---
 import { fRelativeTime } from "~/lib/utils/format-time";
-import type { ArticleItem } from "~/types";
 import Divider from "../bases/divider.astro";
 
 type Props = {
@@ -12,7 +11,11 @@ const { article, index } = Astro.props;
 ---
 
 <article class="col-span-1 group max-w-sm mx-auto flex">
-  <a href={`/bai-viet/${article?.slug}`} class="flex flex-col gap-2 h-full">
+  <a
+    rel="preload"
+    href={`/bai-viet/${article?.slug}`}
+    class="flex flex-col gap-2 h-full"
+  >
     <div class="aspect-video overflow-hidden rounded-md">
       <img
         alt={article?.thumbnail?.slug}

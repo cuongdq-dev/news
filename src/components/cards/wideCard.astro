@@ -1,6 +1,5 @@
 ---
 import { getDateDistance } from "~/lib/utils/date";
-import type { ArticleItem } from "~/types";
 import Divider from "../bases/divider.astro";
 
 type Props = {
@@ -12,11 +11,11 @@ const { article, isLast } = Astro.props;
 ---
 
 <li class="group w-full  mx-auto lg:max-w-full">
-  <a href={`/bai-viet/${article?.slug}`} class="flex flex-col lg:flex-row gap-4">
+  <a rel="preload"  href={`/bai-viet/${article?.slug}`} class="flex flex-col lg:flex-row gap-4">
     <div
       class="flex-shrink-0 aspect-square w-32 text-sm text-base-content/60 text-pretty capitalize hidden lg:flex pt-1"
     >
-      {getDateDistance("2024-11-11T00:00:00.000Z")}
+      {getDateDistance(article.created_at)}
     </div>
     <div
       class:list={[

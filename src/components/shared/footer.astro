@@ -1,7 +1,6 @@
 ---
 import Hashtag from "~/assets/svgs/hashtag.astro";
 import { OTHER_LINKS, SITE } from "~/lib/config";
-import type { CategoryItem } from "~/types";
 
 const { categories } = Astro.props as { categories: CategoryItem[] };
 ---
@@ -24,11 +23,11 @@ const { categories } = Astro.props as { categories: CategoryItem[] };
       <nav
         class="flex flex-col gap-4 lg:flex-row lg:flex-wrap text-base lg:text-sm font-semibold"
       >
-        <a href="/" class="link link-hover">Trang Chủ</a>
-        <a href="/bai-viet" class="link link-hover">Bài Viết</a>
+        <a rel="preload" href="/" class="link link-hover">Trang Chủ</a>
+        <a rel="preload" href="/bai-viet" class="link link-hover">Bài Viết</a>
         {
           categories.map(({ name, slug, id }) => (
-            <a href={`/danh-mục/${slug}`} class="link link-hover">
+            <a rel="preload" href={`/danh-mục/${slug}`} class="link link-hover">
               {name}
             </a>
           ))

@@ -3,7 +3,6 @@ import Calendar04 from "~/assets/svgs/calendar-04.astro";
 import ResourcesAdd from "~/assets/svgs/resources-add.astro";
 import Divider from "~/components/bases/divider.astro";
 import { formatDate } from "~/lib/utils/date";
-import type { ArticleItem } from "~/types";
 
 type Props = {
   article: ArticleItem;
@@ -20,7 +19,11 @@ const { article } = Astro.props;
     {
       article?.categories?.map((cate) => {
         return (
-          <a href={`/danh-muc/${cate.slug}`} class="a-01 font-semibold">
+          <a
+            rel="preload"
+            href={`/danh-muc/${cate.slug}`}
+            class="a-01 font-semibold"
+          >
             {cate?.name}
           </a>
         );
@@ -38,7 +41,11 @@ const { article } = Astro.props;
           {
             article?.categories?.map((cate) => {
               return (
-                <a href={`/danh-muc/${cate.slug}`} class="a-01 font-semibold">
+                <a
+                  rel="preload"
+                  href={`/danh-muc/${cate.slug}`}
+                  class="a-01 font-semibold"
+                >
                   {cate?.name}
                 </a>
               );

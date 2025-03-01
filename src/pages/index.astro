@@ -1,10 +1,9 @@
 ---
 import BaseLayout from "~/layouts/base.astro";
-import { getHome } from "~/lib/api/home";
 import FeatureNews from "./_home/featureNews.astro";
 import Headlines from "./_home/headlines.astro";
 import OtherNews from "./_home/otherNews.astro";
-const home = await getHome();
+const { home } = Astro.locals;
 ---
 
 <BaseLayout>

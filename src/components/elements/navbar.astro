@@ -1,8 +1,7 @@
 ---
-import { getCategory } from "~/lib/api/home";
 import NavbarItem from "../bases/navbar-item.astro";
 
-const category = await getCategory();
+const { category } = Astro.props as { category: CategoryItem[] };
 ---
 
 <ul

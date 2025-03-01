@@ -5,18 +5,20 @@ import AdsenseHorizontal from "~/components/shared/adsense-horizontal.astro";
 import PaginationOne from "~/components/shared/pagination-one.astro";
 import ListLayout from "~/layouts/list.astro";
 import { getPosts } from "~/lib/api/post";
-import type { ArticleItem } from "~/types";
 
 const { slug } = Astro.params;
 
 const pageNumber = Number(slug?.split("-")[1]);
-const response = await getPosts(Number(pageNumber));
+
+const [response, entry] = await Promise.all([
+  getPosts(Number(pageNumber)),
+  getEntry("views", "articles"),
+]);
+
 const { data: articles, ...page } = response;
 
 const pathname = new URL(Astro.request.url).pathname.split("/");
 const firstPath = pathname[1];
-
-const entry = await getEntry("views", "articles");
 
 if (!entry) {
   return Astro.redirect("/404");

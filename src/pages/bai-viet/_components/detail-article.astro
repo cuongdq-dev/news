@@ -9,7 +9,12 @@ import ArticleHeader from "./article-header.astro";
 import AdsenseSquare from "~/components/shared/adsense-square.astro";
 
 const { slug } = Astro.params;
-const detail = await getPostBySlug(slug!);
+
+const [detail, postRelates, postRecents] = await Promise.all([
+  getPostBySlug(slug!),
+  getPostRelates(slug!),
+  getPostRecents(slug!),
+]);
 const adsense = detail.data.sites && detail.data.sites[0];
 
 const slots =
@@ -79,8 +84,6 @@ const processContent = () => {
 };
 
 const content = processContent();
-const postRelates = await getPostRelates(slug!);
-const postRecents = await getPostRecents(slug!);
 ---
 
 <BaseLayout>

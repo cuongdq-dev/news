@@ -1,5 +1,4 @@
 import type { Page } from "astro";
-import type { ArticleItem } from "~/types";
 
 const API_URL = import.meta.env.SITE_API_URL + "/news";
 const AUTH_TOKEN = import.meta.env.SITE_AUTH_TOKEN;

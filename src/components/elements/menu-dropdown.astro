@@ -17,8 +17,10 @@ import { NAVIGATION_LINKS, OTHER_LINKS } from "~/lib/config";
     tabindex="0"
     class="menu dropdown-content z-50 bg-base-100 rounded-box w-56 shadow"
   >
-    <li><a href="/" aria-label="Homepage">Trang Chủ</a></li>
-    <li><a href="/bai-viet" aria-label="Articles Page">Bài Viết</a></li>
+    <li><a rel="preload" href="/" aria-label="Homepage">Trang Chủ</a></li>
+    <li>
+      <a rel="preload" href="/bai-viet" aria-label="Articles Page">Bài Viết</a>
+    </li>
 
     <li>
       <details>
@@ -27,7 +29,12 @@ import { NAVIGATION_LINKS, OTHER_LINKS } from "~/lib/config";
           {
             NAVIGATION_LINKS.map(({ href, text, target }) => (
               <li>
-                <a href={href} target={target ?? "_self"} aria-label={text}>
+                <a
+                  rel="preload"
+                  href={href}
+                  target={target ?? "_self"}
+                  aria-label={text}
+                >
                   {text}
                 </a>
               </li>

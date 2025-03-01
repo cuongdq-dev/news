@@ -1,5 +1,3 @@
-import type { Favicon } from "~/types";
-
 export const defaultFavicons: Favicon[] = [
   {
     src: "/favicon/news_logo_32.png",
