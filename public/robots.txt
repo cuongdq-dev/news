@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: http://admin-api.ck-tech.asia/news/site-map?domain=news.hottrending.asia
+Sitemap: http://user-api.ck-tech.asia/news/site-map?domain=news.hottrending.asia
