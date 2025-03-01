@@ -1,9 +1,19 @@
 ---
+import Hashtag from "~/assets/svgs/hashtag.astro";
+import {
+  SITE,
+  NAVIGATION_LINKS,
+  SOCIAL_LINKS,
+  OTHER_LINKS,
+} from "~/lib/config";
+import Icon from "../bases/icon.astro";
+import type { CategoryItem } from "~/types";
 
+const { categories } = Astro.props as { categories: CategoryItem[] };
 ---
 
 <footer class="footer border-t border-base-content py-6">
-  <!-- <div class="container">
+  <div class="container">
     <div class="flex flex-col gap-4">
       <aside class="flex items-center gap-2">
         <Hashtag />
@@ -20,12 +30,12 @@
       <nav
         class="flex flex-col gap-4 lg:flex-row lg:flex-wrap text-base lg:text-sm font-semibold"
       >
-        <a href="/" class="link link-hover">Home</a>
-        <a href="/articles" class="link link-hover">Articles</a>
+        <a href="/" class="link link-hover">Trang Chủ</a>
+        <a href="/bai-viet" class="link link-hover">Bài Viết</a>
         {
-          NAVIGATION_LINKS.map(({ href, text, target }) => (
-            <a href={href} class="link link-hover" target={target ?? "_self"}>
-              {text}
+          categories.map(({ name, slug, id }) => (
+            <a href={`/danh-mục/${slug}`} class="link link-hover">
+              {name}
             </a>
           ))
         }
@@ -33,7 +43,7 @@
     </div>
     <div class="divider w-full h-1"></div>
     <div class="flex flex-col gap-4">
-      <nav>
+      <!-- <nav>
         <div class="flex gap-4">
           <p class="font-bold">Social Media:</p>
           <ul class="flex flex-wrap gap-4">
@@ -54,7 +64,7 @@
             }
           </ul>
         </div>
-      </nav>
+      </nav> -->
       <nav class="flex flex-wrap gap-4 text-xs mt-2">
         {
           OTHER_LINKS.map(({ href, text, target }) => (
@@ -66,5 +76,5 @@
         }
       </nav>
     </div>
-  </div> -->
+  </div>
 </footer>

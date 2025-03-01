@@ -15,6 +15,6 @@ const categories = await getCategory();
     <main class="flex-1">
       <slot />
     </main>
-    <Footer />
+    <Footer categories={categories} />
   </body>
 </html>
