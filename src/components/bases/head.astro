@@ -56,6 +56,8 @@ const structuredData = {
 
 const favicons: Favicon[] =
   SITE.favicon.length > 0 ? SITE.favicon : defaultFavicons;
+
+const googleSiteVerification = import.meta.env.SITE_GOOGLE_SITE_VERIFICATION;
 ---
 
 <head>
@@ -133,11 +135,12 @@ const favicons: Favicon[] =
     async
     src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-${adsense?.adsense_client}`}
     crossorigin="anonymous"></script>
-  <!-- {
+
+  {
     googleSiteVerification && (
       <meta name="google-site-verification" content={googleSiteVerification} />
     )
-  } -->
+  }
 
   <ClientRouter />
 </head>
