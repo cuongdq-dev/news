@@ -20,7 +20,7 @@ const { article } = Astro.props;
       article?.categories?.map((cate) => {
         return (
           <a
-            rel="preload"
+            rel="prefetch"
             href={`/danh-muc/${cate.slug}`}
             class="a-01 font-semibold"
           >
@@ -42,7 +42,7 @@ const { article } = Astro.props;
             article?.categories?.map((cate) => {
               return (
                 <a
-                  rel="preload"
+                  rel="prefetch"
                   href={`/danh-muc/${cate.slug}`}
                   class="a-01 font-semibold"
                 >

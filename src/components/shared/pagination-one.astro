@@ -43,7 +43,7 @@ const paginationList = Array.from(
         </span>
       ) : (
         <a
-          rel="preload"
+          rel="prefetch"
           href={`${firstUrl}/trang-1`}
           class="join-item btn btn-sm"
           aria-label="First page"
@@ -55,7 +55,7 @@ const paginationList = Array.from(
 
     {
       prevUrl ? (
-        <a rel="preload" href={prevUrl} class="join-item btn btn-sm">
+        <a rel="prefetch" href={prevUrl} class="join-item btn btn-sm">
           <ArrowLeft01 /> <span class="hidden lg:block">Previous</span>
         </a>
       ) : (
@@ -68,7 +68,7 @@ const paginationList = Array.from(
     {
       paginationList.map((num) => (
         <a
-          rel="preload"
+          rel="prefetch"
           href={`${firstUrl}/trang-${num}`}
           class={`join-item btn btn-sm ${currentPage == num ? "btn-active pointer-events-none" : ""}`}
         >
@@ -83,7 +83,7 @@ const paginationList = Array.from(
           <span class="hidden lg:block">Next</span> <ArrowRight01 />
         </span>
       ) : (
-        <a rel="preload" href={nextUrl} class="join-item btn btn-sm">
+        <a rel="prefetch" href={nextUrl} class="join-item btn btn-sm">
           <span class="hidden lg:block">Next</span> <ArrowRight01 />
         </a>
       )
@@ -96,7 +96,7 @@ const paginationList = Array.from(
         </span>
       ) : (
         <a
-          rel="preload"
+          rel="prefetch"
           href={lastUrl}
           class="join-item btn btn-sm"
           aria-label="Last page"

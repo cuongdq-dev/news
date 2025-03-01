@@ -16,7 +16,7 @@ const { articles } = Astro.props;
       articles?.map((article) => (
         <li class="col-span-1 group mx-auto max-w-xs">
           <a
-            rel="preload"
+            rel="prefetch"
             href={`/bai-viet/${article?.slug}`}
             class="flex flex-col gap-2"
           >

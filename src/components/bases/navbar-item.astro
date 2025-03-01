@@ -31,13 +31,13 @@ function formatHref(href: string) {
 
 <li
   class:list={[
-    "relative after:absolute after:-bottom-2 after:left-0 after:h-[2px] after:w-full after:transition-all after:duration-300 ",
+    "md:pt-0 pt-5 relative after:absolute after:-bottom-2 after:left-0 after:h-[2px] after:w-full after:transition-all after:duration-300 ",
     isActive(item, currentPath)
       ? "after:bg-base-content pointer-events-none font-bold"
       : "after:bg-transparent opacity-50 ",
   ]}
 >
-  <a rel="preload" href={formatHref(item.href!)} aria-label={item.name}
+  <a rel="prefetch" href={formatHref(item.href!)} aria-label={item.name}
     >{item.name}</a
   >
 </li>

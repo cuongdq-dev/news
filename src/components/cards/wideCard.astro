@@ -11,7 +11,7 @@ const { article, isLast } = Astro.props;
 ---
 
 <li class="group w-full  mx-auto lg:max-w-full">
-  <a rel="preload"  href={`/bai-viet/${article?.slug}`} class="flex flex-col lg:flex-row gap-4">
+  <a rel="prefetch" href={`/bai-viet/${article?.slug}`} class="flex flex-col lg:flex-row gap-4">
     <div
       class="flex-shrink-0 aspect-square w-32 text-sm text-base-content/60 text-pretty capitalize hidden lg:flex pt-1"
     >
