@@ -73,7 +73,7 @@ export const OTHER_LINKS: Link[] = [
     text: "RSS",
   },
   {
-    href: `http://user-api.ck-tech.asia/news/site-map?domain=hottrending.asia`,
+    href: `http://user-api.ck-tech.asia/news/sitemap?domain=hottrending.asia`,
     text: "Sitemap",
   },
 ];

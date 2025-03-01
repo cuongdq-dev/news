@@ -26,6 +26,23 @@ export type ListResponse = {
   };
 };
 
+export async function getSitemap(domain: string): Promise<string> {
+  try {
+    const response = await fetch(`${API_URL}/sitemap?domain=${domain}`, {
+      headers: {
+        Authorization: `Bearer ${AUTH_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+    return (await response.text()) as string;
+  } catch (error) {
+    console.log(error);
+    return "";
+  }
+}
+
 export async function getRss(): Promise<ArticleItem[]> {
   try {
     const response = await fetch(`${API_URL + "/rss"}`, {
