@@ -1,6 +1,7 @@
 ---
 import Divider from "~/components/bases/divider.astro";
 import { getDateDistance } from "~/lib/utils/date";
+import { base64ToWebP } from "~/lib/utils/imageProcessor";
 
 type Props = {
   article: ArticleItem;
@@ -8,6 +9,11 @@ type Props = {
   isLast?: boolean;
 };
 const { article, isLast, isFirst } = Astro.props;
+
+let thumbnailSrc = article?.thumbnail?.data || null;
+if (thumbnailSrc?.startsWith("data:image/")) {
+  thumbnailSrc = await base64ToWebP(thumbnailSrc.split(",")[1]); // Bỏ phần "data:image/png;base64,"
+}
 ---
 
 <article
@@ -45,11 +51,12 @@ const { article, isLast, isFirst } = Astro.props;
     <div class="overflow-hidden w-[165px] h-[125px] shrink-0">
       <img
         alt={article?.thumbnail?.slug}
-        src={`${article?.thumbnail?.data}`}
-        loading="eager"
+        src={thumbnailSrc}
+        loading={"lazy"}
         class="object-cover rounded w-full h-full"
         width={165}
         height={125}
+        decoding="async"
       />
     </div>
   </a>

@@ -1,6 +1,7 @@
 ---
 import { fRelativeTime } from "~/lib/utils/format-time";
 import Divider from "../bases/divider.astro";
+import { base64ToWebP } from "~/lib/utils/imageProcessor";
 
 type Props = {
   article: ArticleItem;
@@ -8,6 +9,10 @@ type Props = {
 };
 
 const { article, index } = Astro.props;
+let thumbnailSrc = article?.thumbnail?.data || null;
+if (thumbnailSrc?.startsWith("data:image/")) {
+  thumbnailSrc = await base64ToWebP(thumbnailSrc.split(",")[1]); // Bỏ phần "data:image/png;base64,"
+}
 ---
 
 <article class="col-span-1 group max-w-sm mx-auto flex">
@@ -17,13 +22,18 @@ const { article, index } = Astro.props;
     class="flex flex-col gap-2 h-full"
   >
     <div class="aspect-video overflow-hidden rounded-md">
-      <img
-        alt={article?.thumbnail?.slug}
-        src={`${article?.thumbnail?.data}`}
-        class="w-full h-full object-cover"
-        loading={index < 3 ? "eager" : "lazy"}
-        class="w-full h-full object-cover"
-      />
+      {
+        thumbnailSrc && (
+          <img
+            alt={article?.thumbnail?.slug}
+            src={thumbnailSrc}
+            class="w-full h-full object-cover"
+            loading={index < 3 ? "eager" : "lazy"}
+            class="w-full h-full object-cover"
+            decoding="async"
+          />
+        )
+      }
     </div>
     <div class="flex flex-col flex-1">
       <div class="flex items-center text-xs text-base-content/80 mt-2">

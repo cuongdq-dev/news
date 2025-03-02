@@ -7,6 +7,7 @@ import { getPostBySlug, getPostRecents, getPostRelates } from "~/lib/api/post";
 import { fRelativeTime } from "~/lib/utils/format-time";
 import ArticleHeader from "./article-header.astro";
 import AdsenseSquare from "~/components/shared/adsense-square.astro";
+import { base64ToWebP } from "~/lib/utils/imageProcessor";
 
 const { slug } = Astro.params;
 
@@ -113,7 +114,7 @@ const content = processContent();
           <>
             <h4 class="text-md font-semibold mb-2">Bài viết liên quan</h4>
             <div>
-              {postRelates?.map((article, index) => {
+              {postRelates?.map(async (article, index) => {
                 const pub =
                   (article.sites && article.sites[0].adsense_client) || "";
                 const slots =
@@ -125,6 +126,10 @@ const content = processContent();
                 const slotIndex = Math.floor(index / 2) % slots.length;
                 const slot = slots[slotIndex];
 
+                let thumbnailSrc = article?.thumbnail?.data || null;
+                if (thumbnailSrc?.startsWith("data:image/")) {
+                  thumbnailSrc = await base64ToWebP(thumbnailSrc.split(",")[1]); // Bỏ phần "data:image/png;base64,"
+                }
                 return (
                   <>
                     <article class="flex mt-10">
@@ -135,9 +140,10 @@ const content = processContent();
                         <div class="aspect-video overflow-hidden rounded-md">
                           <img
                             alt={article?.thumbnail?.slug}
-                            src={`${article?.thumbnail?.data}`}
+                            src={`${thumbnailSrc}`}
                             class="w-full h-full object-cover"
                             loading={index < 3 ? "eager" : "lazy"}
+                            decoding="async"
                             class="w-full h-full object-cover"
                           />
                         </div>
@@ -191,7 +197,7 @@ const content = processContent();
           <>
             <h4 class="text-md font-semibold mb-2">Bài viết mới nhất</h4>
             <div>
-              {postRecents?.map((article, index) => {
+              {postRecents?.map(async (article, index) => {
                 const pub =
                   (article.sites && article.sites[0].adsense_client) || "";
                 const slots =
@@ -202,6 +208,11 @@ const content = processContent();
                   [];
                 const slotIndex = Math.floor(index / 2) % slots.length;
                 const slot = slots[slotIndex];
+
+                let thumbnailSrc = article?.thumbnail?.data || null;
+                if (thumbnailSrc?.startsWith("data:image/")) {
+                  thumbnailSrc = await base64ToWebP(thumbnailSrc.split(",")[1]); // Bỏ phần "data:image/png;base64,"
+                }
                 return (
                   <>
                     <article class="flex mt-10">
@@ -212,9 +223,10 @@ const content = processContent();
                         <div class="aspect-video overflow-hidden rounded-md">
                           <img
                             alt={article?.thumbnail?.slug}
-                            src={`${article?.thumbnail?.data}`}
+                            src={`${thumbnailSrc}`}
                             class="w-full h-full object-cover"
                             loading={index < 3 ? "eager" : "lazy"}
+                            decoding="async"
                             class="w-full h-full object-cover"
                           />
                         </div>

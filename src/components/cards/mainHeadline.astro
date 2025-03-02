@@ -1,10 +1,16 @@
 ---
 import Divider from "~/components/bases/divider.astro";
 import { getDateDistance } from "~/lib/utils/date";
+import { base64ToWebP } from "~/lib/utils/imageProcessor";
 
 type Props = { article: ArticleItem };
 
 const { article } = Astro.props;
+
+let thumbnailSrc = article?.thumbnail?.data || null;
+if (thumbnailSrc?.startsWith("data:image/")) {
+  thumbnailSrc = await base64ToWebP(thumbnailSrc.split(",")[1]); // Bỏ phần "data:image/png;base64,"
+}
 ---
 
 <article class="group">
@@ -13,12 +19,17 @@ const { article } = Astro.props;
     class="flex flex-col-reverse md:flex-col gap-4"
   >
     <div class="aspect-video overflow-hidden rounded-md">
-      <img
-        class="object-cover rounded w-full h-full"
-        alt={article?.thumbnail?.slug}
-        src={`${article?.thumbnail?.data}`}
-        loading={"eager"}
-      />
+      {
+        thumbnailSrc && (
+          <img
+            class="object-cover rounded w-full h-full"
+            alt={article?.thumbnail?.slug}
+            src={thumbnailSrc}
+            loading={"lazy"}
+            decoding="async"
+          />
+        )
+      }
     </div>
     <div class="flex flex-col gap-2">
       <div>
