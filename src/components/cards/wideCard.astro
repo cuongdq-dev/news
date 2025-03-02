@@ -10,9 +10,12 @@ type Props = {
 
 const { article, isLast } = Astro.props;
 
-let thumbnailSrc = article?.thumbnail?.data || null;
-if (thumbnailSrc?.startsWith("data:image/")) {
-  thumbnailSrc = await base64ToWebP(thumbnailSrc.split(",")[1]); // Bỏ phần "data:image/png;base64,"
+let thumbnail = { src: article?.thumbnail?.data, width: 800, height: 600 };
+if (thumbnail.src?.startsWith("data:image/")) {
+  const processed = await base64ToWebP(thumbnail.src.split(",")[1]);
+  if (processed) {
+    thumbnail = processed;
+  }
 }
 ---
 
@@ -36,7 +39,9 @@ if (thumbnailSrc?.startsWith("data:image/")) {
       <div class="w-full lg:w-60 aspect-video">
         <img
           alt={article?.thumbnail?.slug}
-          src={thumbnailSrc}
+          src={thumbnail.src}
+          height={thumbnail.height}
+          width={thumbnail.width}
           loading={"lazy"}
           class="aspect-video rounded w-full h-full object-cover"
           decoding="async"

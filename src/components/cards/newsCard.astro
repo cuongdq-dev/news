@@ -9,9 +9,12 @@ type Props = {
 };
 
 const { article, index } = Astro.props;
-let thumbnailSrc = article?.thumbnail?.data || null;
-if (thumbnailSrc?.startsWith("data:image/")) {
-  thumbnailSrc = await base64ToWebP(thumbnailSrc.split(",")[1]); // Bỏ phần "data:image/png;base64,"
+let thumbnail = { src: article?.thumbnail?.data, width: 800, height: 600 };
+if (thumbnail.src?.startsWith("data:image/")) {
+  const processed = await base64ToWebP(thumbnail.src.split(",")[1]);
+  if (processed) {
+    thumbnail = processed;
+  }
 }
 ---
 
@@ -23,14 +26,16 @@ if (thumbnailSrc?.startsWith("data:image/")) {
   >
     <div class="aspect-video overflow-hidden rounded-md">
       {
-        thumbnailSrc && (
+        thumbnail && (
           <img
             alt={article?.thumbnail?.slug}
-            src={thumbnailSrc}
+            src={thumbnail.src}
             class="w-full h-full object-cover"
             loading={index < 3 ? "eager" : "lazy"}
             class="w-full h-full object-cover"
             decoding="async"
+            height={thumbnail.height}
+            width={thumbnail.width}
           />
         )
       }

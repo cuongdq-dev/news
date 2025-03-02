@@ -15,9 +15,16 @@ const { articles } = Astro.props;
   >
     {
       articles?.map(async (article) => {
-        let thumbnailSrc = article?.thumbnail?.data || null;
-        if (thumbnailSrc?.startsWith("data:image/")) {
-          thumbnailSrc = await base64ToWebP(thumbnailSrc.split(",")[1]); // Bỏ phần "data:image/png;base64,"
+        let thumbnail = {
+          src: article?.thumbnail?.data,
+          width: 800,
+          height: 600,
+        };
+        if (thumbnail.src?.startsWith("data:image/")) {
+          const processed = await base64ToWebP(thumbnail.src.split(",")[1]);
+          if (processed) {
+            thumbnail = processed;
+          }
         }
         return (
           <li class="col-span-1 group mx-auto max-w-xs">
@@ -30,7 +37,9 @@ const { articles } = Astro.props;
                 <img
                   class="w-full h-full object-cover filter grayscale group-hover:grayscale-0"
                   alt={article?.thumbnail?.slug}
-                  src={thumbnailSrc}
+                  src={thumbnail.src}
+                  width={thumbnail.width}
+                  height={thumbnail.height}
                   loading={"lazy"}
                   decoding="async"
                 />
