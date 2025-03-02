@@ -25,10 +25,9 @@ const { article, isLast, isFirst } = Astro.props;
             {article?.title}
           </h2>
           <p
+            set:html={article?.meta_description}
             class="text-sm text-base-content/80 text-balance md:line-clamp-2 lg:line-clamp-3"
-          >
-            {article?.meta_description}
-          </p>
+          />
         </div>
       </div>
       <div

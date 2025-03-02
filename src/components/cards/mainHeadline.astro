@@ -27,9 +27,10 @@ const { article } = Astro.props;
         >
           {article?.title}
         </h2>
-        <p class="text-base-content/90 text-base max-w-lg">
-          {article?.meta_description}
-        </p>
+        <p
+          set:html={article?.meta_description}
+          class="text-base-content/90 text-base max-w-lg"
+        />
       </div>
       <div class="flex items-center text-xs text-base-content/80 mt-2">
         <span class="text-primary"

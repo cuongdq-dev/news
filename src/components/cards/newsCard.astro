@@ -41,10 +41,9 @@ const { article, index } = Astro.props;
         {article.title}
       </h3>
       <p
+        set:html={article?.meta_description}
         class="text-sm text-base-content/80 line-clamp-3 text-pretty lg:mb-auto"
-      >
-        {article.meta_description}
-      </p>
+      />
     </div>
   </a>
 </article>

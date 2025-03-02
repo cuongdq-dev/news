@@ -10,10 +10,10 @@ const { categories, adsense } = Astro.locals;
 <!doctype html>
 <html lang={SITE.locale}>
   <Head adsense={adsense} />
-  <body class="flex flex-col">
+  <body>
     <Header categories={categories} />
 
-    <main class="flex-1">
+    <main>
       <slot />
     </main>
 

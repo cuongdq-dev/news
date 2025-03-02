@@ -10,8 +10,12 @@ type Props = {
 const { article, isLast } = Astro.props;
 ---
 
-<li class="group w-full  mx-auto lg:max-w-full">
-  <a rel="prefetch" href={`/bai-viet/${article?.slug}`} class="flex flex-col lg:flex-row gap-4">
+<li class="group w-full mx-auto lg:max-w-full">
+  <a
+    rel="prefetch"
+    href={`/bai-viet/${article?.slug}`}
+    class="flex flex-col lg:flex-row gap-4"
+  >
     <div
       class="flex-shrink-0 aspect-square w-32 text-sm text-base-content/60 text-pretty capitalize hidden lg:flex pt-1"
     >
@@ -35,9 +39,10 @@ const { article, isLast } = Astro.props;
         <h3 class="text-xl font-semibold lg:group-hover:underline">
           {article.title}
         </h3>
-        <p class="text-base-content/80 max-w-xl text-pretty">
-          {article.meta_description}
-        </p>
+        <p
+          set:html={article?.meta_description}
+          class="text-base-content/80 max-w-xl text-pretty"
+        />
       </div>
       <div class="text-sm lg:hidden flex item-center text-base-content/70 pt-2">
         <time
@@ -45,16 +50,20 @@ const { article, isLast } = Astro.props;
           datetime={String(article?.created_at)}
         >
           <span>
-            {getDateDistance("2024-11-11T00:00:00.000Z")}
+            {getDateDistance(article.created_at)}
           </span>
         </time>
         {
-          Number(article?.categories?.length)> 0 && <Divider />
-            <small class="flex items-center gap-1">
-              <span class="capitalize text-sm">
-                {article?.categories?.map((cate) => cate.name).join(", ")}
-              </span>
-            </small>
+          Number(article?.categories?.length) > 0 && (
+            <>
+              <Divider />
+              <small class="flex items-center gap-1">
+                <span class="capitalize text-sm">
+                  {article?.categories?.map((cate) => cate.name).join(", ")}
+                </span>
+              </small>
+            </>
+          )
         }
       </div>
     </div>

@@ -158,9 +158,10 @@ const content = processContent();
                               {fRelativeTime(article?.created_at)}
                             </span>
                           </div>
-                          <p class="text-sm text-base-content/80 line-clamp-3 text-pretty lg:mb-auto m-0 mt-0">
-                            {article.meta_description}
-                          </p>
+                          <p
+                            set:html={article?.meta_description}
+                            class="text-sm text-base-content/80 line-clamp-3 text-pretty lg:mb-auto m-0 mt-0"
+                          />
                         </div>
                       </a>
                     </article>
@@ -234,9 +235,10 @@ const content = processContent();
                               {fRelativeTime(article?.created_at)}
                             </span>
                           </div>
-                          <p class="text-sm text-base-content/80 line-clamp-3 text-pretty lg:mb-auto m-0 mt-0">
-                            {article.meta_description}
-                          </p>
+                          <p
+                            set:html={article?.meta_description}
+                            class="text-sm text-base-content/80 line-clamp-3 text-pretty lg:mb-auto m-0 mt-0"
+                          />
                         </div>
                       </a>
                     </article>
