@@ -73,7 +73,7 @@ export const OTHER_LINKS: Link[] = [
     text: "RSS",
   },
   {
-    href: `https://hottrending.asian/sitemap.xml`,
+    href: `${SITE.url}/sitemap.xml`,
     text: "Sitemap",
   },
 ];
