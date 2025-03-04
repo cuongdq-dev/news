@@ -32,8 +32,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const url = context.url.pathname;
 
   if (
-    url.endsWith("sitemap.xml") ||
-    url.endsWith("rss.xml") ||
+    url.includes("xml") ||
+    url.includes("sitemap") ||
     url.endsWith("robots.txt") ||
     url.endsWith("ads.txt")
   ) {
