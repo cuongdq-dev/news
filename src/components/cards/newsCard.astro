@@ -19,11 +19,7 @@ if (thumbnail.src?.startsWith("data:image/")) {
 ---
 
 <article class="col-span-1 group max-w-sm mx-auto flex">
-  <a
-    rel="prefetch"
-    href={`/bai-viet/${article?.slug}`}
-    class="flex flex-col gap-2 h-full"
-  >
+  <a href={`/bai-viet/${article?.slug}`} class="flex flex-col gap-2 h-full">
     <div class="aspect-video overflow-hidden rounded-md">
       {
         thumbnail && (
