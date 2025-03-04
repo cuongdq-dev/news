@@ -4,9 +4,6 @@ export async function GET() {
   const pages = [
     { loc: `${SITE.url}/`, priority: "1.0", changefreq: "daily" },
     { loc: `${SITE.url}/bai-viet`, priority: "0.9", changefreq: "daily" },
-    // { loc: `${SITE.url}/danh-muc`, priority: "0.9", changefreq: "weekly" },
-    // { loc: `${SITE.url}/lien-he`, priority: "0.7", changefreq: "monthly" }, // Nếu có
-    // { loc: `${SITE.url}/about`, priority: "0.7", changefreq: "monthly" }, // Nếu có
   ];
 
   const sitemapContent = pages
