@@ -8,6 +8,7 @@ import { fRelativeTime } from "~/lib/utils/format-time";
 import ArticleHeader from "./article-header.astro";
 import AdsenseSquare from "~/components/shared/adsense-square.astro";
 import { base64ToWebP } from "~/lib/utils/imageProcessor";
+import TagList from "~/components/elements/tag-list.astro";
 
 const { slug } = Astro.params;
 
@@ -92,6 +93,7 @@ const content = processContent();
     <!-- Left Column: Article Content -->
     <div class="col-span-12 md:col-span-8">
       <ArticleHeader article={detail.data} />
+
       <ContentLayout>
         <slot set:html={content} />
         <div class="w-full flex">
@@ -104,6 +106,7 @@ const content = processContent();
             {detail?.data?.article?.source}</a
           >
         </div>
+        <TagList tags={detail.data.relatedQueries} />
       </ContentLayout>
     </div>
 

@@ -1,0 +1,20 @@
+---
+type Props = {
+  tags?: { query?: string; slug?: string }[];
+};
+
+const { tags } = Astro.props;
+---
+
+<div class="mt-5 mb-5 flex flex-wrap gap-2">
+  {
+    tags?.slice(0, 5).map((tag) => (
+      <a
+        href={`/tags/${tag?.slug}`}
+        class="px-3 py-1 text-sm font-medium text-blue-600 bg-blue-100 rounded-full hover:bg-blue-200 transition"
+      >
+        #{tag?.query}
+      </a>
+    ))
+  }
+</div>

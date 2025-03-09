@@ -1,0 +1,49 @@
+---
+import ListLayout from "~/layouts/list.astro";
+
+import { getEntry } from "astro:content";
+import WideCard from "~/components/cards/wideCard.astro";
+import { getPostsByTags } from "~/lib/api/post";
+import PaginationOne from "~/components/shared/pagination-one.astro";
+
+const { tag: tagSlug, slug: pageString } = Astro.params;
+const pageNumber = Number(pageString?.split("-")[1]);
+
+const pathname = new URL(Astro.request.url).pathname.split("/");
+const firstPath = pathname[1];
+
+const [response, entry] = await Promise.all([
+  getPostsByTags(Number(pageNumber), tagSlug!),
+  getEntry("views", "tags"),
+]);
+
+const { data: articles, tag, ...page } = response;
+if (!entry) {
+  return Astro.redirect("/404");
+}
+---
+
+<ListLayout header={tag?.query!} entry={entry}>
+  <ul class="flex flex-col gap-2 flex-1">
+    {
+      articles?.map((article: any) => (
+        <li>
+          <WideCard
+            article={article}
+            isLast={articles?.lastIndexOf(article) === articles?.length - 1}
+          />
+        </li>
+      ))
+    }
+  </ul>
+
+  <PaginationOne
+    length={page?.lastPage}
+    currentUrl={page?.url?.current}
+    currentPage={page?.currentPage}
+    firstUrl={`/${firstPath}/${tagSlug}`}
+    prevUrl={page?.url?.prev}
+    nextUrl={page?.url?.next}
+    lastUrl={`/${firstPath}/${tagSlug}/trang-${page?.lastPage}`}
+  />
+</ListLayout>

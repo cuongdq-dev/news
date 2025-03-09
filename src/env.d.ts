@@ -9,6 +9,12 @@ declare global {
 
   const socialIcons: Record<string, unknown>;
 
+  type TagItem = {
+    query?: string;
+    slug?: string;
+    count?: number;
+  };
+
   type Site = {
     website: string;
     author: string;
@@ -57,6 +63,7 @@ declare global {
     id: string;
     title: string;
     meta_description: string;
+    relatedQueries?: { query?: string; slug?: string }[];
     created_at: string;
     slug: string;
     status: string;
@@ -80,6 +87,25 @@ declare global {
       slot_id: string;
       slot_type: "horizontal" | "vertical" | "square";
     }[];
+  };
+
+  type ListResponse = {
+    category?: CategoryItem;
+    tag?: { query?: string; slug?: string };
+    data: ArticleItem[];
+    meta: {
+      itemsPerPage: number;
+      totalItems: number;
+      currentPage: number;
+      totalPages: number;
+    };
+    links: {
+      first?: string;
+      previous?: string;
+      current: string;
+      next?: string;
+      last?: string;
+    };
   };
 }
 

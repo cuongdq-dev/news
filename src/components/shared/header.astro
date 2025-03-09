@@ -34,7 +34,9 @@ const { categories } = Astro.props as { categories: CategoryItem[] };
       <ul
         class="lg:flex lg:gap-x-5 max-lg:space-y-3 max-lg:fixed max-lg:bg-base-200 max-lg:text-base max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50 bg-base-80"
       >
-        <NavbarItem item={{ href: "/", name: "Trang Chủ" }} />
+        <NavbarItem
+          item={{ href: "/", name: "Trang Chủ", slug: "trang-chu" }}
+        />
         <NavbarItem
           item={{ href: "/bai-viet", name: "Bài Viết", slug: "bai-viet" }}
         />
@@ -43,11 +45,13 @@ const { categories } = Astro.props as { categories: CategoryItem[] };
             <NavbarItem item={{ ...item, href: `/danh-muc/${item.slug}` }} />
           ))
         }
+
+        <NavbarItem item={{ href: "/tags", name: "Tags", slug: "tags" }} />
       </ul>
     </div>
 
     <div class="flex gap-4 ml-auto">
-      <div
+      <!-- <div
         class="flex max-w-xs w-full px-4 py-2 rounded outline outline-transparent border focus-within:border-blue-600 focus-within:bg-transparent transition-all"
       >
         <input
@@ -66,7 +70,7 @@ const { categories } = Astro.props as { categories: CategoryItem[] };
           >
           </path>
         </svg>
-      </div>
+      </div> -->
       <ThemeController />
     </div>
   </div>
@@ -96,7 +100,7 @@ const { categories } = Astro.props as { categories: CategoryItem[] };
           data-original="#000000"></path>
       </svg>
     </button>
-    <NavbarItem item={{ href: "/", name: "Trang Chủ" }} />
+    <NavbarItem item={{ href: "/", name: "Trang Chủ", slug: "trang-chu" }} />
     <NavbarItem
       item={{ href: "/bai-viet", name: "Bài Viết", slug: "bai-viet" }}
     />

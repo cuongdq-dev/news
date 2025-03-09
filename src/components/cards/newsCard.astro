@@ -2,6 +2,7 @@
 import { fRelativeTime } from "~/lib/utils/format-time";
 import Divider from "../bases/divider.astro";
 import { base64ToWebP } from "~/lib/utils/imageProcessor";
+import TagList from "../elements/tag-list.astro";
 
 type Props = {
   article: ArticleItem;
@@ -46,6 +47,7 @@ if (thumbnail.src?.startsWith("data:image/")) {
           >{fRelativeTime(article?.created_at)}</span
         >
       </div>
+
       <h3
         class="text-xl font-serif font-semibold lg:group-hover:underline line-clamp-2"
       >

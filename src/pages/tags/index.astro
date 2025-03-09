@@ -1,0 +1,100 @@
+---
+import BaseLayout from "~/layouts/base.astro";
+import { getTags } from "~/lib/api/post";
+
+const tags = await getTags();
+
+const top15 = tags.slice(0, 15);
+const top10 = tags.slice(15, 25);
+const top5 = tags.slice(25, 30);
+const remaining = tags.slice(30);
+
+const getTagClass = (group: string) => {
+  switch (group) {
+    case "top15":
+      return "bg-red-500 text-white"; // 🔥 Rất phổ biến
+    case "top10":
+      return "bg-orange-400 text-white"; // ⭐ Phổ biến
+    case "top5":
+      return "bg-yellow-300 text-black"; // 📌 Trung bình
+    default:
+      return "bg-gray-200 text-black"; // 📎 Ít phổ biến
+  }
+};
+---
+
+<BaseLayout>
+  <div class="container mx-auto px-6 py-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">📌 Danh sách Tags</h1>
+
+    <div class="space-y-6">
+      <div>
+        <h2 class="text-xl font-semibold mb-4">🔥 Nổi bật nhất</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {
+            top15.map((tag) => (
+              <a
+                href={`/tags/${tag.slug}`}
+                class={`block p-4 rounded-lg shadow-sm ${getTagClass("top15")} hover:scale-105 transition transform`}
+              >
+                <p class="font-semibold">#{tag.query}</p>
+                <p class="text-xs opacity-80">Xuất hiện {tag.count} lần</p>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold mb-4">⭐ Phổ biến</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {
+            top10.map((tag) => (
+              <a
+                href={`/tags/${tag.slug}`}
+                class={`block p-4 rounded-lg shadow-sm ${getTagClass("top10")} hover:scale-105 transition transform`}
+              >
+                <p class="font-semibold">#{tag.query}</p>
+                <p class="text-xs opacity-80">Xuất hiện {tag.count} lần</p>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold mb-4">📌 Trung bình</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {
+            top5.map((tag) => (
+              <a
+                href={`/tags/${tag.slug}`}
+                class={`block p-4 rounded-lg shadow-sm ${getTagClass("top5")} hover:scale-105 transition transform`}
+              >
+                <p class="font-semibold">#{tag.query}</p>
+                <p class="text-xs opacity-80">Xuất hiện {tag.count} lần</p>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold mb-4">📎 Các tags khác</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {
+            remaining.map((tag) => (
+              <a
+                href={`/tags/${tag.slug}`}
+                class={`block p-4 rounded-lg shadow-sm ${getTagClass("remaining")} hover:scale-105 transition transform`}
+              >
+                <p class="font-semibold">#{tag.query}</p>
+                <p class="text-xs opacity-80">Xuất hiện {tag.count} lần</p>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

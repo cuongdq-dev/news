@@ -11,21 +11,28 @@ const currentPath = Astro.url.pathname;
 const { item } = Astro.props;
 
 function isActive(item: Item, currentPath: string) {
-  const segment = currentPath.split("/")[2]?.split("-")[1];
+  // const segment = currentPath.split("/")[2]?.split("-")[1];
 
-  return (
-    (item.name === "Trang Chủ" && currentPath === "/") ||
-    (item.name === "Bài Viết" &&
-      segment !== undefined &&
-      !isNaN(Number(segment)) &&
-      Number(segment) >= 1) ||
-    (item.name !== "Bài Viết" &&
-      currentPath.split("/").includes(item?.slug?.toLocaleLowerCase()!))
-  );
+  switch (item.slug) {
+    case "trang-chu":
+      return currentPath == "/";
+
+    default:
+      return currentPath.split("/").includes(item?.slug?.toLocaleLowerCase()!);
+  }
 }
 
 function formatHref(href: string) {
-  return href === "/" ? "/" : `${href}/trang-1`;
+  switch (href) {
+    case "/":
+      return "/";
+
+    case "/tags":
+      return "/tags";
+
+    default:
+      return `${href}/trang-1`;
+  }
 }
 ---
 
