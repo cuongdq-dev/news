@@ -1,101 +1,73 @@
 ---
-title: "About"
-description: "Learn about the author, his background, and his interests."
+title: "Về chúng tôi"
+description: "Nơi cập nhật tin tức nóng hổi, chính xác và nhanh nhất mỗi ngày."
 blocks:
   - name: "ABOUT"
-    title: "About us"
+    title: "Chào mừng đến với {SITE.title}"
 ---
-import screenshot from '../../assets/images/screenshot-astronews.png';
-import { Image } from 'astro:assets';
 
+import screenshot from "../../assets/images/screenshot-astronews.png";
+import { SITE } from "./src/lib/config";
+import { Image } from "astro:assets";
 
-# Astro News 📰
+# ⚡ {SITE.title} - Tin Tức Nóng Hổi, Cập Nhật Liên Tục
 
-A news website built with Astro, designed to provide a modern and responsive news reading experience.
+{SITE.title} là trang tin tức hàng đầu chuyên cập nhật **sự kiện nóng**, **tin tức mới nhất** từ khắp nơi trên thế giới. Với đội ngũ biên tập viên chuyên nghiệp và hệ thống cập nhật tự động, chúng tôi cam kết mang đến thông tin nhanh nhất, chính xác nhất đến độc giả.
 
-> **ℹ️ Info**  
-> Astro news is my first open-source project, so there may be some bugs or issues. I’ll address them as quickly as possible.
+> **🚀 Tốc độ - Chính Xác - Tin Cậy**  
+> Tất cả tin tức đều được cập nhật theo thời gian thực, giúp bạn không bỏ lỡ bất kỳ sự kiện quan trọng nào!
 
-<Image src={screenshot} alt="Astro News" layout="responsive" class="rounded-lg shadow-xl" />
+<Image
+  src={screenshot}
+  alt="Trang tin tức"
+  layout="responsive"
+  class="rounded-lg shadow-xl"
+/>
 
-## 🌐 Demo
+## 🌎 Tin tức cập nhật liên tục
 
-Explore the live demo here: [**Live Demo**](https://astro-news-six.vercel.app/)
+- 📰 **Tin nóng**: Những sự kiện quan trọng trong nước & quốc tế.
+- 📊 **Kinh doanh & tài chính**: Thị trường chứng khoán, giá vàng, crypto, bất động sản.
+- ⚽ **Thể thao**: Kết quả bóng đá, lịch thi đấu, tin chuyển nhượng.
+- 🎬 **Giải trí & Showbiz**: Tin tức sao Việt, quốc tế, các sự kiện âm nhạc, điện ảnh.
+- 🔬 **Công nghệ**: Những phát minh mới, AI, startup, điện thoại, máy tính.
+- 🚨 **Pháp luật & xã hội**: Những vụ án đáng chú ý, thông tin giao thông, thời tiết.
 
-## 🚀 Installation
+## 🎯 Sứ mệnh của chúng tôi
 
-Follow the steps below to set up and run the project locally:
+🔹 Cập nhật **tin tức nhanh nhất**, không để bạn bỏ lỡ bất kỳ sự kiện nào.  
+🔹 Đưa tin **chính xác, minh bạch**, nói không với tin giả.  
+🔹 Giao diện **thân thiện, dễ sử dụng**, tối ưu trải nghiệm người đọc.
 
-### Clone the Repository
+## 📌 Tính năng nổi bật
 
-```bash
-git clone https://github.com/Mrahmani71/astro-news.git
-```
+### ✅ Hiện có:
 
-### Install Dependencies
+🚀 Cập nhật tin tức tự động theo thời gian thực.  
+🌙 Giao diện **Dark Mode** giúp đọc báo ban đêm thoải mái.  
+📌 Lưu lại các bài viết yêu thích để xem sau.  
+🔍 Tìm kiếm thông tin nhanh chóng, chính xác.  
+📢 Thông báo tin nóng ngay khi có sự kiện quan trọng.  
+📡 Hỗ trợ **RSS Feed** để đọc tin nhanh hơn.
 
-```bash
-bun install
-```
+### 🚀 Sắp có:
 
-### Run Development Server
+📌 Chia sẻ tin tức nhanh chóng lên mạng xã hội.  
+👥 Tính năng **bình luận & thảo luận** ngay dưới bài viết.  
+🔔 Cá nhân hóa nội dung theo sở thích người đọc.
 
-```bash
-bun dev
-```
+## 💻 Công nghệ sử dụng
 
-## ✨ Features
+{SITE.title} được xây dựng trên nền tảng công nghệ hiện đại, giúp tối ưu tốc độ tải trang và trải nghiệm người dùng:
 
-### Implemented Features
+- **[Astro](https://astro.build/)** - Tối ưu hiệu suất, siêu nhanh
+- **[Tailwind CSS](https://tailwindcss.com/)** - Giao diện đẹp, mượt mà
+- **[TypeScript](https://www.typescriptlang.org/)** - Tối ưu mã nguồn
 
-- Content Layer
-- Navigation
-- Responsive Design
-- Pagination
-- Search Functionality
-- RSS Feed
-- Sitemap
-- Dark Mode
-- SEO Optimization (~)
+## 📣 Hợp tác & Đóng góp
 
-### Upcoming Features
+Bạn có thể trở thành một phần của {SITE.title}! Chúng tôi luôn chào đón các **cộng tác viên**, **đối tác nội dung** hoặc bất kỳ ai có niềm đam mê với tin tức.
 
-- Sharing Options
-- Keystatic CMS
-- Open Graph (OG) Image Generation
+---
 
-## 💻 Technologies
-
-This project leverages cutting-edge web technologies:
-
-- [Astro V5.0](https://astro.build/) - Modern static site builder
-- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
-- [DaisyUI](https://daisyui.com/) - Tailwind CSS component library
-- [TypeScript](https://www.typescriptlang.org/) - Typed JavaScript
-- [MDX](https://mdxjs.com/) - Markdown with JSX support
-- [Bun V1.3.8](https://bun.sh/) - Fast JavaScript runtime
-- [Vercel](https://vercel.com/) - Deployment platform
-- [HugeIcons](https://hugeicons.com/) - Icon library
-
-## 💡  Inspirations and Code Concepts
-
-This project draws inspiration from the following sources:
-
-### Designs
-
-- [BBC News](https://www.bbc.com)
-- [NewsHub - News Website](https://dribbble.com/shots/21678041-NewsHub-News-Website)
-- [Let'sread - News Landing Page](https://dribbble.com/shots/24675325-Let-sread-News-Landing-Page)
-
-### Articles
-
-- [Creating A Pagination Component With Astro](https://rimdev.io/creating-a-pagination-component-with-astro)
-- [Adding search to static Astro sites](https://website-thomas-astro.vercel.app/blog/search-static-astro-website)
-
-## 📄 License
-
-Open sourced under the [MIT license](LICENSE).
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Mrahmani71/astro-news/issues).
+📢 **Cùng nhau mang đến những tin tức nhanh nhất, chính xác nhất!** 🚀

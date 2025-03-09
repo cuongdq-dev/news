@@ -3,7 +3,7 @@ import ContentLayout from "~/layouts/content.astro";
 import BaseLayout from "~/layouts/base.astro";
 import { getEntry, render } from "astro:content";
 
-const entry = await getEntry("views", "about");
+const entry = await getEntry("views", "privacy");
 
 if (!entry) {
   return Astro.redirect("/404");

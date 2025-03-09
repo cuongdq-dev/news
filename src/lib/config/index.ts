@@ -44,26 +44,22 @@ export const NAVIGATION_LINKS: Link[] = [
 ];
 
 export const OTHER_LINKS: Link[] = [
-  // {
-  //   href: "/about",
-  //   text: "About us",
-  // },
-  // {
-  //   href: "/authors",
-  //   text: "Authors",
-  // },
-  // {
-  //   href: "/contact",
-  //   text: "Contact",
-  // },
-  // {
-  //   href: "/privacy",
-  //   text: "Privacy",
-  // },
-  // {
-  //   href: "/terms",
-  //   text: "Terms",
-  // },
+  {
+    href: "/about",
+    text: "About us",
+  },
+  {
+    href: "/contact",
+    text: "Contact",
+  },
+  {
+    href: "/privacy",
+    text: "Privacy",
+  },
+  {
+    href: "/terms",
+    text: "Terms",
+  },
   // {
   //   href: "/cookie-policy",
   //   text: "Cookie Policy",
