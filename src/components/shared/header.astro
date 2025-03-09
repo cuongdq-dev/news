@@ -2,7 +2,13 @@
 import NavbarItem from "../bases/navbar-item.astro";
 import ThemeController from "../bases/theme-controller.astro";
 
-const { categories } = Astro.props as { categories: CategoryItem[] };
+const { categories: categoriesProps } = Astro.props as {
+  categories: CategoryItem[];
+};
+
+const categories = categoriesProps.filter(
+  (category) => Number(category.postCount) > 0
+);
 ---
 
 <header
