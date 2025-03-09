@@ -2,11 +2,10 @@
 import { LOCALE, SITE } from "@config";
 import { defaultFavicons } from "@constants/icon";
 import "@styles/base.css";
-import { ViewTransitions } from "astro:transitions";
 import type { Favicon } from "types/config";
-import { url } from '../utils/url-utils'
+import { url } from '../utils/url-utils';
 
-const googleSiteVerification = import.meta.env.SITE_GOOGLE_SITE_VERIFICATION;
+// const googleSiteVerification = import.meta.env.SITE_GOOGLE_SITE_VERIFICATION;
 
 export interface Props {
   title?: string;
@@ -55,6 +54,7 @@ const structuredData = {
 
 const favicons: Favicon[] =
   SITE.favicon.length > 0 ? SITE.favicon : defaultFavicons
+
 ---
 
 <!doctype html>
@@ -136,18 +136,18 @@ const favicons: Favicon[] =
       // If PUBLIC_GOOGLE_SITE_VERIFICATION is set in the environment variable,
       // include google-site-verification tag in the heading
       // Learn more: https://support.google.com/webmasters/answer/9008080#meta_tag_verification&zippy=%2Chtml-tag
-      googleSiteVerification && (
-        <meta
-          name="google-site-verification"
-          content={googleSiteVerification}
-        />
-      )
+      // googleSiteVerification && (
+      //   <meta
+      //     name="google-site-verification"
+      //     content={googleSiteVerification}
+      //   />
+      // )
     }
 
-    <ViewTransitions />
 
     <script is:inline src="/toggle-theme.js" async></script>
   </head>
+  
   <body>
     <slot />
   </body>
