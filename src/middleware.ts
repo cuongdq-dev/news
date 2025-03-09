@@ -4,8 +4,8 @@ import { getAdsense, getCategory, getHome } from "./lib/api/home";
 const cache = new Map();
 
 const CACHE_DURATION = {
-  home: 5 * 60 * 1000, // 5 phút
-  categories: 10 * 60 * 1000, // 10 phút
+  home: 120 * 1000, // 5 phút
+  categories: 120 * 1000, // 10 phút
   adsense: 30 * 60 * 1000, // 30 phút
   page: 60 * 1000, // Cache toàn bộ trang trong 1 phút (có thể chỉnh)
 };
