@@ -288,9 +288,10 @@ const content = processContent();
                         </div>
                       </a>
                     </article>
+
                     {(index + 1) % 2 === 0 &&
                       index + 1 < postRecents.length && (
-                        <article class="mt-10">
+                        <article class="flex mt-10 p-4">
                           <AdsenseSquare
                             pub={pub}
                             slot_adsense={{

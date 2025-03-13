@@ -3,8 +3,9 @@ import ListLayout from "~/layouts/list.astro";
 
 import { getEntry } from "astro:content";
 import WideCard from "~/components/cards/wideCard.astro";
-import { getPostsByCategory } from "~/lib/api/post";
+import AdsenseHorizontal from "~/components/shared/adsense-horizontal.astro";
 import PaginationOne from "~/components/shared/pagination-one.astro";
+import { getPostsByCategory } from "~/lib/api/post";
 
 const { category: categorySlug, slug: pageString } = Astro.params;
 
@@ -28,14 +29,33 @@ if (!entry) {
 <ListLayout header={category?.name!} entry={entry}>
   <ul class="flex flex-col gap-2 flex-1">
     {
-      articles?.map((article: any) => (
-        <li>
-          <WideCard
-            article={article}
-            isLast={articles?.lastIndexOf(article) === articles?.length - 1}
-          />
-        </li>
-      ))
+      articles?.map((article: ArticleItem, index: number) => {
+        const pub = (article.sites && article.sites[0].adsense_client) || "";
+        const slots =
+          (article.sites &&
+            article.sites[0].adsense_slots?.filter(
+              (slot) => slot.slot_type === "horizontal"
+            )) ||
+          [];
+        const slotIndex = Math.floor(index / 2) % slots.length;
+        const slot = slots[slotIndex];
+
+        return (
+          <li>
+            <WideCard
+              article={article}
+              isLast={articles?.lastIndexOf(article) === articles?.length - 1}
+            />
+
+            {(index + 1) % 2 === 0 && index + 1 < articles.length && (
+              <AdsenseHorizontal
+                pub={pub}
+                slot_adsense={{ id: slot.slot_id, name: slot.slot_name }}
+              />
+            )}
+          </li>
+        );
+      })
     }
   </ul>
 

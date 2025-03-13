@@ -1,5 +1,6 @@
 ---
 import NewsCard from "~/components/cards/newsCard.astro";
+import AdsenseSquare from "~/components/shared/adsense-square.astro";
 import HeaderSection from "./headerSection.astro";
 
 type Props = {
@@ -17,9 +18,23 @@ const { articles } = Astro.props;
   />
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 gap-y-6 md:grid-rows-2">
     {
-      articles?.map((article, index) => (
-        <NewsCard article={article} index={index} />
-      ))
+      articles?.map((article, index) => {
+        // const pub = (article.sites && article.sites[0].adsense_client) || "";
+        // const slots =
+        //   (article.sites &&
+        //     article.sites[0].adsense_slots?.filter(
+        //       (slot) => slot.slot_type === "horizontal"
+        //     )) ||
+        //   [];
+        // const slotIndex = Math.floor(index / 2) % slots.length;
+        // const slot = slots[slotIndex];
+
+        return (
+          <>
+            <NewsCard article={article} index={index} />
+          </>
+        );
+      })
     }
   </div>
 </section>

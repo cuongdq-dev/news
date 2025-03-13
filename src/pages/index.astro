@@ -3,11 +3,41 @@ import BaseLayout from "~/layouts/base.astro";
 import FeatureNews from "./_home/featureNews.astro";
 import Headlines from "./_home/headlines.astro";
 import OtherNews from "./_home/otherNews.astro";
-const { home } = Astro.locals;
+import AdsenseHorizontal from "~/components/shared/adsense-horizontal.astro";
+const { home, adsense } = Astro.locals;
+const horizontal1 = adsense?.adsense_slots?.find(
+  (adsense) => adsense?.slot_name == "horizontal-1"
+);
+const horizontal2 = adsense?.adsense_slots?.find(
+  (adsense) => adsense.slot_name == "horizontal-2"
+);
 ---
 
 <BaseLayout>
   {home?.recentNews && <Headlines articles={home?.recentNews} />}
+  {
+    horizontal1 && (
+      <AdsenseHorizontal
+        pud={adsense.adsense_client}
+        slot_adsense={{
+          id: horizontal1?.slot_id,
+          name: horizontal1?.slot_name,
+        }}
+      />
+    )
+  }
   {home?.featureNews && <FeatureNews articles={home?.featureNews} />}
+  {
+    horizontal2 && (
+      <AdsenseHorizontal
+        pud={adsense.adsense_client}
+        slot_adsense={{
+          id: horizontal2?.slot_id,
+          name: horizontal2?.slot_name,
+        }}
+      />
+    )
+  }
+
   {home?.otherNews && <OtherNews articles={home?.otherNews} />}
 </BaseLayout>
