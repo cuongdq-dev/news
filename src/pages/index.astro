@@ -9,35 +9,43 @@ const horizontal1 = adsense?.adsense_slots?.find(
   (adsense) => adsense?.slot_name == "horizontal-1"
 );
 const horizontal2 = adsense?.adsense_slots?.find(
-  (adsense) => adsense.slot_name == "horizontal-2"
+  (adsense) => adsense?.slot_name == "horizontal-2"
 );
-
-console.log(adsense);
 ---
 
 <BaseLayout>
   {home?.recentNews && <Headlines articles={home?.recentNews} />}
   {
     horizontal1 && (
-      <AdsenseHorizontal
-        pud={adsense.adsense_client}
-        slot_adsense={{
-          id: horizontal1?.slot_id,
-          name: horizontal1?.slot_name,
-        }}
-      />
+      <section
+        class="grid grid-cols-1 gap-6 md:grid-cols-10 container"
+        data-pagefind-ignore="all"
+      >
+        <AdsenseHorizontal
+          pud={adsense.adsense_client}
+          slot_adsense={{
+            id: horizontal1?.slot_id,
+            name: horizontal1?.slot_name,
+          }}
+        />
+      </section>
     )
   }
   {home?.featureNews && <FeatureNews articles={home?.featureNews} />}
   {
     horizontal2 && (
-      <AdsenseHorizontal
-        pud={adsense.adsense_client}
-        slot_adsense={{
-          id: horizontal2?.slot_id,
-          name: horizontal2?.slot_name,
-        }}
-      />
+      <section
+        class="grid grid-cols-1 gap-6 md:grid-cols-10 container"
+        data-pagefind-ignore="all"
+      >
+        <AdsenseHorizontal
+          pud={adsense.adsense_client}
+          slot_adsense={{
+            id: horizontal2?.slot_id,
+            name: horizontal2?.slot_name,
+          }}
+        />
+      </section>
     )
   }
 
