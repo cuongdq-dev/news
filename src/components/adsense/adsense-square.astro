@@ -1,5 +1,7 @@
 ---
-const { pub, slot_adsense } = Astro.props as {
+const { adsense } = Astro.locals;
+
+const { pub = adsense.adsense_client, slot_adsense } = Astro.props as {
   pub: string;
   slot_adsense: { id: string; name: string };
 };
