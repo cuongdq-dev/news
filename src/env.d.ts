@@ -85,7 +85,7 @@ declare global {
     adsense_slots?: {
       slot_name: string;
       slot_id: string;
-      slot_type: "horizontal" | "vertical" | "square";
+      slot_type: "horizontal" | "vertical" | "square" | "detail" | "multiplex";
     }[];
   };
 

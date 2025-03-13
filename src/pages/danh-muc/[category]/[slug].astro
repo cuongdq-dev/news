@@ -2,8 +2,8 @@
 import ListLayout from "~/layouts/list.astro";
 
 import { getEntry } from "astro:content";
+import AdsenseHorizontal from "~/components/adsense/adsense-horizontal.astro";
 import WideCard from "~/components/cards/wideCard.astro";
-import AdsenseHorizontal from "~/components/shared/adsense-horizontal.astro";
 import PaginationOne from "~/components/shared/pagination-one.astro";
 import { getPostsByCategory } from "~/lib/api/post";
 
@@ -48,10 +48,15 @@ if (!entry) {
             />
 
             {(index + 1) % 2 === 0 && index + 1 < articles.length && (
-              <AdsenseHorizontal
-                pub={pub}
-                slot_adsense={{ id: slot.slot_id, name: slot.slot_name }}
-              />
+              <div
+                id={"category-adsense-" + slot.slot_name}
+                class="group w-full mx-auto lg:max-w-full "
+              >
+                <AdsenseHorizontal
+                  pub={pub}
+                  slot_adsense={{ id: slot.slot_id, name: slot.slot_name }}
+                />
+              </div>
             )}
           </li>
         );

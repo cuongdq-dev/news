@@ -6,8 +6,8 @@ const { categories: categoriesProps } = Astro.props as {
   categories: CategoryItem[];
 };
 
-const categories = categoriesProps.filter(
-  (category) => Number(category.postCount) > 0
+const categories = categoriesProps?.filter(
+  (category) => Number(category?.postCount) > 0
 );
 ---
 
@@ -37,9 +37,10 @@ const categories = categoriesProps.filter(
           item={{ href: "/bai-viet", name: "Bài Viết", slug: "bai-viet" }}
         />
         {
-          categories?.map((item) => (
-            <NavbarItem item={{ ...item, href: `/danh-muc/${item.slug}` }} />
-          ))
+          Number(categories?.length) > 0 &&
+            categories?.map((item) => (
+              <NavbarItem item={{ ...item, href: `/danh-muc/${item.slug}` }} />
+            ))
         }
         <NavbarItem item={{ href: "/tags", name: "Tags", slug: "tags" }} />
       </ul>

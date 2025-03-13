@@ -6,7 +6,7 @@ import ContentLayout from "~/layouts/content.astro";
 import { getPostBySlug, getPostRecents, getPostRelates } from "~/lib/api/post";
 import { fRelativeTime } from "~/lib/utils/format-time";
 import ArticleHeader from "./article-header.astro";
-import AdsenseSquare from "~/components/shared/adsense-square.astro";
+import AdsenseSquare from "~/components/adsense/adsense-square.astro";
 import { base64ToWebP } from "~/lib/utils/imageProcessor";
 import TagList from "~/components/elements/tag-list.astro";
 import NoData from "./no-data.astro";
@@ -21,8 +21,7 @@ const [detail, postRelates, postRecents] = await Promise.all([
 const adsense = detail?.data?.sites && detail.data.sites[0];
 
 const slots =
-  adsense?.adsense_slots?.filter((slot) => slot.slot_type === "horizontal") ||
-  [];
+  adsense?.adsense_slots?.filter((slot) => slot.slot_type === "detail") || [];
 let slotIndex = 0;
 
 const getNextSlot = () => {
@@ -57,12 +56,17 @@ const processContent = () => {
     const slot = getNextSlot();
     const adsenseHtml = `
       <div class="ad-container my-4 ${slot && adsense?.adsense_client ? "" : "hidden"}">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-${adsense?.adsense_client}"
-             data-ad-slot="${slot}"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-${adsense?.adsense_client}"
+          crossorigin="anonymous"></script>
+        <ins
+          class="adsbygoogle"
+          style="display:block; text-align:center;"
+          data-ad-layout="in-article"
+          data-ad-format="fluid"
+          data-ad-client="ca-${adsense?.adsense_client}"
+          data-ad-slot="${slot}"></ins>
         <script>
           (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
