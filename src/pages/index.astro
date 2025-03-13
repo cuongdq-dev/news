@@ -16,23 +16,7 @@ const adsense_2 = adsense?.adsense_slots?.find(
 
 <BaseLayout>
   {home?.recentNews && <Headlines articles={home?.recentNews} />}
-  {
-    adsense_1 && (
-      <section
-        class="grid grid-cols-1 gap-6 md:grid-cols-10 container"
-        data-pagefind-ignore="all"
-      >
-        <AdsenseMultiplex
-          pud={adsense.adsense_client}
-          slot_adsense={{
-            id: adsense_1?.slot_id,
-            name: adsense_1?.slot_name,
-          }}
-        />
-      </section>
-    )
-  }
-  {home?.featureNews && <FeatureNews articles={home?.featureNews} />}
+
   {
     adsense_2 && (
       <section
@@ -44,6 +28,22 @@ const adsense_2 = adsense?.adsense_slots?.find(
           slot_adsense={{
             id: adsense_2?.slot_id,
             name: adsense_2?.slot_name,
+          }}
+        />
+      </section>
+    )
+  }
+
+  {home?.featureNews && <FeatureNews articles={home?.featureNews} />}
+
+  {
+    adsense_1 && (
+      <section class="container" data-pagefind-ignore="all">
+        <AdsenseMultiplex
+          pud={adsense.adsense_client}
+          slot_adsense={{
+            id: adsense_1?.slot_id,
+            name: adsense_1?.slot_name,
           }}
         />
       </section>
