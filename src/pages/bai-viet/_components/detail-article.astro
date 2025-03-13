@@ -55,7 +55,7 @@ const processContent = () => {
   const insertAdAfter = (el: any) => {
     const slot = getNextSlot();
     const adsenseHtml = `
-      <div class="ad-container my-4 ${slot && adsense?.adsense_client ? "" : "hidden"}">
+      <div class="ad-container my-4 ${slot.slot_id && adsense?.adsense_client ? "" : "hidden"}">
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-${adsense?.adsense_client}"
@@ -66,7 +66,7 @@ const processContent = () => {
           data-ad-layout="in-article"
           data-ad-format="fluid"
           data-ad-client="ca-${adsense?.adsense_client}"
-          data-ad-slot="${slot}"></ins>
+          data-ad-slot="${slot.slot_id}"></ins>
         <script>
           (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
