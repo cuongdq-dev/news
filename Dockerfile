@@ -2,29 +2,29 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Cài đặt git nếu cần clone repo (không cần nếu code đã có sẵn)
+# Cài đặt git nếu cần
 RUN apk add --no-cache git
 
-# Copy package.json & lockfile để cache tốt hơn
-COPY package.json ./
+# Copy package.json và lockfile
+COPY package.json package-lock.json ./
 
-# Cài đặt dependencies, chỉ production (bỏ qua devDependencies)
-RUN npm ci --production
+# Cài đặt dependencies (dùng npm install nếu thiếu lockfile)
+RUN npm install --omit=dev
 
 # Copy source code & build
 COPY . .
 RUN npm run build
 
-# Stage 2: Run Astro SSR
+# Stage 2: Chạy Astro SSR
 FROM node:20-alpine
 WORKDIR /app
 
-# Copy output từ stage build (chỉ cần dist, node_modules, package.json)
+# Copy chỉ các file cần thiết từ builder
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
 
-# Không cần git trong production => giúp giảm dung lượng
+# Xóa git để giảm dung lượng
 RUN apk del git || true
 
 EXPOSE 5000
