@@ -1,20 +1,22 @@
 # ============================
-# Stage 1: Build Astro
+# Stage 1: Build Astro (Dùng Node Alpine)
 # ============================
 FROM node:20-alpine AS builder
 WORKDIR /app
 
+# Cài đặt Git (Fix lỗi "git: not found")
+RUN apk add --no-cache git
+
 # Chỉ copy những file quan trọng trước để tận dụng cache
 COPY package.json yarn.lock ./
 
-# Xóa cache cũ & cài dependencies cho production (bỏ qua postinstall)
-RUN yarn install --frozen-lockfile --ignore-scripts --network-timeout 1000000
+# Cài dependencies
+RUN yarn install --immutable
 
 # Copy source code còn lại
 COPY . .
 
 # Build Astro
-RUN yarn install --immutable
 RUN yarn build
 
 # ============================
@@ -27,9 +29,6 @@ WORKDIR /app
 COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder /app/package.json /app/package.json
-
-# Chạy với user không phải root để bảo mật
-USER node
 
 # Chạy ứng dụng
 EXPOSE 5000
