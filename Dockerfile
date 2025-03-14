@@ -6,7 +6,7 @@ WORKDIR /app
 RUN apk add --no-cache git
 
 # Copy package.json & lockfile để cache tốt hơn
-COPY package.json package-lock.json ./
+COPY package.json ./
 
 # Cài đặt dependencies, chỉ production (bỏ qua devDependencies)
 RUN npm ci --production
