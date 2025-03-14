@@ -14,6 +14,7 @@ RUN yarn install --frozen-lockfile --ignore-scripts --network-timeout 1000000
 COPY . .
 
 # Build Astro
+RUN yarn install --immutable
 RUN yarn build
 
 # ============================
