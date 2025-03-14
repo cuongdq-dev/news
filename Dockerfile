@@ -5,27 +5,30 @@ WORKDIR /app
 # Cài đặt git nếu cần
 RUN apk add --no-cache git
 
-# Copy package.json và lockfile
+# Copy package.json và package-lock.json
 COPY package.json package-lock.json ./
 
-# Cài đặt dependencies (dùng npm install nếu thiếu lockfile)
-RUN npm install --omit=dev
+# Cài đặt tất cả dependencies (bao gồm cả devDependencies)
+RUN npm install
 
-# Copy source code & build
+# Copy source code
 COPY . .
+
+# Build Astro
 RUN npm run build
 
 # Stage 2: Chạy Astro SSR
 FROM node:20-alpine
 WORKDIR /app
 
-# Copy chỉ các file cần thiết từ builder
+# Copy các file cần thiết từ builder
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
 
-# Xóa git để giảm dung lượng
+# Xóa git và package không cần thiết để giảm dung lượng
 RUN apk del git || true
+RUN npm prune --omit=dev  # Giữ lại dependencies chính, loại bỏ devDependencies
 
 EXPOSE 5000
 CMD ["node", "dist/server/entry.mjs"]
