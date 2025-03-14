@@ -1,21 +1,21 @@
-FROM node:lts AS base
+# Build Stage
+FROM node:20-bullseye AS builder
 WORKDIR /app
 
+# Cài dependencies (không bỏ qua optional dependencies)
 COPY package.json package-lock.json ./
+RUN npm install --no-audit --no-fund
 
-FROM base AS prod-deps
-RUN npm install --omit=dev
-
-FROM base AS build-deps
-RUN npm install
-
-FROM build-deps AS build
+# Copy source code & build
 COPY . .
 RUN npm run build
 
-FROM base AS runtime
-COPY --from=prod-deps /app/node_modules ./node_modules
-COPY --from=build /app/dist ./dist
+# Runtime Stage (Dùng Alpine nhẹ hơn)
+FROM node:20-alpine
+WORKDIR /app
+COPY --from=builder /app/dist /app/dist
+COPY --from=builder /app/node_modules /app/node_modules
+COPY --from=builder /app/package.json /app/package.json
 
 EXPOSE 5000
-CMD node ./dist/server/entry.mjs
+CMD ["node", "dist/server/entry.mjs"]
