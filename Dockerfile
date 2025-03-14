@@ -1,36 +1,38 @@
 # ============================
-# Stage 1: Build Astro (Debian tránh lỗi Rollup)
+# Stage 1: Build Astro (Dùng Node Alpine)
 # ============================
-FROM node:20-bullseye AS builder
+FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Copy file package trước để tối ưu cache
+# Copy chỉ các file cần thiết trước để tận dụng cache
 COPY package.json package-lock.json ./
 
-# Xóa cache, đảm bảo môi trường sạch
-RUN npm cache clean --force && rm -rf node_modules package-lock.json && npm install --omit=dev --force
+# Cài đặt dependencies chỉ cho production
+RUN npm ci --omit=dev --no-audit --no-fund
 
-# Copy toàn bộ source code
+# Copy source code còn lại (sau khi cài xong dependencies)
 COPY . .
 
-# Build dự án
+# Build Astro
 RUN npm run build
 
 # ============================
-# Stage 2: Run Astro SSR (Debian để tránh lỗi runtime)
+# Stage 2: Run Astro SSR (Sử dụng Alpine nhẹ nhất)
 # ============================
-FROM node:20-bullseye AS runner
+FROM node:20-alpine AS runner
 WORKDIR /app
 
-# Copy code đã build
+# Chỉ copy các file cần thiết từ builder
 COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder /app/package.json /app/package.json
 
-# Tạo user không root (tăng bảo mật)
-RUN useradd -m appuser
-USER appuser
+# Xóa cache để giảm dung lượng
+RUN npm cache clean --force
 
-# Mở cổng chạy ứng dụng
+# Chạy với user không phải root để bảo mật
+USER node
+
+# Chạy ứng dụng
 EXPOSE 5000
 CMD ["node", "dist/server/entry.mjs"]
