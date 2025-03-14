@@ -1,10 +1,9 @@
 ---
-import AdsenseHorizontal from "~/components/adsense/adsense-horizontal.astro";
 import BaseLayout from "~/layouts/base.astro";
 import FeatureNews from "./_home/featureNews.astro";
 import Headlines from "./_home/headlines.astro";
 import OtherNews from "./_home/otherNews.astro";
-import AdsenseMultiplex from "~/components/adsense/adsense-multiplex.astro";
+import { AdsenseMultiplex, AdsenseHorizontal } from "~/components/adsense";
 const { home, adsense } = Astro.locals;
 const adsense_1 = adsense?.adsense_slots?.find(
   (adsense) => adsense?.slot_name == "multiplex"
@@ -19,9 +18,10 @@ const adsense_2 = adsense?.adsense_slots?.find(
 
   {
     adsense_2 && (
-      <section class="container" data-pagefind-ignore="all">
+      <section class="container mt-5" data-pagefind-ignore="all">
         <AdsenseHorizontal
-          pud={adsense.adsense_client}
+          client:only="react"
+          pub={adsense.adsense_client!}
           slot_adsense={{
             id: adsense_2?.slot_id,
             name: adsense_2?.slot_name,
@@ -35,9 +35,10 @@ const adsense_2 = adsense?.adsense_slots?.find(
 
   {
     adsense_1 && (
-      <section class="container" data-pagefind-ignore="all">
+      <section class="container mt-5" data-pagefind-ignore="all">
         <AdsenseMultiplex
-          pud={adsense.adsense_client}
+          client:only="react"
+          pub={adsense.adsense_client!}
           slot_adsense={{
             id: adsense_1?.slot_id,
             name: adsense_1?.slot_name,

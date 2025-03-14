@@ -6,10 +6,10 @@ import ContentLayout from "~/layouts/content.astro";
 import { getPostBySlug, getPostRecents, getPostRelates } from "~/lib/api/post";
 import { fRelativeTime } from "~/lib/utils/format-time";
 import ArticleHeader from "./article-header.astro";
-import AdsenseSquare from "~/components/adsense/adsense-square.astro";
 import { base64ToWebP } from "~/lib/utils/imageProcessor";
 import TagList from "~/components/elements/tag-list.astro";
 import NoData from "./no-data.astro";
+import { AdsenseSquare } from "~/components/adsense";
 
 const { slug } = Astro.params;
 
@@ -39,6 +39,7 @@ const processContent = () => {
   const allHeadings = $("h2");
   const allParagraphs = $("p");
 
+  // Xóa tiêu đề trùng lặp
   $("h1").each((_, el) => {
     if ($(el).text().trim() === title.trim()) {
       $(el).remove();
@@ -47,44 +48,46 @@ const processContent = () => {
     }
   });
 
+  // Xóa link khỏi nội dung
   $("a").each((_, el) => {
     const text = $(el).text();
     $(el).replaceWith(text);
   });
 
+  // Tìm vị trí hợp lý để chèn quảng cáo
   const insertAdAfter = (el: any) => {
     const slot = getNextSlot();
+    if (!slot?.slot_id || !adsense?.adsense_client) return;
+
     const adsenseHtml = `
-      <div class="ad-container my-4 ${slot.slot_id && adsense?.adsense_client ? "" : "hidden"}">
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-${adsense?.adsense_client}"
-          crossorigin="anonymous"></script>
-        <ins
-          class="adsbygoogle"
-          style="display:block; text-align:center;"
-          data-ad-layout="in-article"
-          data-ad-format="fluid"
-          data-ad-client="ca-${adsense?.adsense_client}"
-          data-ad-slot="${slot.slot_id}"></ins>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+      <div class="ad-container my-4">
+        <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-${adsense?.adsense_client}" data-ad-slot="${slot.slot_id}"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       </div>
     `;
+
     $(el).after(adsenseHtml);
   };
 
-  allHeadings.each((_, el) => {
-    insertAdAfter(el);
-  });
-
-  if (allParagraphs.length > 0) {
-    insertAdAfter(allParagraphs.first());
+  // Chèn quảng cáo sau thẻ <h2> đầu tiên
+  if (allHeadings.length > 0) {
+    insertAdAfter(allHeadings.first());
   }
 
-  if (allParagraphs.length > 1) {
-    insertAdAfter(allParagraphs.last());
+  // Chèn quảng cáo sau đoạn <p> thứ 2
+  if (allParagraphs.length > 2) {
+    insertAdAfter(allParagraphs.eq(1));
+  }
+
+  // Chèn quảng cáo ở giữa bài viết
+  const middleIndex = Math.floor(allParagraphs.length / 2);
+  if (middleIndex > 2) {
+    insertAdAfter(allParagraphs.eq(middleIndex));
+  }
+
+  // Chèn quảng cáo trước đoạn <p> cuối cùng
+  if (allParagraphs.length > 3) {
+    insertAdAfter(allParagraphs.eq(-2));
   }
 
   return $.html();
@@ -202,6 +205,7 @@ const content = processContent();
                       index + 1 < postRelates.length && (
                         <article class="mt-10">
                           <AdsenseSquare
+                            client:only="react"
                             pub={pub}
                             slot_adsense={{
                               id: slot?.slot_id,
@@ -297,6 +301,7 @@ const content = processContent();
                       index + 1 < postRecents.length && (
                         <article class="mt-10">
                           <AdsenseSquare
+                            client:only="react"
                             pub={pub}
                             slot_adsense={{
                               id: slot?.slot_id,

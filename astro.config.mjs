@@ -7,7 +7,7 @@ import { SITE } from "./src/lib/config";
 import { modifiedTime, readingTime } from "./src/lib/utils/remarks.mjs";
 import sitemap from "@astrojs/sitemap";
 import dotenv from "dotenv";
-
+import react from "@astrojs/react";
 dotenv.config();
 
 export default defineConfig({
@@ -22,7 +22,7 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [readingTime, modifiedTime],
   },
-  integrations: [tailwind(), mdx(), sitemap(), pagefind()],
+  integrations: [tailwind(), mdx(), sitemap(), pagefind(), react()],
   experimental: {
     responsiveImages: true,
   },

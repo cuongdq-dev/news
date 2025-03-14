@@ -2,10 +2,11 @@
 import ListLayout from "~/layouts/list.astro";
 
 import { getEntry } from "astro:content";
-import AdsenseHorizontal from "~/components/adsense/adsense-horizontal.astro";
+import { AdsenseHorizontal } from "~/components/adsense";
 import WideCard from "~/components/cards/wideCard.astro";
 import PaginationOne from "~/components/shared/pagination-one.astro";
 import { getPostsByCategory } from "~/lib/api/post";
+import Divider from "~/components/bases/divider.astro";
 
 const { category: categorySlug, slug: pageString } = Astro.params;
 
@@ -53,6 +54,7 @@ if (!entry) {
                 class="group w-full mx-auto lg:max-w-full "
               >
                 <AdsenseHorizontal
+                  client:only="react"
                   pub={pub}
                   slot_adsense={{ id: slot.slot_id, name: slot.slot_name }}
                 />
