@@ -1,35 +1,21 @@
-# ============================
-# Stage 1: Build Astro (Dùng Debian thay vì Alpine)
-# ============================
-FROM node:20-bullseye AS builder
+FROM node:lts AS base
 WORKDIR /app
 
-# Copy package.json & lockfile
 COPY package.json package-lock.json ./
 
-# Cài đặt dependencies
-RUN npm cache clean --force && rm -rf node_modules && npm ci --omit=dev --no-audit --no-fund
+FROM base AS prod-deps
+RUN npm install --omit=dev
 
-# Copy source code còn lại
+FROM base AS build-deps
+RUN npm install
+
+FROM build-deps AS build
 COPY . .
-
-# Build Astro
 RUN npm run build
 
-# ============================
-# Stage 2: Run Astro SSR (Vẫn dùng Alpine cho nhẹ)
-# ============================
-FROM node:20-alpine AS runner
-WORKDIR /app
+FROM base AS runtime
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
 
-# Chỉ copy file cần thiết
-COPY --from=builder /app/dist /app/dist
-COPY --from=builder /app/node_modules /app/node_modules
-COPY --from=builder /app/package.json /app/package.json
-
-# Chạy với user không phải root để bảo mật
-USER node
-
-# Chạy ứng dụng
 EXPOSE 5000
-CMD ["node", "dist/server/entry.mjs"]
+CMD node ./dist/server/entry.mjs
