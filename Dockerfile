@@ -1,34 +1,38 @@
+# ============================
 # Stage 1: Build Astro
+# ============================
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Cài đặt git nếu cần
-RUN apk add --no-cache git
+# Cài đặt Git (nếu cần) và các công cụ tối thiểu
+RUN apk add --no-cache git bash
 
-# Copy package.json và package-lock.json
+# Chỉ copy các file cần thiết trước để tận dụng cache
 COPY package.json package-lock.json ./
 
-# Cài đặt tất cả dependencies (bao gồm cả devDependencies)
-RUN npm install
+# Cài đặt dependencies chỉ cần cho production
+RUN npm ci --omit=dev --no-optional
 
-# Copy source code
+# Copy toàn bộ source code
 COPY . .
 
 # Build Astro
 RUN npm run build
 
-# Stage 2: Chạy Astro SSR
-FROM node:20-alpine
+# ============================
+# Stage 2: Run Astro SSR
+# ============================
+FROM node:20-alpine AS runner
 WORKDIR /app
 
-# Copy các file cần thiết từ builder
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./
+# Chỉ copy các file cần thiết từ builder để giảm dung lượng
+COPY --from=builder /app/dist /app/dist
+COPY --from=builder /app/node_modules /app/node_modules
+COPY --from=builder /app/package.json /app/package.json
 
-# Xóa git và package không cần thiết để giảm dung lượng
-RUN apk del git || true
-RUN npm prune --omit=dev  # Giữ lại dependencies chính, loại bỏ devDependencies
+# Chạy với user không phải root để bảo mật hơn
+USER node
 
+# Chạy ứng dụng
 EXPOSE 5000
 CMD ["node", "dist/server/entry.mjs"]
