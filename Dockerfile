@@ -1,37 +1,35 @@
-# Stage 1: Build the application
-FROM node:20-bullseye-slim AS builder
-
+# ============================
+# Stage 1: Build Astro
+# ============================
+FROM node:20-alpine AS builder
 WORKDIR /app
-RUN apk add --no-cache git && git pull || true
 
+# Chỉ copy những file quan trọng trước để tận dụng cache
+COPY package.json yarn.lock ./
 
-# Copy only the package.json and yarn.lock first to leverage Docker's cache
-COPY package.json ./
+# Xóa cache cũ & cài dependencies cho production (bỏ qua postinstall)
+RUN yarn install --frozen-lockfile --ignore-scripts --network-timeout 1000000
 
-# Install dependencies
-RUN yarn install --frozen-lockfile --network-timeout 1000000
+# Copy source code còn lại
+COPY . .
 
-# Copy the rest of the application
-COPY . ./
-
-# Build the application
+# Build Astro
 RUN yarn build
 
-# Stage 2: Set up Nginx
-FROM nginx:1.27.2-alpine-slim
+# ============================
+# Stage 2: Run Astro SSR (Sử dụng Alpine nhẹ hơn)
+# ============================
+FROM node:20-alpine AS runner
+WORKDIR /app
 
-# Copy the Nginx configuration file
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+# Chỉ copy các file cần thiết từ builder
+COPY --from=builder /app/dist /app/dist
+COPY --from=builder /app/node_modules /app/node_modules
+COPY --from=builder /app/package.json /app/package.json
 
-# Copy built files from the builder stage
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Chạy với user không phải root để bảo mật
+USER node
 
-# Set working directory in the final image
-WORKDIR /usr/share/nginx/html
-
-# Expose port 4000
+# Chạy ứng dụng
 EXPOSE 5000
-
-# Run Nginx in the foreground
 CMD ["node", "dist/server/entry.mjs"]
-
