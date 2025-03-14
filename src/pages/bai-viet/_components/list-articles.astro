@@ -50,14 +50,11 @@ const [HEADER] = entry.data.blocks;
               />
 
               {(index + 1) % 2 === 0 && index + 1 < articles.length && (
-                <>
-                  <AdsenseHorizontal
-                    client:only="react"
-                    pub={pub}
-                    slot_adsense={{ id: slot.slot_id, name: slot.slot_name }}
-                  />
-                  <Divider />
-                </>
+                <AdsenseHorizontal
+                  client:only="react"
+                  pub={pub}
+                  slot_adsense={{ id: slot.slot_id, name: slot.slot_name }}
+                />
               )}
             </>
           );
