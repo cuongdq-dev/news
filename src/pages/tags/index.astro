@@ -1,4 +1,5 @@
 ---
+import { AdsenseHorizontal } from "~/components/adsense";
 import BaseLayout from "~/layouts/base.astro";
 import { getTags } from "~/lib/api/post";
 
@@ -21,6 +22,18 @@ const getTagClass = (group: string) => {
       return "bg-gray-200 text-black"; // 📎 Ít phổ biến
   }
 };
+
+const { adsense } = Astro.locals;
+
+const adsense_1 = adsense?.adsense_slots?.find(
+  (adsense) => adsense?.slot_name == "horizontal-1"
+);
+const adsense_2 = adsense?.adsense_slots?.find(
+  (adsense) => adsense?.slot_name == "horizontal-2"
+);
+const adsense_3 = adsense?.adsense_slots?.find(
+  (adsense) => adsense?.slot_name == "horizontal-3"
+);
 ---
 
 <BaseLayout>
@@ -45,6 +58,17 @@ const getTagClass = (group: string) => {
         </div>
       </div>
 
+      <div class="mt-4 mb-4">
+        <AdsenseHorizontal
+          client:only="react"
+          pub={adsense.adsense_client!}
+          slot_adsense={{
+            id: adsense_1?.slot_id,
+            name: adsense_1?.slot_name,
+          }}
+        />
+      </div>
+
       <div>
         <h2 class="text-xl font-semibold mb-4">⭐ Phổ biến</h2>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -61,7 +85,16 @@ const getTagClass = (group: string) => {
           }
         </div>
       </div>
-
+      <div class="mt-4 mb-4">
+        <AdsenseHorizontal
+          client:only="react"
+          pub={adsense.adsense_client!}
+          slot_adsense={{
+            id: adsense_2?.slot_id,
+            name: adsense_2?.slot_name,
+          }}
+        />
+      </div>
       <div>
         <h2 class="text-xl font-semibold mb-4">📌 Trung bình</h2>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -77,6 +110,17 @@ const getTagClass = (group: string) => {
             ))
           }
         </div>
+      </div>
+
+      <div class="mt-4 mb-4">
+        <AdsenseHorizontal
+          client:only="react"
+          pub={adsense.adsense_client!}
+          slot_adsense={{
+            id: adsense_3?.slot_id,
+            name: adsense_3?.slot_name,
+          }}
+        />
       </div>
 
       <div>
