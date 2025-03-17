@@ -8,6 +8,7 @@ import ListLayout from "~/layouts/list.astro";
 import { getPosts } from "~/lib/api/post";
 
 const { slug } = Astro.params;
+const { adsense } = Astro.locals;
 
 const pageNumber = Number(slug?.split("-")[1]);
 
@@ -33,13 +34,11 @@ const [HEADER] = entry.data.blocks;
     <ul class="flex flex-col gap-4">
       {
         articles?.map((article: ArticleItem, index: number) => {
-          const pub = (article.sites && article.sites[0].adsense_client) || "";
+          const pub = adsense?.adsense_client || "";
           const slots =
-            (article.sites &&
-              article.sites[0].adsense_slots?.filter(
-                (slot) => slot.slot_type === "horizontal"
-              )) ||
-            [];
+            adsense?.adsense_slots?.filter(
+              (slot) => slot.slot_type === "horizontal"
+            ) || [];
           const slotIndex = Math.floor(index / 2) % slots.length;
           const slot = slots[slotIndex];
           return (

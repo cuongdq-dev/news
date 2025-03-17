@@ -40,14 +40,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return next(); // Không cache, gọi API trực tiếp
   }
   // **1️⃣ Check cache response trước**
-  // if (cache.has(url)) {
-  //   const { data, expires } = cache.get(url);
-  //   if (Date.now() < expires) {
-  //     return new Response(data, {
-  //       headers: { "Content-Type": "text/html; charset=utf-8" },
-  //     });
-  //   }
-  // }
+  if (cache.has(url)) {
+    const { data, expires } = cache.get(url);
+    if (Date.now() < expires) {
+      return new Response(data, {
+        headers: { "Content-Type": "text/html; charset=utf-8" },
+      });
+    }
+  }
 
   // **2️⃣ Lấy dữ liệu từ API & cache**
   const cacheKeys = {
@@ -68,14 +68,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const response = await next();
 
   // // **4️⃣ Cache toàn bộ response HTML nếu thành công**
-  // if (response.status === 200) {
-  //   const clonedResponse = response.clone();
-  //   const text = await clonedResponse.text();
-  //   cache.set(url, { data: text, expires: Date.now() + CACHE_DURATION.page });
+  if (response.status === 200) {
+    const clonedResponse = response.clone();
+    const text = await clonedResponse.text();
+    cache.set(url, { data: text, expires: Date.now() + CACHE_DURATION.page });
 
-  //   // Tự động xóa cache khi hết hạn
-  //   setTimeout(() => cache.delete(url), CACHE_DURATION.page);
-  // }
+    // Tự động xóa cache khi hết hạn
+    setTimeout(() => cache.delete(url), CACHE_DURATION.page);
+  }
 
   return response;
 });

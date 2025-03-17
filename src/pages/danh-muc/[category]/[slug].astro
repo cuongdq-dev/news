@@ -9,6 +9,7 @@ import { getPostsByCategory } from "~/lib/api/post";
 import Divider from "~/components/bases/divider.astro";
 
 const { category: categorySlug, slug: pageString } = Astro.params;
+const { adsense } = Astro.locals;
 
 const pageNumber = Number(pageString?.split("-")[1]);
 
@@ -31,13 +32,11 @@ if (!entry) {
   <ul class="flex flex-col gap-2 flex-1">
     {
       articles?.map((article: ArticleItem, index: number) => {
-        const pub = (article.sites && article.sites[0].adsense_client) || "";
+        const pub = adsense?.adsense_client || "";
         const slots =
-          (article.sites &&
-            article.sites[0].adsense_slots?.filter(
-              (slot) => slot.slot_type === "horizontal"
-            )) ||
-          [];
+          adsense?.adsense_slots?.filter(
+            (slot) => slot.slot_type === "horizontal"
+          ) || [];
         const slotIndex = Math.floor(index / 2) % slots.length;
         const slot = slots[slotIndex];
 

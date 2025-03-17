@@ -72,7 +72,7 @@ declare global {
     content?: string;
     canonicalURL?: string;
     article?: { source?: string; url?: string };
-    sites?: AdsenseResponse[];
+    site?: AdsenseResponse;
   };
   type HomeResponse = {
     recentNews: ArticleItem[];

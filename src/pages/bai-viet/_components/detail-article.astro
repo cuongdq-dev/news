@@ -12,13 +12,13 @@ import NoData from "./no-data.astro";
 import { AdsenseSquare } from "~/components/adsense";
 
 const { slug } = Astro.params;
+const { adsense } = Astro.locals;
 
 const [detail, postRelates, postRecents] = await Promise.all([
   getPostBySlug(slug!),
   getPostRelates(slug!),
   getPostRecents(slug!),
 ]);
-const adsense = detail?.data?.sites && detail.data.sites[0];
 
 const slots =
   adsense?.adsense_slots?.filter((slot) => slot.slot_type === "detail") || [];
@@ -134,14 +134,11 @@ const content = processContent();
             <h4 class="text-md font-semibold mb-2">Bài viết liên quan</h4>
             <div>
               {postRelates?.map(async (article, index) => {
-                const pub =
-                  (article.sites && article.sites[0].adsense_client) || "";
+                const pub = adsense?.adsense_client || "";
                 const slots =
-                  (article.sites &&
-                    article.sites[0].adsense_slots?.filter(
-                      (slot) => slot.slot_type === "horizontal"
-                    )) ||
-                  [];
+                  adsense?.adsense_slots?.filter(
+                    (slot) => slot.slot_type === "horizontal"
+                  ) || [];
                 const slotIndex = Math.floor(index / 2) % slots.length;
                 const slot = slots[slotIndex];
 
@@ -229,14 +226,11 @@ const content = processContent();
             <h4 class="text-md font-semibold mb-2">Bài viết mới nhất</h4>
             <div>
               {postRecents?.map(async (article, index) => {
-                const pub =
-                  (article.sites && article.sites[0].adsense_client) || "";
+                const pub = adsense?.adsense_client || "";
                 const slots =
-                  (article.sites &&
-                    article.sites[0].adsense_slots?.filter(
-                      (slot) => slot.slot_type === "horizontal"
-                    )) ||
-                  [];
+                  adsense?.adsense_slots?.filter(
+                    (slot) => slot.slot_type === "horizontal"
+                  ) || [];
                 const slotIndex = Math.floor(index / 2) % slots.length;
                 const slot = slots[slotIndex];
 
