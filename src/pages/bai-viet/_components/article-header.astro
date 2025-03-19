@@ -19,7 +19,10 @@ const { article } = Astro.props;
     {
       article?.categories?.map((cate) => {
         return (
-          <a href={`/danh-muc/${cate.slug}`} class="a-01 font-semibold">
+          <a
+            href={`${Astro.url.origin}/danh-muc/${cate.slug}`}
+            class="a-01 font-semibold"
+          >
             {cate?.name}
           </a>
         );
@@ -37,7 +40,10 @@ const { article } = Astro.props;
           {
             article?.categories?.map((cate) => {
               return (
-                <a href={`/danh-muc/${cate.slug}`} class="a-01 font-semibold">
+                <a
+                  href={`${Astro.url.origin}/danh-muc/${cate.slug}`}
+                  class="a-01 font-semibold"
+                >
                   {cate?.name}
                 </a>
               );

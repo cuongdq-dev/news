@@ -8,10 +8,12 @@ import MenuDropdown from "./menu-dropdown.astro";
 <div class="navbar bg-base-100 border-b">
   <div class="navbar-start lg:w-1/2">
     <MenuDropdown />
-    <a class="text-xl px-2 text-nowrap lg:hidden" href="/">{SITE.title}</a>
+    <a class="text-xl px-2 text-nowrap lg:hidden" href={Astro.url.origin}>
+      {SITE.title}
+    </a>
   </div>
   <div class="navbar-center hidden lg:flex">
-    <a class="text-xl px-2" href="/">{SITE.title}</a>
+    <a class="text-xl px-2" href={Astro.url.origin}>{SITE.title}</a>
   </div>
   <div class="navbar-end">
     <ThemeController />

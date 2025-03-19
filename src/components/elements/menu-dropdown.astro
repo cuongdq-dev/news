@@ -17,9 +17,17 @@ import { NAVIGATION_LINKS, OTHER_LINKS } from "~/lib/config";
     tabindex="0"
     class="menu dropdown-content z-50 bg-base-100 rounded-box w-56 shadow"
   >
-    <li><a rel="prefetch" href="/" aria-label="Homepage">Trang Chủ</a></li>
     <li>
-      <a rel="prefetch" href="/bai-viet" aria-label="Articles Page">Bài Viết</a>
+      <a rel="prefetch" href={`${Astro.url.origin}`} aria-label="Homepage"
+        >Trang Chủ</a
+      >
+    </li>
+    <li>
+      <a
+        rel="prefetch"
+        href={`${Astro.url.origin}/bai-viet`}
+        aria-label="Articles Page">Bài Viết</a
+      >
     </li>
 
     <li>
@@ -51,7 +59,11 @@ import { NAVIGATION_LINKS, OTHER_LINKS } from "~/lib/config";
           {
             OTHER_LINKS.map(({ href, text, target }) => (
               <li>
-                <a href={href} target={target ?? "_self"} aria-label={text}>
+                <a
+                  href={`${Astro.url.origin}/${href}`}
+                  target={target ?? "_self"}
+                  aria-label={text}
+                >
                   {text}
                 </a>
               </li>

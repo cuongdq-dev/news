@@ -20,7 +20,10 @@ if (thumbnail.src?.startsWith("data:image/")) {
 ---
 
 <article class="col-span-1 group max-w-sm mx-auto flex">
-  <a href={`/bai-viet/${article?.slug}`} class="flex flex-col gap-2 h-full">
+  <a
+    href={`${Astro.url.origin}/bai-viet/${article?.slug}`}
+    class="flex flex-col gap-2 h-full"
+  >
     <div class="aspect-video overflow-hidden rounded-md">
       {
         thumbnail && (

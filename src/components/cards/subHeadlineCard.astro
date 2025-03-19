@@ -26,7 +26,10 @@ if (thumbnail.src?.startsWith("data:image/")) {
     isLast ? "border-b-0 pb-0" : "border-b",
   ]}
 >
-  <a href={`/bai-viet/${article?.slug}`} class="flex items-stretch gap-2 group">
+  <a
+    href={`${Astro.url.origin}/bai-viet/${article?.slug}`}
+    class="flex items-stretch gap-2 group"
+  >
     <div class="flex flex-col flex-1">
       <div class="flex items-center gap-2 mb-1">
         <div class="flex-1">

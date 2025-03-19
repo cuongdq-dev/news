@@ -67,11 +67,11 @@ if (!entry) {
 
   <PaginationOne
     length={page?.lastPage}
-    currentUrl={page?.url?.current}
+    currentUrl={`${Astro.url.origin}/${page?.url?.current}`}
     currentPage={page?.currentPage}
-    firstUrl={`/${firstPath}/${category?.slug}`}
-    prevUrl={page?.url?.prev}
-    nextUrl={page?.url?.next}
-    lastUrl={`/${firstPath}/${category?.slug}/trang-${page?.lastPage}`}
+    firstUrl={`${Astro.url.origin}/${firstPath}`}
+    prevUrl={`${Astro.url.origin}/${page?.url?.prev}`}
+    nextUrl={`${Astro.url.origin}/${page?.url?.next}`}
+    lastUrl={`${Astro.url.origin}/${firstPath}/${category?.slug}/trang-${page?.lastPage}`}
   />
 </ListLayout>
