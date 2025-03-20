@@ -28,7 +28,7 @@ function formatHref(href: string) {
       return Astro.url.origin;
 
     case "/tags":
-      return Astro.url.origin + "tags";
+      return Astro.url.origin + "/tags";
 
     default:
       return `${Astro.url.origin}${href}/trang-1`;
