@@ -25,13 +25,13 @@ function isActive(item: Item, currentPath: string) {
 function formatHref(href: string) {
   switch (href) {
     case "/":
-      return "/";
+      return Astro.url.origin;
 
     case "/tags":
-      return "/tags";
+      return Astro.url.origin + "tags";
 
     default:
-      return `${href}/trang-1`;
+      return `${Astro.url.origin}${href}/trang-1`;
   }
 }
 ---
@@ -44,9 +44,7 @@ function formatHref(href: string) {
       : "after:bg-transparent ",
   ]}
 >
-  <a
-    rel="prefetch"
-    href={formatHref(`${Astro.url.origin}${item.href}`)}
-    aria-label={item.name}>{item.name}</a
+  <a rel="prefetch" href={formatHref(item.href!)} aria-label={item.name}
+    >{item.name}</a
   >
 </li>
