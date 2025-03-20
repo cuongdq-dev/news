@@ -3,13 +3,39 @@ import Head from "~/components/bases/head.astro";
 import Footer from "~/components/shared/footer.astro";
 import Header from "~/components/shared/header.astro";
 import { SITE } from "~/lib/config";
+import type { Entry } from "~/lib/types";
 
 const { categories, adsense } = Astro.locals;
+const {
+  description,
+  keywords,
+  title,
+  ogImage,
+  pubDatetime,
+  modDatetime,
+  entry,
+}: {
+  description?: string;
+  keywords?: string;
+  title?: string;
+  ogImage?: string;
+  pubDatetime?: Date;
+  modDatetime?: Date;
+  entry?: Entry;
+} = Astro.props;
 ---
 
 <!doctype html>
-<html lang={SITE.locale}>
-  <Head adsense={adsense} />
+<html lang={SITE.locale} dir="ltr">
+  <Head
+    ogImage={ogImage}
+    description={description || entry?.data?.description}
+    keywords={keywords}
+    title={title || entry?.data?.title}
+    adsense={adsense}
+    pubDatetime={pubDatetime}
+    modDatetime={modDatetime}
+  />
   <body>
     <Header categories={categories} />
 

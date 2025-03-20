@@ -28,7 +28,12 @@ if (!entry) {
 }
 ---
 
-<ListLayout header={category?.name!} entry={entry}>
+<ListLayout
+  header={category?.name!}
+  description={entry?.data?.description}
+  title={category?.name}
+  entry={entry}
+>
   <ul class="flex flex-col gap-2 flex-1">
     {
       articles?.map((article: ArticleItem, index: number) => {

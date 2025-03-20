@@ -46,7 +46,7 @@ function formatHref(href: string) {
 >
   <a
     rel="prefetch"
-    href={formatHref(`${Astro.url.origin}/${item.href}`)}
+    href={formatHref(`${Astro.url.origin}${item.href}`)}
     aria-label={item.name}>{item.name}</a
   >
 </li>

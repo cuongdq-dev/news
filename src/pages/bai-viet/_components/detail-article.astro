@@ -96,7 +96,16 @@ const processContent = () => {
 const content = processContent();
 ---
 
-<BaseLayout>
+<BaseLayout
+  description={detail?.data?.meta_description}
+  keywords={detail?.data?.relatedQueries
+    ?.map((query) => query.query)
+    .toString()}
+  title={detail?.data?.title}
+  ogImage={detail?.data?.thumbnail?.url}
+  pubDatetime={detail?.data?.created_at}
+  modDatetime={detail?.data?.created_at}
+>
   <div class="container grid grid-cols-12 gap-6">
     <!-- Left Column: Article Content -->
     <div class="col-span-12 md:col-span-8">
