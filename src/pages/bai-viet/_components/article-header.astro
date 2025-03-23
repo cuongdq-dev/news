@@ -2,8 +2,7 @@
 import Calendar04 from "~/assets/svgs/calendar-04.astro";
 import ResourcesAdd from "~/assets/svgs/resources-add.astro";
 import Divider from "~/components/bases/divider.astro";
-import { formatDate } from "~/lib/utils/date";
-import { fDate, formatStr } from "~/lib/utils/format-time";
+import { fRelativeTime } from "~/lib/utils/format-time";
 
 type Props = {
   article: ArticleItem;
@@ -57,7 +56,7 @@ const { article } = Astro.props;
         <span class="flex items-center gap-1">
           <Calendar04 size="15" />
           <time class="hidden lg:block" datetime={article?.created_at}
-            >{fDate(article?.created_at, formatStr.split.dateTime)}</time
+            >{fRelativeTime(article?.created_at)}</time
           >
         </span>
       </div>
