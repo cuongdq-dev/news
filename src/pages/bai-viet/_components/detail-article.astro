@@ -115,7 +115,7 @@ const content = processContent();
             <>
               <ArticleHeader article={detail?.data} />
               <slot set:html={content} />
-              <div class="w-full flex">
+              {/* <div class="w-full flex">
                 Nguồn:{" "}
                 <a
                   href={detail?.data?.article?.url}
@@ -125,7 +125,7 @@ const content = processContent();
                 >
                   {detail?.data?.article?.source}
                 </a>
-              </div>
+              </div> */}
               <TagList tags={detail?.data?.relatedQueries} />
             </>
           ) : (

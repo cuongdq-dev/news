@@ -57,14 +57,14 @@ export async function getPostsByTags(
       currentPage: meta.currentPage,
       lastPage: meta.totalPages,
       url: {
-        current: `/bai-viet/trang-${Number(meta.currentPage)}`,
+        current: `/tags/${tag?.slug}/trang-${Number(meta.currentPage)}`,
         prev:
           Number(meta?.currentPage) > 1
-            ? `/bai-viet/trang-${Number(meta.currentPage) - 1}`
+            ? `/tags/${tag?.slug}/trang-${Number(meta.currentPage) - 1}`
             : undefined,
         next:
           Number(meta.currentPage) < Number(meta.totalPages)
-            ? `/bai-viet/trang-${Number(meta.currentPage) + 1}`
+            ? `/tags/${tag?.slug}/trang-${Number(meta.currentPage) + 1}`
             : undefined,
       },
     } as Page;
