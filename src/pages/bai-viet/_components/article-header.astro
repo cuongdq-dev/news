@@ -56,10 +56,14 @@ const { article } = Astro.props;
         <span class="flex items-center gap-1">
           <Calendar04 size="15" />
           <time class="hidden lg:block" datetime={article?.created_at}
-            >{formatDate(new Date().toISOString(), "long")}</time
+            >{
+              formatDate(new Date(article?.created_at).toISOString(), "long")
+            }</time
           >
           <time class="block lg:hidden" datetime={article?.created_at}
-            >{formatDate(new Date().toISOString(), "short")}</time
+            >{
+              formatDate(new Date(article?.created_at).toISOString(), "short")
+            }</time
           >
         </span>
         <Divider />
