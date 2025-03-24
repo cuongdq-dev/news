@@ -3,7 +3,7 @@ import { getHome } from "./lib/api/home";
 
 const cache = new Map();
 
-const CACHE_DURATION = { home: 60 * 1000 * 3, page: 60 * 1000 * 5 };
+const CACHE_DURATION = { home: 60 * 1000, page: 60 * 1000 * 2 };
 
 // Hàm cache dữ liệu API
 async function getCachedData(
