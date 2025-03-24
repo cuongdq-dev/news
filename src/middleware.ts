@@ -3,12 +3,7 @@ import { getAdsense, getCategory, getHome } from "./lib/api/home";
 
 const cache = new Map();
 
-const CACHE_DURATION = {
-  home: 120 * 1000, // 5 phút
-  categories: 120 * 1000, // 10 phút
-  adsense: 30 * 60 * 1000, // 30 phút
-  page: 60 * 1000, // Cache toàn bộ trang trong 1 phút (có thể chỉnh)
-};
+const CACHE_DURATION = { home: 0, page: 60 * 1000 };
 
 // Hàm cache dữ liệu API
 async function getCachedData(
@@ -24,6 +19,7 @@ async function getCachedData(
     }
   }
   const data = await fetchFunction();
+
   cache.set(key, { data, expires: now + duration });
   return data;
 }
@@ -50,17 +46,13 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   // **2️⃣ Lấy dữ liệu từ API & cache**
-  const cacheKeys = {
-    home: `home_${url}`,
-    adsense: "adsense",
-    categories: "categories",
-  };
+  const cacheKeys = { home: "home" };
 
-  const [adsense, categories, home] = await Promise.all([
-    getCachedData(cacheKeys.adsense, getAdsense, CACHE_DURATION.adsense),
-    getCachedData(cacheKeys.categories, getCategory, CACHE_DURATION.categories),
-    getCachedData(cacheKeys.home, getHome, CACHE_DURATION.home),
-  ]);
+  const { adsense, categories, home } = await getCachedData(
+    cacheKeys.home,
+    getHome,
+    CACHE_DURATION.home
+  );
 
   Object.assign(context.locals, { adsense, categories, home });
 

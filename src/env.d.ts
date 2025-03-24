@@ -75,9 +75,13 @@ declare global {
     site?: AdsenseResponse;
   };
   type HomeResponse = {
-    recentNews: ArticleItem[];
-    featureNews: ArticleItem[];
-    otherNews: ArticleItem[];
+    adsense: AdsenseResponse;
+    categories: CategoryItem[];
+    home: {
+      recentNews: ArticleItem[];
+      featureNews: ArticleItem[];
+      otherNews: ArticleItem[];
+    };
   };
 
   type AdsenseResponse = {
