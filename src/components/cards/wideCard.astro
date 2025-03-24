@@ -2,6 +2,7 @@
 import { getDateDistance } from "~/lib/utils/date";
 import Divider from "../bases/divider.astro";
 import { base64ToWebP } from "~/lib/utils/imageProcessor";
+import { fRelativeTime } from "~/lib/utils/format-time";
 
 type Props = {
   article: ArticleItem;
@@ -20,13 +21,8 @@ const thumbnail = { src: article?.thumbnail?.url, width: 800, height: 600 };
     class="flex flex-col lg:flex-row gap-4"
   >
     <div
-      class="flex-shrink-0 aspect-square w-32 text-sm text-base-content/60 text-pretty capitalize hidden lg:flex pt-1"
-    >
-      {getDateDistance(article.created_at)}
-    </div>
-    <div
       class:list={[
-        "flex-1 flex flex-col gap-4 lg:flex-row-reverse pb-2 lg:pb-4",
+        "flex-1 flex flex-col gap-4 lg:flex-row-reverse pb-4 lg:pb-4",
         isLast ? "border-b-0" : "border-b",
       ]}
     >
@@ -45,32 +41,20 @@ const thumbnail = { src: article?.thumbnail?.url, width: 800, height: 600 };
         <h3 class="text-xl font-semibold lg:group-hover:underline">
           {article.title}
         </h3>
+
         <p
           set:html={article?.meta_description}
-          class="text-base-content/80 max-w-xl text-pretty"
+          class="text-base-content/80 text-pretty"
         />
-      </div>
-      <div class="text-sm lg:hidden flex item-center text-base-content/70 pt-2">
-        <time
-          class="flex items-center gap-1"
-          datetime={String(article?.created_at)}
-        >
-          <span>
-            {getDateDistance(article.created_at)}
-          </span>
-        </time>
-        {
-          Number(article?.categories?.length) > 0 && (
-            <>
-              <Divider />
-              <small class="flex items-center gap-1">
-                <span class="capitalize text-sm">
-                  {article?.categories?.map((cate) => cate.name).join(", ")}
-                </span>
-              </small>
-            </>
-          )
-        }
+        <div class="flex items-center text-xs text-base-content/80 mt-2">
+          <span class="text-xs text-primary/80"
+            >{article?.categories?.map((cate) => cate.name).join(",")}</span
+          >
+          {Number(article?.categories?.length) > 0 && <Divider />}
+          <span class="text-xs text-base-content/80"
+            >{fRelativeTime(article?.created_at)}</span
+          >
+        </div>
       </div>
     </div>
   </a>

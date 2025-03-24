@@ -11,9 +11,10 @@ type Props = {
 
 const { article, index } = Astro.props;
 const thumbnail = { src: article?.thumbnail?.url, width: 800, height: 600 };
+console.log(article);
 ---
 
-<article class="col-span-1 group max-w-sm mx-auto flex">
+<article class="col-span-1 group mx-auto flex">
   <a
     data-astro-prefetch="false"
     href={`${Astro.url.origin}/bai-viet/${article?.slug}`}

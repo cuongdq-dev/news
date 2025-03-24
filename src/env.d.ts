@@ -3,7 +3,11 @@ declare global {
     interface Locals {
       categories: CategoryItem[];
       adsense: AdsenseResponse;
-      home: HomeResponse;
+      home: {
+        recentNews: ArticleItem[];
+        featureNews: ArticleItem[];
+        otherNews: ArticleItem[];
+      };
     }
   }
 
