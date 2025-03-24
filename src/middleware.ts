@@ -1,9 +1,9 @@
 import { defineMiddleware } from "astro:middleware";
-import { getAdsense, getCategory, getHome } from "./lib/api/home";
+import { getHome } from "./lib/api/home";
 
 const cache = new Map();
 
-const CACHE_DURATION = { home: 0, page: 60 * 1000 };
+const CACHE_DURATION = { home: 60 * 1000 * 3, page: 60 * 1000 * 5 };
 
 // Hàm cache dữ liệu API
 async function getCachedData(
