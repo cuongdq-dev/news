@@ -107,7 +107,6 @@ const content = processContent();
   modDatetime={detail?.data?.created_at}
 >
   <div class="container grid grid-cols-12 gap-6">
-    <!-- Left Column: Article Content -->
     <div class="col-span-12 md:col-span-8">
       <ContentLayout>
         {
@@ -115,18 +114,6 @@ const content = processContent();
             <>
               <ArticleHeader article={detail?.data} />
               <slot set:html={content} />
-              {/* <div class="w-full flex">
-                Nguồn:{" "}
-                <a
-                  data-astro-prefetch="false"
-                  href={detail?.data?.article?.url}
-                  target="_blank"
-                  class="ml-2 text-blue-600 underline hover:text-blue-800 transition duration-200"
-                  style={{ cursor: "pointer" }}
-                >
-                  {detail?.data?.article?.source}
-                </a>
-              </div> */}
               <TagList tags={detail?.data?.relatedQueries} />
             </>
           ) : (
@@ -153,7 +140,7 @@ const content = processContent();
                 const slot = slots[slotIndex];
 
                 let thumbnail = {
-                  src: article?.thumbnail?.data,
+                  src: article?.thumbnail?.url,
                   width: 800,
                   height: 600,
                 };
@@ -246,7 +233,7 @@ const content = processContent();
                 const slot = slots[slotIndex];
 
                 let thumbnail = {
-                  src: article?.thumbnail?.data,
+                  src: article?.thumbnail?.url,
                   width: 800,
                   height: 600,
                 };

@@ -187,10 +187,7 @@ const categories = categoriesProps?.filter(
         ) {
           event.preventDefault();
           startLoading();
-
-          setTimeout(() => {
-            window.location.href = link.href;
-          }, 700);
+          window.location.href = link.href;
         }
       });
     });

@@ -15,17 +15,11 @@ const { articles } = Astro.props;
   >
     {
       articles?.map(async (article) => {
-        let thumbnail = {
-          src: article?.thumbnail?.data,
+        const thumbnail = {
+          src: article?.thumbnail?.url,
           width: 800,
           height: 600,
         };
-        if (thumbnail.src?.startsWith("data:image/")) {
-          const processed = await base64ToWebP(thumbnail.src.split(",")[1]);
-          if (processed) {
-            thumbnail = processed;
-          }
-        }
         return (
           <li class="col-span-1 group mx-auto max-w-xs">
             <a

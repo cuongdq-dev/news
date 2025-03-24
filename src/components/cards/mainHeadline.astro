@@ -7,13 +7,7 @@ type Props = { article: ArticleItem };
 
 const { article } = Astro.props;
 
-let thumbnail = { src: article?.thumbnail?.data, width: 800, height: 600 };
-if (thumbnail.src?.startsWith("data:image/")) {
-  const processed = await base64ToWebP(thumbnail.src.split(",")[1]);
-  if (processed) {
-    thumbnail = processed;
-  }
-}
+const thumbnail = { src: article?.thumbnail?.url, width: 800, height: 600 };
 ---
 
 <article class="group">
