@@ -47,6 +47,7 @@ const adsense_3 = adsense?.adsense_slots?.find(
           {
             top15.map((tag) => (
               <a
+                data-astro-prefetch="false"
                 href={`/tags/${tag.slug}`}
                 class={`block p-4 rounded-lg shadow-sm ${getTagClass("top15")} hover:scale-105 transition transform`}
               >
@@ -75,6 +76,7 @@ const adsense_3 = adsense?.adsense_slots?.find(
           {
             top10.map((tag) => (
               <a
+                data-astro-prefetch="false"
                 href={`/tags/${tag.slug}`}
                 class={`block p-4 rounded-lg shadow-sm ${getTagClass("top10")} hover:scale-105 transition transform`}
               >
@@ -101,6 +103,7 @@ const adsense_3 = adsense?.adsense_slots?.find(
           {
             top5.map((tag) => (
               <a
+                data-astro-prefetch="false"
                 href={`/tags/${tag.slug}`}
                 class={`block p-4 rounded-lg shadow-sm ${getTagClass("top5")} hover:scale-105 transition transform`}
               >
@@ -129,6 +132,7 @@ const adsense_3 = adsense?.adsense_slots?.find(
           {
             remaining.map((tag) => (
               <a
+                data-astro-prefetch="false"
                 href={`/tags/${tag.slug}`}
                 class={`block p-4 rounded-lg shadow-sm ${getTagClass("remaining")} hover:scale-105 transition transform`}
               >

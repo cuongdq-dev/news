@@ -27,6 +27,7 @@ if (thumbnail.src?.startsWith("data:image/")) {
   ]}
 >
   <a
+    data-astro-prefetch="false"
     href={`${Astro.url.origin}/bai-viet/${article?.slug}`}
     class="flex items-stretch gap-2 group"
   >

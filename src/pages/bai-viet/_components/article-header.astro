@@ -20,6 +20,7 @@ const { article } = Astro.props;
       article?.categories?.map((cate) => {
         return (
           <a
+            data-astro-prefetch="false"
             href={`${Astro.url.origin}/danh-muc/${cate.slug}`}
             class="a-01 font-semibold"
           >

@@ -118,6 +118,7 @@ const content = processContent();
               {/* <div class="w-full flex">
                 Nguồn:{" "}
                 <a
+                  data-astro-prefetch="false"
                   href={detail?.data?.article?.url}
                   target="_blank"
                   class="ml-2 text-blue-600 underline hover:text-blue-800 transition duration-200"
@@ -168,6 +169,7 @@ const content = processContent();
                   <>
                     <article class="flex mt-10">
                       <a
+                        data-astro-prefetch="false"
                         href={`/bai-viet/${article?.slug}`}
                         class="flex flex-col gap-2 h-full"
                       >
@@ -260,6 +262,7 @@ const content = processContent();
                   <>
                     <article class="flex mt-10">
                       <a
+                        data-astro-prefetch="false"
                         href={`/bai-viet/${article?.slug}`}
                         class="flex flex-col gap-2 h-full"
                       >

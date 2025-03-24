@@ -19,13 +19,15 @@ console.log(Astro.url.origin);
     class="menu dropdown-content z-50 bg-base-100 rounded-box w-56 shadow"
   >
     <li>
-      <a rel="prefetch" href={`${Astro.url.origin}`} aria-label="Homepage"
-        >Trang Chủ</a
+      <a
+        data-astro-prefetch="false"
+        href={`${Astro.url.origin}`}
+        aria-label="Homepage">Trang Chủ</a
       >
     </li>
     <li>
       <a
-        rel="prefetch"
+        data-astro-prefetch="false"
         href={`${Astro.url.origin}/bai-viet`}
         aria-label="Articles Page">Bài Viết</a
       >
@@ -39,7 +41,7 @@ console.log(Astro.url.origin);
             NAVIGATION_LINKS.map(({ href, text, target }) => (
               <li>
                 <a
-                  rel="prefetch"
+                  data-astro-prefetch="false"
                   href={href}
                   target={target ?? "_self"}
                   aria-label={text}
@@ -61,6 +63,7 @@ console.log(Astro.url.origin);
             OTHER_LINKS.map(({ href, text, target }) => (
               <li>
                 <a
+                  data-astro-prefetch="false"
                   href={`${Astro.url.origin}/${href}`}
                   target={target ?? "_self"}
                   aria-label={text}

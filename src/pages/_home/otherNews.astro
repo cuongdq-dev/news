@@ -29,6 +29,7 @@ const { articles } = Astro.props;
         return (
           <li class="col-span-1 group mx-auto max-w-xs">
             <a
+              data-astro-prefetch="false"
               href={`${Astro.url.origin}/bai-viet/${article?.slug}`}
               class="flex flex-col gap-2"
             >

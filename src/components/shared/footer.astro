@@ -23,11 +23,13 @@ const { categories } = Astro.props as { categories: CategoryItem[] };
       <nav
         class="flex flex-col gap-4 lg:flex-row lg:flex-wrap text-base lg:text-sm font-semibold"
       >
-        <a rel="prefetch" href={Astro.url.origin} class="link link-hover"
-          >Trang Chủ</a
+        <a
+          data-astro-prefetch="false"
+          href={Astro.url.origin}
+          class="link link-hover">Trang Chủ</a
         >
         <a
-          rel="prefetch"
+          data-astro-prefetch="false"
           href={`${Astro.url.origin}/bai-viet`}
           class="link link-hover">Bài Viết</a
         >
@@ -35,7 +37,7 @@ const { categories } = Astro.props as { categories: CategoryItem[] };
           Number(categories?.length) &&
             categories?.map(({ name, slug, id }) => (
               <a
-                rel="prefetch"
+                data-astro-prefetch="false"
                 href={`${Astro.url.origin}/danh-muc/${slug}`}
                 class="link link-hover"
               >
@@ -44,7 +46,7 @@ const { categories } = Astro.props as { categories: CategoryItem[] };
             ))
         }
         <a
-          rel="prefetch"
+          data-astro-prefetch="false"
           href={`${Astro.url.origin}/tags`}
           class="link link-hover">Tags</a
         >

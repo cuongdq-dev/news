@@ -11,8 +11,6 @@ const currentPath = Astro.url.pathname;
 const { item } = Astro.props;
 
 function isActive(item: Item, currentPath: string) {
-  // const segment = currentPath.split("/")[2]?.split("-")[1];
-
   switch (item.slug) {
     case "trang-chu":
       return currentPath == "/";
@@ -44,7 +42,9 @@ function formatHref(href: string) {
       : "after:bg-transparent ",
   ]}
 >
-  <a rel="prefetch" href={formatHref(item.href!)} aria-label={item.name}
-    >{item.name}</a
+  <a
+    data-astro-prefetch="false"
+    href={formatHref(item.href!)}
+    aria-label={item.name}>{item.name}</a
   >
 </li>

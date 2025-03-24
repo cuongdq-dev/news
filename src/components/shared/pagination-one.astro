@@ -43,7 +43,7 @@ const paginationList = Array.from(
         </span>
       ) : (
         <a
-          rel="prefetch"
+          data-astro-prefetch="false"
           href={`${firstUrl}/trang-1`}
           class="join-item btn btn-sm"
           aria-label="First page"
@@ -55,7 +55,11 @@ const paginationList = Array.from(
 
     {
       prevUrl ? (
-        <a rel="prefetch" href={prevUrl} class="join-item btn btn-sm">
+        <a
+          data-astro-prefetch="false"
+          href={prevUrl}
+          class="join-item btn btn-sm"
+        >
           <ArrowLeft01 /> <span class="hidden lg:block">Trang Trước</span>
         </a>
       ) : (
@@ -68,7 +72,7 @@ const paginationList = Array.from(
     {
       paginationList.map((num) => (
         <a
-          rel="prefetch"
+          data-astro-prefetch="false"
           href={`${firstUrl}/trang-${num}`}
           class={`join-item btn btn-sm ${currentPage == num ? "btn-active pointer-events-none" : ""}`}
         >
@@ -83,7 +87,11 @@ const paginationList = Array.from(
           <span class="hidden lg:block">Trang Sau</span> <ArrowRight01 />
         </span>
       ) : (
-        <a rel="prefetch" href={nextUrl} class="join-item btn btn-sm">
+        <a
+          data-astro-prefetch="false"
+          href={nextUrl}
+          class="join-item btn btn-sm"
+        >
           <span class="hidden lg:block">Trang Sau</span> <ArrowRight01 />
         </a>
       )
@@ -96,7 +104,7 @@ const paginationList = Array.from(
         </span>
       ) : (
         <a
-          rel="prefetch"
+          data-astro-prefetch="false"
           href={lastUrl}
           class="join-item btn btn-sm"
           aria-label="Last page"
