@@ -2,10 +2,9 @@ import { defineMiddleware } from "astro:middleware";
 import { getHome } from "./lib/api/home";
 
 const cache = new Map();
+const CACHE_DURATION = { home: 60 * 1000, page: 60 * 1000 }; // 60s cache
+const STALE_REVALIDATE_THRESHOLD = 10 * 1000; // 10s trước khi hết hạn
 
-const CACHE_DURATION = { home: 60 * 1000, page: 60 * 1000 * 2 };
-
-// Hàm cache dữ liệu API
 async function getCachedData(
   key: string,
   fetchFunction: () => Promise<any>,
@@ -13,14 +12,30 @@ async function getCachedData(
 ) {
   const now = Date.now();
   if (cache.has(key)) {
-    const { data, expires } = cache.get(key);
+    const { data, expires, isRefreshing } = cache.get(key);
+
+    // Nếu cache còn hạn -> Trả về ngay lập tức
     if (now < expires) {
+      // Nếu cache sắp hết hạn, bắt đầu fetch ngầm
+      if (expires - now < STALE_REVALIDATE_THRESHOLD && !isRefreshing) {
+        cache.set(key, { data, expires, isRefreshing: true }); // Đánh dấu đang fetch
+        fetchFunction()
+          .then((newData) => {
+            cache.set(key, {
+              data: newData,
+              expires: now + duration,
+              isRefreshing: false,
+            });
+          })
+          .catch(() => cache.set(key, { data, expires, isRefreshing: false }));
+      }
       return data;
     }
   }
-  const data = await fetchFunction();
 
-  cache.set(key, { data, expires: now + duration });
+  // Fetch dữ liệu nếu cache hết hạn
+  const data = await fetchFunction();
+  cache.set(key, { data, expires: now + duration, isRefreshing: false });
   return data;
 }
 
@@ -35,10 +50,30 @@ export const onRequest = defineMiddleware(async (context, next) => {
   ) {
     return next(); // Không cache, gọi API trực tiếp
   }
+
   // **1️⃣ Check cache response trước**
   if (cache.has(url)) {
-    const { data, expires } = cache.get(url);
+    const { data, expires, isRefreshing } = cache.get(url);
     if (Date.now() < expires) {
+      // Fetch ngầm nếu cache sắp hết hạn
+      if (expires - Date.now() < STALE_REVALIDATE_THRESHOLD && !isRefreshing) {
+        cache.set(url, { data, expires, isRefreshing: true });
+        next()
+          .then((newResponse) => {
+            newResponse
+              .clone()
+              .text()
+              .then((text) => {
+                cache.set(url, {
+                  data: text,
+                  expires: Date.now() + CACHE_DURATION.page,
+                  isRefreshing: false,
+                });
+              });
+          })
+          .catch(() => cache.set(url, { data, expires, isRefreshing: false }));
+      }
+
       return new Response(data, {
         headers: { "Content-Type": "text/html; charset=utf-8" },
       });
@@ -47,7 +82,6 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   // **2️⃣ Lấy dữ liệu từ API & cache**
   const cacheKeys = { home: "home" };
-
   const { adsense, categories, home } = await getCachedData(
     cacheKeys.home,
     getHome,
@@ -59,14 +93,15 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // **3️⃣ Gọi tiếp request**
   const response = await next();
 
-  // // **4️⃣ Cache toàn bộ response HTML nếu thành công**
+  // **4️⃣ Cache toàn bộ response HTML nếu thành công**
   if (response.status === 200) {
     const clonedResponse = response.clone();
     const text = await clonedResponse.text();
-    cache.set(url, { data: text, expires: Date.now() + CACHE_DURATION.page });
-
-    // Tự động xóa cache khi hết hạn
-    setTimeout(() => cache.delete(url), CACHE_DURATION.page);
+    cache.set(url, {
+      data: text,
+      expires: Date.now() + CACHE_DURATION.page,
+      isRefreshing: false,
+    });
   }
 
   return response;
