@@ -89,6 +89,7 @@ declare global {
   };
 
   type AdsenseResponse = {
+    adsense_ga?: string;
     adsense_client?: string;
     adsense_slots?: {
       slot_name: string;
