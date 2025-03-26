@@ -6,9 +6,9 @@ const { categories } = Astro.props as { categories: CategoryItem[] };
 ---
 
 <footer class="footer border-t border-base-content py-6 mt-5">
-  <div class="container">
+  <div class="container px-0">
     <div class="flex flex-col gap-4">
-      <aside class="flex items-center gap-2">
+      <aside class="flex items-center gap-2 px-3">
         <Hashtag />
         <p>
           <strong class="text-lg">{SITE.title}</strong>
@@ -21,7 +21,7 @@ const { categories } = Astro.props as { categories: CategoryItem[] };
         </p>
       </aside>
       <nav
-        class="flex flex-col gap-4 lg:flex-row lg:flex-wrap text-base lg:text-sm font-semibold"
+        class="flex flex-col gap-4 lg:flex-row lg:flex-wrap text-base lg:text-sm font-semibold px-3"
       >
         <a
           data-astro-prefetch="false"
@@ -53,7 +53,7 @@ const { categories } = Astro.props as { categories: CategoryItem[] };
       </nav>
     </div>
     <div class="divider w-full h-1"></div>
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4 px-3">
       <nav class="flex flex-wrap gap-4 text-xs mt-2">
         {
           OTHER_LINKS.map(({ href, text, target }) => (
