@@ -3,7 +3,7 @@ import { getHome } from "./lib/api/home";
 
 const cache = new Map();
 const CACHE_DURATION = { home: 60 * 1000, page: 60 * 1000 }; // 60s cache
-const STALE_REVALIDATE_THRESHOLD = 10 * 1000; // 10s trước khi hết hạn
+const STALE_REVALIDATE_THRESHOLD = 20 * 1000; // 10s trước khi hết hạn
 
 async function getCachedData(
   key: string,
@@ -52,7 +52,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   // **1️⃣ Check cache response trước**
-  if (cache.has(url)) {
+  if (url != "/" && cache.has(url)) {
     const { data, expires, isRefreshing } = cache.get(url);
     if (Date.now() < expires) {
       // Fetch ngầm nếu cache sắp hết hạn
