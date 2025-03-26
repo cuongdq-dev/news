@@ -13,5 +13,5 @@ const { adsense_ga } = Astro.props as { adsense_ga?: string };
     }
   }
   gtag("js", new Date());
-  gtag("config", "{adsense_ga}");
+  gtag("config", `"${adsense_ga}"`);
 </script>
