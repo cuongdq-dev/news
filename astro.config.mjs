@@ -23,7 +23,5 @@ export default defineConfig({
     remarkPlugins: [readingTime, modifiedTime],
   },
   integrations: [tailwind(), mdx(), sitemap(), pagefind(), react()],
-  experimental: {
-    responsiveImages: true,
-  },
+  experimental: { responsiveImages: true },
 });
